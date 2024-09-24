@@ -264,6 +264,42 @@ SMODS.Joker {
 	}
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_flower_pot", nil, false, "j_tsun_watering_can", 10)
 
+SMODS.Joker {
+    key = "ice_tray",
+    loc_txt = {
+        name = "Ice Tray",
+        text = {
+            "{X:mult,C:white}X#1#{} Mult",
+            "per {C:attention}unscored{} card in played hand",
+            "{C:inactive}(Joker Stencil + Splash)"
+        }
+    },
+    rarity = 5,
+    cost = 9,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    config = {extra = {xmult = 2}},
+    -- the atlas stuff goes here
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult}}
+    end,
+    calculate = function(self, card, context)
+        if context.joker_main then
+            local ice_tray_xmult = card.ability.extra.xmult*(#context.full_hand-#context.scoring_hand)
+            if ice_tray_xmult ~= 0 then return {
+                message = localize{type="variable",key="a_xmult",vars={ice_tray_xmult}},
+                Xmult_mod = ice_tray_xmult,
+                card = context.blueprint_card or card
+            } end
+        end
+    end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
+
 	SMODS.Back{
 		key = "splashdeck",
 		pos = {x = 6, y = 10},
@@ -298,5 +334,6 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_flower_pot", nil, fal
 			}))
 		end
 	}
+
 ----------------------------------------------
 ------------MOD CODE END----------------------
