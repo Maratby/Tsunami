@@ -71,14 +71,13 @@ SMODS.Atlas {
 		blueprint_compat = true,
 		pos = {x = 7, y = 0},
 		cost = 8,
-		config = {extra = 5},
+		config = {extra = {mult = 5}},
 		loc_txt = {
 			name = "Soaked Joker",
 			text = {
-				"Every {C:attention}played card",
-				"counts in scoring",
-				"{C:red}+5{} Mult per {C:attention}extra{}",
-			    "scored cards",
+				"Every {C:attention}played card{C:black} counts in scoring",
+				"{C:attention}Extra scored cards {C:black}give{C:attention} +5 Mult",
+				"{C:black}when scored",
 				"{s:0.7}{C:inactive}(Half Joker + Splash){}",
 			}
 		},
@@ -86,41 +85,23 @@ SMODS.Atlas {
 			return {vars = {card.ability.extra}}
 		end,
 		calculate = function(self, card, context)
-			if context.joker_main then
-				local size = 0
-				local hand_size = {
-					["Flush Five"] = 5,
-					["Flush House"] = 5,
-					["Five of a Kind"] = 5,
-					["Straight Flush"] = 5,
-					["Four of a Kind"] = 4,
-					["Full House"] = 5,
-					["Flush"] = 5,
-					["Straight"] = 5,
-					["Three of a Kind"] = 3,
-					["Two Pair"] = 4,
-					["Pair"] = 2,
-					["High Card"] = 1,
-				}
-				for k, v in pairs(hand_size) do
-					if context.scoring_name == k then
-						if (k == "Flush Five" or k == "Flush House" or k == "Straight Flush"
-						or k == "Flush" or k == "Straight") and next(find_joker('Shortcut')) then
-							size = v - 1
-						else
-							size = v
+			if context.individual and context.cardarea == G.play then
+				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+				for k, v in ipairs(scoring_hand) do
+					if context.other_card == scoring_hand[k] then
+						Soakedflag = true
 						end
-						break
 					end
-				end
-				if #context.scoring_hand > size then
-					return {
-						message = localize{type='variable',key='a_mult',vars={(#context.scoring_hand - size) * card.ability.extra}},
-						mult_mod = (#context.scoring_hand - size) * card.ability.extra
-					}
-				end
+					if Soakedflag == false then
+						return {
+							mult = card.ability.extra.mult,
+							card = card
+							}
+					else
+						Soakedflag = false
 			end
 		end
+	end
 	}
 
 	SMODS.Joker{
