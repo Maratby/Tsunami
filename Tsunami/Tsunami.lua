@@ -271,7 +271,7 @@ SMODS.Joker {
         text = {
             "{X:mult,C:white}X#1#{} Mult",
             "per {C:attention}unscored{} card in played hand",
-            "{C:inactive}(Joker Stencil + Splash)"
+            "{s:0.7}{C:inactive}(Joker Stencil + Splash)"
         }
     },
     rarity = 5,
@@ -282,7 +282,8 @@ SMODS.Joker {
     eternal_compat = true,
     perishable_compat = true,
     config = {extra = {xmult = 2}},
-    -- the atlas stuff goes here
+    atlas = "Tsunami",
+	pos = { x = 2, y = 5 },
     loc_vars = function(self, info_queue, card)
         return {vars = {card.ability.extra.xmult}}
     end,
@@ -299,6 +300,7 @@ SMODS.Joker {
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
+
 
 	SMODS.Back{
 		key = "splashdeck",
@@ -334,6 +336,5 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false,
 			}))
 		end
 	}
-
 ----------------------------------------------
 ------------MOD CODE END----------------------
