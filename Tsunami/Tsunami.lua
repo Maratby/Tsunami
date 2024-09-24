@@ -231,7 +231,7 @@ SMODS.Joker {
 			"Every {C:attention}played card {C:black}counts in scoring",
 			"Gives {X:mult,C:white} X1.5 {} Mult for each unique",
 			"{C:attention}suit {C:black}in {C:attention}played hand",
-			"{s:0.7}{C:inactive}(Floweer Pot + Splash){}",
+			"{s:0.7}{C:inactive}(Flower Pot + Splash){}",
 		}},
 		rarity = 5,
 		cost = 8,
