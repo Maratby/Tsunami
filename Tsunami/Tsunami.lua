@@ -11,6 +11,7 @@
 Vaporflag = false
 Vaporflag2 = true
 Splashflag = false
+Soupflag = false
 Webflag = false
 ---This table is sent to the lovely patch in lovely.toml and enables these jokers to use the Splash effect
 Splashkeytable = {
@@ -21,6 +22,7 @@ Splashkeytable = {
 	"j_tsun_tsunami_marie",
 	"j_tsun_vaporwave",
 	"j_tsun_webbed_feet",
+	"j_tsun_soup",
 }
 
 SMODS.Atlas {
@@ -497,6 +499,62 @@ SMODS.Joker{
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil, false, "j_tsun_webbed_feet", 12)
+
+SMODS.Joker{
+	key = "soup",
+	name = "Soup",
+	rarity = 5,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 2, y = 15},
+	cost = 8,
+	config = {extra = {x_mult = 2}},
+	ability_name = "soup",
+	loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra.x_mult}}
+	end,
+	loc_txt = {
+		name = "Soup",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"This joker gives {X:mult,C:white}X#1#{} Mult",
+			"loses {X:mult,C:white}X0.10{} Mult per {C:attention}extra card scored",
+			"{s:0.7}{C:inactive}(Soup + Splash){}",
+		}
+	},
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+			for k, v in ipairs(scoring_hand) do
+				if context.other_card == scoring_hand[k] then
+					Soupflag = true
+					end
+				end
+				if Soupflag == false then
+					card.ability.extra.x_mult = card.ability.extra.x_mult - 0.10
+					if card.ability.extra.x_mult <= 1 then
+						G.hand_text_area.blind_chips:juice_up()
+                            G.hand_text_area.game_chips:juice_up()
+                            play_sound('tarot1')
+                            card:start_dissolve()
+					end
+				else
+					Soupflag = false
+				end
+			end
+			if context.joker_main then
+				return {
+					message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra.x_mult}},
+					colour = G.C.RED,
+					xmult_mod = card.ability.extra.x_mult,
+					card = card,
+				}
+			end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ramen", nil, false, "j_tsun_soup", 11)
 
 SMODS.Consumable{
 	key = 'aeon',
