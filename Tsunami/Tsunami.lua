@@ -320,9 +320,10 @@ SMODS.Joker {
     loc_txt = {
         name = "Marie",
         text = {
-            "{C:blue}Splash {C:dark_edition}Fusions{} and {C:blue}Splash {C:black}give {X:mult,C:white}X2{} Mult",
+            "{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {C:black}give {X:mult,C:white}X2{} Mult",
+            "{s:0.2}{C:inactive}(Also works with Ripple from JokerEvolution!)",
             "Creates a {C:dark_edition}Negative{} {C:blue}Splash {C:black}when blind is selected",
-            "{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)"
+			"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)"
         }
     },
     rarity = 5,
@@ -339,7 +340,7 @@ SMODS.Joker {
     calculate = function(self, card, context)
 		if context.other_joker then
 			if ( context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami" and self ~= context.other_joker)
-			or (context.other_joker.config.center.key == "j_splash" and self ~= context.other_joker) then
+			or ((context.other_joker.config.center.key == "j_splash" or context.other_joker.config.center.key == "j_evo_ripple") and self ~= context.other_joker) then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						context.other_joker:juice_up(0.5, 0.5)
@@ -348,7 +349,8 @@ SMODS.Joker {
 				}))
 				return {
 						message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
-						Xmult_mod = card.ability.extra
+						Xmult_mod = card.ability.extra,
+						card = context.other_joker,
 				}
 			end
 		end
