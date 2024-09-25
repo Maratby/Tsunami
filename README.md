@@ -15,6 +15,7 @@ Currently contains 10 fusions between Splash and the following jokers:
 - Flower Pot
 - Sock and Buskin
 - Any Vanilla Legendary (They all make the same thing, this *might* change in the future)
+
 (Only the legendary fusion has art right now. The other jokers use placeholder art of their material joker that isn't Splash)
 
 One tarot card,
