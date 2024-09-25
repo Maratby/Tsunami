@@ -284,7 +284,7 @@ SMODS.Joker {
         name = "Ice Tray",
         text = {
             "{X:mult,C:white}X#1#{} Mult",
-            "per {C:attention}unscored{} card in played hand",
+            "per {C:attention}extra scored card",
             "{s:0.7}{C:inactive}(Joker Stencil + Splash)"
         }
     },
@@ -521,7 +521,7 @@ SMODS.Joker{
 		text = {
 			"Every {C:attention}played card{} counts in scoring",
 			"This joker gives {X:mult,C:white}X#1#{} Mult",
-			"loses {X:mult,C:white}X0.10{} Mult per {C:attention}extra card scored",
+			"loses {X:mult,C:white}X0.1{} Mult per {C:attention}extra card scored",
 			"{s:0.7}{C:inactive}(Soup + Splash){}",
 		}
 	},
