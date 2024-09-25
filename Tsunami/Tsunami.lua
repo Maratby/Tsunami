@@ -462,13 +462,6 @@ SMODS.Joker{
 	},
 	calculate = function(self, card, context)
 		if context.repetition and context.cardarea == G.play and context.other_card:is_face() then
-			return {
-			  message = localize('k_again_ex'),
-			  repetitions = card.ability.extra,
-			  card = card
-			}
-		end
-		if context.individual and context.cardarea == G.play then
 			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
 			for k, v in ipairs(scoring_hand) do
 				if context.other_card == scoring_hand[k] then
@@ -489,11 +482,18 @@ SMODS.Joker{
 							card = card
 						}
 					end
-				end
+				elseif context.other_card:is_face() then
+					Webflag = false
+						return {
+							message = localize('k_again_ex'),
+							repetitions = card.ability.extra,
+							card = card
+						}
 				else
 					Webflag = false
+				end
+			end
 		end
-	end
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil, false, "j_tsun_webbed_feet", 12)
