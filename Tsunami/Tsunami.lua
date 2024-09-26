@@ -18,6 +18,7 @@ Splashkeytable = {
 	"j_tsun_soaked_joker",
 	"j_tsun_dihydrogen_monoxide",
 	"j_tsun_raft",
+	"j_tsun_ice_tray",
 	"j_tsun_watering_can",
 	"j_tsun_tsunami_marie",
 	"j_tsun_vaporwave",
@@ -89,9 +90,9 @@ SMODS.Atlas {
 		loc_txt = {
 			name = "Soaked Joker",
 			text = {
-				"Every {C:attention}played card{C:black} counts in scoring",
-				"{C:attention}Extra scored cards {C:black}give{C:attention} +5 Mult",
-				"{C:black}when scored",
+				"Every {C:attention}played card{} counts in scoring",
+				"{C:attention}Extra scored cards {}give{C:attention} +5 Mult",
+				"{}when scored",
 				"{s:0.7}{C:inactive}(Half Joker + Splash){}",
 			}
 		},
@@ -128,14 +129,16 @@ SMODS.Atlas {
 		pos = {x = 0, y = 11},
 		cost = 8,
 		config = {extra = 5},
+		loc_vars = function(self, info_queue, card)
+			return {vars = {card.ability.extra}}
+		end,
 		ability_name = "raft",
 		loc_txt = {
 			name = "Raft",
 			text = {
-				"Every {C:attention}played card",
-				"counts in scoring and permanently",
-        		"gains {C:chips}+5{} Chips when scored",
-				"This effect applies {C:attention}twice on {C:attention}extra played cards",
+				"Every {C:attention}played card counts in scoring",
+        		"and permanently gains {C:chips}+#1#{} Chips when scored",
+				"This effect applies {C:attention}twice{} on {C:attention}extra played cards",
 				"{s:0.7}{C:inactive}(Hiker + Splash){}",
 			}
 		},
@@ -174,15 +177,18 @@ SMODS.Atlas {
 		loc_txt = {
 			name = "Dihydrogen Monoxide",
 			text = {
-				"Every {C:attention}played card {C:black}counts in scoring",
+				"Every {C:attention}played card {}counts in scoring",
 				"Each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}5{}, or {C:attention}8{} gives",
-				"{C:mult}+3{} Mult for each card",
+				"{C:mult}+#1#{} Mult for each card",
 				"in the scoring hand",
 				"{s:0.7}{C:inactive}(Fibonacci + Splash){}",
 			}},
 			rarity = 5,
 			cost = 8,
 			config = { extra = { mult = 3 } },
+			loc_vars = function(self, info_queue, card)
+				return {vars = {card.ability.extra.mult}}
+			end,
 			unlocked = true,
 			discovered = true,
 			blueprint_compat = true,
@@ -223,14 +229,17 @@ SMODS.Joker {
 	loc_txt = {
 		name = "Watering Can",
 		text = {
-			"Every {C:attention}played card {C:black}counts in scoring",
-			"Gives {X:mult,C:white} X1.5 {} Mult for each unique",
-			"{C:attention}suit {C:black}in {C:attention}played hand",
+			"Every {C:attention}played card {}counts in scoring",
+			"Gives {X:mult,C:white}X#1#{} Mult for each unique",
+			"{C:attention}suit {}in {C:attention}played hand",
 			"{s:0.7}{C:inactive}(Flower Pot + Splash){}",
 		}},
 		rarity = 5,
 		cost = 8,
 		config = { extra = 1.5 },
+		loc_vars = function(self, info_queue, card)
+			return {vars = {card.ability.extra}}
+		end,
 		unlocked = true,
 		discovered = true,
 		blueprint_compat = true,
@@ -283,8 +292,8 @@ SMODS.Joker {
     loc_txt = {
         name = "Ice Tray",
         text = {
-            "{X:mult,C:white}X#1#{} Mult",
-            "per {C:attention}extra scored card",
+			"Every {C:attention}played card {}counts in scoring",
+            "Gives {X:mult,C:white}X#1#{} Mult per {C:attention}extra scored card",
             "{s:0.7}{C:inactive}(Joker Stencil + Splash)"
         }
     },
@@ -295,7 +304,7 @@ SMODS.Joker {
     blueprint_compat = true,
     eternal_compat = true,
     perishable_compat = true,
-    config = {extra = {xmult = 2}},
+    config = {extra = {xmult = 1.5}},
     atlas = "Tsunami",
 	pos = { x = 2, y = 5 },
     loc_vars = function(self, info_queue, card)
@@ -320,9 +329,9 @@ SMODS.Joker {
     loc_txt = {
         name = "Marie",
         text = {
-            "{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {C:black}give {X:mult,C:white}X2{} Mult",
+            "{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
             "{s:0.2}{C:inactive}(Also works with Ripple from JokerEvolution!)",
-            "Creates a {C:dark_edition}Negative{} {C:blue}Splash {C:black}when blind is selected",
+            "Creates a {C:dark_edition}Negative{} {C:blue}Splash {}when blind is selected",
 			"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)"
         }
     },
@@ -333,10 +342,13 @@ SMODS.Joker {
     blueprint_compat = true,
     eternal_compat = false,
     perishable_compat = false,
-    config = {extra = 2, {Xmult = 2}},
+    config = {extra = 2},
     atlas = "Tsunami",
 	pos = { x = 4, y = 8 },
 	soul_pos = { x = 4, y = 9 },
+	loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
     calculate = function(self, card, context)
 		if context.other_joker then
 			if ( context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami" and self ~= context.other_joker)
@@ -382,7 +394,7 @@ SMODS.Joker {
     loc_txt = {
         name = "Vaporwave",
         text = {
-			"Every {C:attention}played card {C:black}counts in scoring",
+			"Every {C:attention}played card {}counts in scoring",
 			"Gains {X:mult,C:white}X#2#{} Mult when {C:attention}Blind{} is skipped",
 			"{C:attention}Increase value{} increases by {X:mult,C:white}X0.01{} for each {C:attention}extra scored card",
 			"{C:inactive}(Currently {X:mult,C:white}X#1#{} Mult",
@@ -610,7 +622,7 @@ SMODS.Consumable{
 			name = "Splash Deck",
 			text = {
 				"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal",
-				"copies of {C:blue}Splash {C:black}and{C:attention} $5",
+				"copies of {C:blue}Splash {}and{C:attention} $5",
 			}},
 		loc_vars = function(self)
 			return {vars = {self.config.extra}}
