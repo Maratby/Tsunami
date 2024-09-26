@@ -8,6 +8,7 @@
 --- PREFIX: tsun
 ----------------------------------------------
 ------------MOD CODE -------------------------
+Iceflag = false
 Vaporflag = false
 Vaporflag2 = true
 Splashflag = false
@@ -80,6 +81,7 @@ SMODS.Atlas {
 	SMODS.Joker{
 		key = "soaked_joker",
 		name = "Soaked Joker",
+		atlas = "Tsunami",
 		rarity = 5,
 		unlocked = true,
 		discovered = true,
@@ -119,6 +121,9 @@ SMODS.Atlas {
 	end
 	}
 
+	FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_splish_splash", 8)
+
+
 	SMODS.Joker{
 		key = "raft",
 		name = "Raft",
@@ -126,6 +131,7 @@ SMODS.Atlas {
 		unlocked = true,
 		discovered = true,
 		blueprint_compat = true,
+		atlas = "Tsunami",
 		pos = {x = 0, y = 11},
 		cost = 8,
 		config = {extra = 5},
@@ -294,6 +300,7 @@ SMODS.Joker {
         text = {
 			"Every {C:attention}played card {}counts in scoring",
             "Gives {X:mult,C:white}X#1#{} Mult per {C:attention}extra scored card",
+            "{s:0.7}{C:inactive}(This joker is currently not functional.)",
             "{s:0.7}{C:inactive}(Joker Stencil + Splash)"
         }
     },
@@ -311,15 +318,24 @@ SMODS.Joker {
         return {vars = {card.ability.extra.xmult}}
     end,
     calculate = function(self, card, context)
-        if context.joker_main then
-            local ice_tray_xmult = card.ability.extra.xmult*(#context.full_hand-#context.scoring_hand)
-            if ice_tray_xmult ~= 0 then return {
-                message = localize{type="variable",key="a_xmult",vars={ice_tray_xmult}},
-                Xmult_mod = ice_tray_xmult,
-                card = context.blueprint_card or card
-            } end
-        end
-    end
+        if context.individual and context.cardarea == G.play then
+			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+			for i = 1, #context.scoring_hand do
+				if context.other_card == scoring_hand[k] then
+					Iceflag = true
+					end
+				end
+				if Iceflag == false then
+					return{
+					message = localize{type="variable",key="a_xmult",vars={card.ability.extra.xmult}},
+					Xmult_mod = card.ability.extra.xmult,
+					card = context.blueprint_card or card
+            }
+				else
+					Iceflag = false
+			end
+		end
+	end
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
