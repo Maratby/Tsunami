@@ -150,11 +150,9 @@ SMODS.Atlas {
 		},
 		calculate = function(self, card, context)
 			if context.individual and context.cardarea == G.play then
-                    context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
-                    context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + card.ability.extra
-					card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.CHIPS})
-				end
-			if context.individual and context.cardarea == G.play then
+				context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
+				context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + card.ability.extra
+				card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.CHIPS})
 				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
 				for k, v in ipairs(scoring_hand) do
 					if context.other_card == scoring_hand[k] then
@@ -167,7 +165,7 @@ SMODS.Atlas {
 						return {
 							extra = {message = "Raft!", colour = G.C.CHIPS},
 							colour = G.C.CHIPS,
-							card = self
+							card = card
 							}
 					else
 						Splashflag = false
@@ -320,19 +318,18 @@ SMODS.Joker {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
 			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for i = 1, #context.scoring_hand do
+			for k, v in ipairs(scoring_hand) do
 				if context.other_card == scoring_hand[k] then
 					Iceflag = true
 					end
-				end
-				if Iceflag == false then
-					return{
-					message = localize{type="variable",key="a_xmult",vars={card.ability.extra.xmult}},
-					Xmult_mod = card.ability.extra.xmult,
-					card = context.blueprint_card or card
-            }
-				else
-					Iceflag = false
+			end
+			if Iceflag == false then
+				return {
+					x_mult = card.ability.extra.xmult,
+					card = card
+				}
+			else
+				Iceflag = false
 			end
 		end
 	end
