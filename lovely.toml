@@ -1,0 +1,19 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "for i=1, #G.play.cards do"
+position = "after"
+payload = """
+        for k, v in ipairs(Splashkeytable) do
+            if next(SMODS.find_card(v)) then
+                scoring_hand[i] = G.play.cards[i]
+                break
+            end
+        end
+"""
+match_indent = false
