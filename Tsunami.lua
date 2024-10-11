@@ -19,6 +19,7 @@ Splashkeytable = {
 	"j_tsun_vaporwave",
 	"j_tsun_webbed_feet",
 	"j_tsun_soup",
+	"j_tsun_money_laundering",
 }
 
 SMODS.Atlas {
@@ -513,6 +514,58 @@ SMODS.Joker{
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil, false, "j_tsun_webbed_feet", 12)
+
+SMODS.Joker{
+	key = "money_laundering",
+	name = "Money Laundering",
+	rarity = 5,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 5, y = 1},
+	cost = 1,
+	config = {extra = 30, dollars = 1},
+	ability_name = "mooney_laundering",
+	loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra, card.ability.dollars}}
+	end,
+	loc_txt = {
+		name = "Money Laundering",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"You can go up to {C:attention}-$#1#{} in debt",
+			"While in {C:attention}debt,{} gives {C:attention}$#2# for each {C:attention}extra card played",
+			"{s:0.7}{C:inactive}(Credit Card + Splash){}",
+		}
+	},
+	add_to_deck = function(self, card, from_debuff)
+		G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extra
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play and G.GAME.dollars < 0 then
+			local laundryflag = false
+			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+			for k, v in ipairs(scoring_hand) do
+				if context.other_card == scoring_hand[k] then
+					laundryflag = true
+					end
+				end
+				if laundryflag == false and G.GAME.dollars < 0 and context.other_card then
+					return {
+						dollars = card.ability.dollars,
+						card = card
+					}
+				else
+					laundryflag = false
+				end
+			end
+		end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_credit_card", nil, false, "j_tsun_money_laundering", 1)
 
 SMODS.Joker{
 	key = "soup",
