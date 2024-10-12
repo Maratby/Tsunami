@@ -22,7 +22,28 @@ Splashkeytable = {
 	"j_tsun_money_laundering",
 	"j_tsun_escape_artist",
 	"j_tsun_fractured_floodgate",
+	"j_tsun_youth",
 }
+
+--The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits) selected
+function randsuit(a)
+	suits = {
+		"Hearts",
+		"Diamonds",
+		"Clubs",
+		"Spades"
+	}
+		for i = #suits, 2, -1 do
+		  local j = math.random(i)
+		  suits[i], suits[j] = suits[j], suits[i]
+		end
+		if a == 2 then
+			return suits[1], suits[2]
+		else
+			return suits[1]
+		end
+end
+
 
 SMODS.Atlas {
 	key = "Tsunami",
@@ -686,7 +707,7 @@ SMODS.Joker{
 	discovered = true,
 	blueprint_compat = true,
 	pos = {x = 9, y = 6},
-	cost = 9,
+	cost = 8,
 	config = {extra = 2},
 	ability_name = "Fractured Floodgate",
 	loc_vars = function(self, info_queue, card)
@@ -742,7 +763,63 @@ SMODS.Joker{
 		end
 	end
 }
-	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
+
+SMODS.Joker{
+	key = "youth",
+	name = "Fountain of Youth",
+	rarity = 5,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 7, y = 15},
+	cost = 8,
+	config = {extra = {xmult = 1.5, triggers = 1, plussuit = "Hearts", minussuit = "Spades"}},
+	ability_name = "Fountain of Youth",
+	loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra.xmult, card.ability.extra.triggers, card.ability.extra.plussuit, card.ability.extra.minussuit, colours = {G.C.SUITS[card.ability.extra.plussuit], G.C.SUITS[card.ability.extra.minussuit]}}}
+	end,
+	loc_txt = {
+		name = "Fountain of Youth",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"Played cards give {X:mult,C:white}X#1#{} Mult, except {V:2}#4#",
+			"Retrigger {V:1}#3#{} {C:attention}#2# time",
+			"{s:0.8}suits change at end of round",
+			"{s:0.7}{C:inactive}(Ancient Joker + Splash){}",
+		}
+	},
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.extra.plussuit, card.ability.extra.minussuit = randsuit(2)
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+			if not context.other_card:is_suit(card.ability.extra.minussuit) then
+				return {
+					message = localize{type = 'variable', key = 'a_xmult', vars = {card.ability.extra}},
+					colour = G.C.RED,
+					x_mult = card.ability.extra.xmult,
+					card = card,
+				}
+			end
+		end
+		if context.repetition and context.cardarea == G.play then
+			if context.other_card:is_suit(card.ability.extra.plussuit) then
+				return {
+					message = localize('k_again_ex'),
+					repetitions = card.ability.extra.triggers,
+					card = card
+				}
+			end
+		end
+		if context.end_of_round then
+			card.ability.extra.plussuit, card.ability.extra.minussuit = randsuit(2)
+		end
+end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_youth", 14)
 
 SMODS.Consumable{
 	key = 'aeon',
