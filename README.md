@@ -23,8 +23,9 @@ Currently contains 15 fusions between Splash and the following jokers:
 
 (Not every joker has art at the moment. The remaining jokers use placeholder art of their material joker that isn't Splash)
 
-One tarot card,
+One Tarot card,
 - Aeon: Creates Splash (must have room)
-
+One Spectral card,
+- Polymorph: Creates Splash and 1 random Non-Legendary joker that has a Splash fusion (must have room), -1 Hand Size
 And one Deck!
 - Splash Deck: Start with 2 Negative Eternal copies of Splash and $5
