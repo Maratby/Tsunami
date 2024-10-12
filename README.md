@@ -27,7 +27,7 @@ One Tarot card,
 - Aeon: Creates Splash (must have room)
 
 One Spectral card,
-- Polymorph: Creates Splash and 1 random Non-Legendary joker that has a Splash fusion (must have room), -1 Hand Size
+- Polymorph: Creates Splash and 1 random Non-Legendary joker with a Splash fusion (must have room), -1 Hand Size
 
 And one Deck!
 - Splash Deck: Start with 2 Negative Eternal copies of Splash and $5
