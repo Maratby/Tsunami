@@ -159,7 +159,7 @@ SMODS.Atlas {
 	end
 	}
 
-	FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_splish_splash", 8)
+	FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
 
 
 	SMODS.Joker{
