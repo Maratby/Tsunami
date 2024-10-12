@@ -23,6 +23,25 @@ Splashkeytable = {
 	"j_tsun_escape_artist",
 	"j_tsun_fractured_floodgate",
 	"j_tsun_youth",
+	"j_tsun_thermos",
+}
+
+--- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
+Splashkeytable2 = {
+	"j_half_joker",
+	"j_fibonacci",
+	"j_hiker",
+	"j_stencil",
+	"j_flower_pot",
+	"j_throwback",
+	"j_sock_and_buskin",
+	"j_ramen",
+	"j_riff_raff",
+	"j_stuntman",
+	"j_hanging_chad",
+	"j_ancient",
+	"j_credit_card",
+	"j_steel_joker",
 }
 
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits) selected
@@ -819,7 +838,89 @@ SMODS.Joker{
 end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_youth", 14)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ancient", nil, false, "j_tsun_youth", 14)
+
+SMODS.Joker{
+	key = "thermos",
+	name = "Thermos",
+	rarity = 5,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 7, y = 2},
+	cost = 9,
+	config = {extra = {steel_tally = 0, xmult = 1, increase = 0.25, steelmult = 0.2}},
+	ability_name = "Fountain of Youth",
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+		return {vars = {card.ability.extra.xmult, card.ability.extra.increase, card.ability.extra.steelmult}}
+	end,
+	loc_txt = {
+		name = "Thermos",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"This Joker gains {X:mult,C:white} X#2# {} Mult for each",
+            "{C:attention}Steel Card{} in your {C:attention}full deck",
+			"{s:0.7}{C:inactive}(currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+			"{C:attention}Extra played {C:attention}Steel Cards{} give",
+			"{X:mult,C:white} X#3# {} Mult for each {C:attention}Steel Card{} in {C:attention}played hand",
+			"{s:0.7}{C:inactive}(Steel Joker + Splash){}",
+		}
+	},
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.extra.steel_tally = 0
+		if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if v.config.center == G.P_CENTERS.m_steel then card.ability.extra.steel_tally = card.ability.extra.steel_tally+1 end
+            end
+			card.ability.extra.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
+		end
+	end,
+	calculate = function(self, card, context)
+			if context.individual and context.cardarea == G.play then
+				Handsteeltally = 0
+				local thermosflag = false
+				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+				for k, v in ipairs(G.play.cards) do
+					if context.other_card.ability.name == "Steel Card" then
+						Handsteeltally = Handsteeltally + 1
+					end
+				end
+			for k, v in ipairs(scoring_hand) do
+				if context.other_card == scoring_hand[k] then
+					thermosflag = true
+			end
+					if thermosflag == false and context.other_card.ability.name == "Steel Card" then
+						return {
+							message = localize{type = 'variable', key = 'a_xmult', vars = {(card.ability.extra.steelmult * Handsteeltally)}},
+							colour = G.C.RED,
+							x_mult = 1 + (card.ability.extra.steelmult * Handsteeltally),
+							card = card,
+						}
+					else
+						thermosflag = false
+					end
+				end
+			end
+			if context.joker_main then
+				Handsteeltally = 0
+				return {
+					message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+					x_mult = card.ability.extra.xmult,
+					card = card,
+			}
+		end
+			if context.playing_card_added or context.remove_playing_cards then
+				card.ability.extra.steel_tally = 0
+            	for k, v in pairs(G.playing_cards) do
+                	if v.config.center == G.P_CENTERS.m_steel then card.ability.extra.steel_tally = card.ability.extra.steel_tally + 1 end
+					card.ability.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
+            end
+			end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_steel_joker", nil, false, "j_tsun_thermos", 11)
 
 SMODS.Consumable{
 	key = 'aeon',
@@ -853,6 +954,52 @@ SMODS.Consumable{
 					splashtarot:add_to_deck()
 					G.jokers:emplace(splashtarot)
 					used_consumable:juice_up(0.3, 0.5)
+				end
+				return true
+			end,
+		}))
+		delay(0.6)
+	end,
+}
+
+SMODS.Consumable{
+	key = 'poly',
+	set = 'Spectral',
+	pos = {x = 0, y = 1},
+	atlas = "TsunamiTarot",
+	name = "tsunamipoly",
+	discovered = true,
+	cost = 8,
+	loc_txt = {
+		name = "Polymorph",
+		text = {
+			"Creates {C:blue}Splash{} and one {C:attention}random non-legendary",
+			"joker that can {C:attention}fuse{} with {C:blue}Splash",
+			"{C:attention}-1 Hand Size",
+			"{C:inactive}(Must have room)"
+		},
+	},
+	config = {extra = 2},
+	can_use = function(self, card)
+		return #G.jokers.cards < (G.jokers.config.card_limit - 1) or card.area == G.jokers
+	end,
+	can_bulk_use = false,
+	use = function(self, card, area, copier)
+		local used_consumable = copier or card
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.4,
+			func = function()
+				if #G.jokers.cards < (G.jokers.config.card_limit - 1) or card.area == G.jokers then
+					play_sound("timpani")
+					local splashspectral = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+					splashspectral:add_to_deck()
+					G.jokers:emplace(splashspectral)
+					local splashspectral2 = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Splashkeytable2, pseudoseed('splashjoker'))})
+					splashspectral2:add_to_deck()
+					G.jokers:emplace(splashspectral2)
+					used_consumable:juice_up(0.3, 0.5)
+					G.hand:change_size(-1)
 				end
 				return true
 			end,
