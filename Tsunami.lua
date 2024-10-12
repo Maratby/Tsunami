@@ -576,7 +576,7 @@ SMODS.Joker{
 		text = {
 			"Every {C:attention}played card{} counts in scoring",
 			"You can go up to {C:money}-$#1#{} in debt",
-			"While in {C:attention}debt,{} gives {C:money}$#2#P{ for each {C:attention}extra card played",
+			"While in {C:attention}debt,{} gives {C:money}$#2#{}for each {C:attention}extra card played",
 			"{s:0.7}{C:inactive}(Credit Card + Splash){}",
 		}
 	},
