@@ -21,6 +21,7 @@ Splashkeytable = {
 	"j_tsun_soup",
 	"j_tsun_money_laundering",
 	"j_tsun_escape_artist",
+	"j_tsun_fractured_floodgate",
 }
 
 SMODS.Atlas {
@@ -676,6 +677,72 @@ SMODS.Joker{
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ramen", nil, false, "j_tsun_soup", 11)
+
+SMODS.Joker{
+	key = "fractured_floodgate",
+	name = "Fractured Floodgate",
+	rarity = 5,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 9, y = 6},
+	cost = 9,
+	config = {extra = 2},
+	ability_name = "Fractured Floodgate",
+	loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra}}
+	end,
+	loc_txt = {
+		name = "Fractured Floodgate",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"Retrigger {C:attention}first{} played card {C:attention}#1#{} times",
+			"Retrigger {C:attention}first extra{} played card {C:attention}#1#{} times",
+			"{s:0.7}{C:inactive}(Hanging Chad + Splash){}",
+		}
+	},
+	calculate = function(self, card, context)
+		if context.before then
+			Firstflag = false
+		end
+		if context.repetition and context.cardarea == G.play then
+			local gateflag = false
+			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+			for k, v in ipairs(scoring_hand) do
+				if context.other_card == scoring_hand[k] then
+					gateflag = true
+					end
+			end
+				if gateflag == false and Firstflag == false then
+					Firstflag = true
+					if (context.other_card == context.scoring_hand[1]) then
+						return {
+							message = localize('k_again_ex'),
+							repetitions = card.ability.extra * 2,
+							card = card
+						}
+					else
+						return {
+							message = localize('k_again_ex'),
+							repetitions = card.ability.extra,
+							card = card
+						}
+					end
+			end
+		end
+		if context.repetition and context.cardarea == G.play and (context.other_card == context.scoring_hand[1])  then
+			return {
+				message = localize('k_again_ex'),
+				repetitions = card.ability.extra,
+				card = card
+			}
+		end
+		if context.joker_main then
+			Firstflag = false
+		end
+	end
+}
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
 
 SMODS.Consumable{
 	key = 'aeon',
