@@ -4,7 +4,7 @@ Requires Fusion Jokers mod (https://github.com/itayfeder/Fusion-Jokers)
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
-Currently contains 10 fusions between Splash and the following jokers:
+Currently contains 15 fusions between Splash and the following jokers:
 - Half Joker
 - Stencil Joker
 - Hiker
@@ -14,6 +14,11 @@ Currently contains 10 fusions between Splash and the following jokers:
 - Throwback
 - Flower Pot
 - Sock and Buskin
+- Steel Joker
+- Hanging Chad
+- Credit Card
+- Ancient Joker
+- Stuntman
 - Any Vanilla Legendary (They all make the same thing, this *might* change in the future)
 
 (Not every joker has art at the moment. The remaining jokers use placeholder art of their material joker that isn't Splash)
