@@ -910,7 +910,7 @@ SMODS.Joker{
 					card = card,
 			}
 		end
-			if context.playing_card_added or context.remove_playing_cards then
+			if context.playing_card_added or context.remove_playing_cards or context.before_hand then
 				card.ability.extra.steel_tally = 0
             	for k, v in pairs(G.playing_cards) do
                 	if v.config.center == G.P_CENTERS.m_steel then card.ability.extra.steel_tally = card.ability.extra.steel_tally + 1 end
