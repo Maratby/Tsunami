@@ -4,12 +4,22 @@
 --- MOD_AUTHOR: [Maratby]
 --- MOD_DESCRIPTION: FUSES EVERY JOKER WITH SPLASH!!!! Eventually. Except for the ones on the front page.
 --- BADGE_COLOUR: 0000FF
---- PRIORITY: -9999
+--- PRIORITY: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
 --- PREFIX: tsun
 ----------------------------------------------
 ------------MOD CODE -------------------------
+
+--- i had to make the priority higher than cryptid to get crossmod fusion to work
+--- Checking for loaded mods, for the crossmod fusions
+if (SMODS.Mods["Cryptid"] or {}).can_load then
+	Is_Cryptid = true
+else
+	Is_Cryptid = false
+end
+
 ---This table is sent to the lovely patch in lovely.toml and enables these jokers to use the Splash effect
 Splashkeytable = {
+	"j_tsun_youth",
 	"j_tsun_soaked_joker",
 	"j_tsun_dihydrogen_monoxide",
 	"j_tsun_raft",
@@ -22,7 +32,6 @@ Splashkeytable = {
 	"j_tsun_money_laundering",
 	"j_tsun_escape_artist",
 	"j_tsun_fractured_floodgate",
-	"j_tsun_youth",
 	"j_tsun_thermos",
 }
 
@@ -1043,5 +1052,283 @@ SMODS.Consumable{
 			}))
 		end
 	}
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------CROSSMOD FUSIONS----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+---
+if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
+	SMODS.Joker{
+		name = "Still Water",
+		key = "still_water",
+		pos = { x = 0, y = 16 },
+		loc_txt = {
+			name = "Still Water",
+			text = {
+				"{C:edition,E:1}you cannot{} {C:cry_ascendant,E:1}swim...{}",
+				"{C:edition,E:1}you do not{} {C:cry_ascendant,E:1}float...{}",
+				"{C:dark_edition,E:1}you cannot breathe...{}",
+				"{C:inactive}(Must have room){}",
+				"{s:0.7}{C:inactive}(Sob + Splash){}",
+			},
+		},
+		rarity = 5,
+		cost = 9,
+		discovered = true,
+		perishable_compat = true,
+		atlas = "Tsunami",
+		calculate = function(self, card, context)
+			if
+				context.selling_self
+				and #G.jokers.cards + G.GAME.joker_buffer <= G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.discard
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.pre_discard
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.reroll_shop
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.open_booster
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.buying_card
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.skip_blind
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.cardarea == G.jokers
+				and context.before
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.using_consumeable
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.selling_card
+				and context.card.ability.name ~= "Obelisk"
+				and #G.jokers.cards + G.GAME.joker_buffer - (context.card.ability.set == "Joker" and 1 or 0) < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.setting_blind
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+			if
+				context.skipping_booster
+				and #G.jokers.cards + G.GAME.joker_buffer < G.jokers.config.card_limit
+				and not context.retrigger_joker
+				and not context.blueprint
+			then
+				local createjoker = math.min(1, G.jokers.config.card_limit - (#G.jokers.cards + G.GAME.joker_buffer))
+				G.GAME.joker_buffer = G.GAME.joker_buffer + createjoker
+				local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				card:add_to_deck()
+				G.jokers:emplace(card)
+				G.GAME.joker_buffer = 0
+				return {
+					card_eval_status_text(card, "extra", nil, nil, nil, {
+						message = "Splash!",
+						colour = G.C.FILTER,
+					}),
+				}
+			end
+		end,
+		add_to_deck = function(self, card, from_debuff)
+			local card = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+			card:set_edition({
+				negative = true,
+			})
+			card:set_eternal(true)
+			card:add_to_deck()
+			G.jokers:emplace(card)
+			return {
+				card_eval_status_text(card, "extra", nil, nil, nil, {
+					message = "Splash!",
+					colour = G.C.DARK_EDITION,
+				}),
+			}
+		end,
+	}
+
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cry_curse", nil, false, "j_tsun_still_water", 12)
+
+end
 ----------------------------------------------
 ------------MOD CODE END----------------------
