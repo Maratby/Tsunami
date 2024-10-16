@@ -33,6 +33,8 @@ Splashkeytable = {
 	"j_tsun_escape_artist",
 	"j_tsun_fractured_floodgate",
 	"j_tsun_thermos",
+	"j_tsun_still_water",
+	"j_tsun_toaster",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -420,6 +422,7 @@ SMODS.Joker {
     loc_txt = {
         name = "Marie",
         text = {
+			"Every {C:attention}played card{} counts in scoring",
             "{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
             "{s:0.2}{C:inactive}(Also works with Ripple from JokerEvolution!)",
 			"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)"
@@ -1057,6 +1060,7 @@ SMODS.Joker {
 					repetitions = 1,
 					card = card
 				}
+		--- I want to flip the cards when their rank changes as a cosmetic thing, if possible
 		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 6 then
 			assert(SMODS.change_base(context.other_card, nil, "3"))
 		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 then
@@ -1075,6 +1079,8 @@ SMODS.Joker {
 	end
 end
 }
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hack", nil, false, "j_tsun_toaster", 13)
 
 SMODS.Consumable{
 	key = 'aeon',
