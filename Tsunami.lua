@@ -53,6 +53,38 @@ Splashkeytable2 = {
 	"j_steel_joker",
 }
 
+Fusionlist = {}
+---Derives from Reverie's function for the same purpose of grabbing all the fusion materials registered, but mine removes duplicates from the Materials list
+function Fusionmaterials(materials)
+	local materialflag = false
+    for _, v in ipairs(FusionJokers.fusions) do
+        for _, vv in ipairs(v.jokers) do
+            if G.P_CENTERS[vv.name] then
+				for _, vvv in ipairs(materials) do
+					if vvv == vv.name then
+						materialflag = true
+					end
+				end
+				if materialflag == false then
+                	table.insert(materials, vv.name)
+				else
+					materialflag = false
+				end
+            end
+        end
+		---Manually removing the vanilla legendaries because I couldn't figure out how to do it automatically
+		for k, vvvv in ipairs(materials) do
+			if vvvv == "j_yorick" or
+			vvvv == "j_chicot" or
+			vvvv == "j_perkeo" or
+			vvvv == "j_triboulet" or
+			vvvv == "j_caino" then
+				materials[k] = nil
+			end
+		end
+    end
+end
+
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits) selected
 function randsuit(a)
 	suits = {
@@ -112,9 +144,7 @@ SMODS.Atlas {
 			pos = { x = 1, y = 12 },
 		ability_name = "Splish Splash",
 		calculate = function(self,card,context)
-			if
-			context.setting_blind
-			then
+			if context.setting_blind then
 				local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
 				splishcard:add_to_deck()
 				G.jokers:emplace(splishcard)
@@ -429,7 +459,7 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_canio", nil, false, "j_tsun_tsunami_marie", 20)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", nil, false, "j_tsun_tsunami_marie", 20)
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_perkeo", nil, false, "j_tsun_tsunami_marie", 20)
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_triboulet", nil, false, "j_tsun_tsunami_marie", 20)
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", nil, false, "j_tsun_tsunami_marie", 20)
@@ -694,7 +724,7 @@ SMODS.Joker{
 		}
 	},
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
+		if context.individual and context.cardarea == G.play and not context.blueprint then
 			local soupflag = false
 			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
 			for k, v in ipairs(scoring_hand) do
@@ -919,7 +949,7 @@ SMODS.Joker{
 					card = card,
 			}
 		end
-			if context.playing_card_added or context.remove_playing_cards or context.before_hand then
+			if context.playing_card_added or context.remove_playing_cards or context.before_hand and not context.blueprint then
 				card.ability.extra.steel_tally = 0
             	for k, v in pairs(G.playing_cards) do
                 	if v.config.center == G.P_CENTERS.m_steel then card.ability.extra.steel_tally = card.ability.extra.steel_tally + 1 end
@@ -930,6 +960,121 @@ SMODS.Joker{
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_steel_joker", nil, false, "j_tsun_thermos", 11)
+
+SMODS.Joker {
+	name = "Cryomancer",
+	loc_txt = {
+		name = "Cryomancer",
+		text = {
+			"When blind is selected, creates a {C:attention}random Joker",
+			"with a registered {C:attention}Fusion",
+			"and 1 random {C:attention}Tarot Card",
+			"If {C:attention}Joker Slots{} are full, creates up",
+			"to {C:attention}2 Tarot Cards{} instead",
+			"{C:inactive}(must have room for all effects){}",
+			"{s:0.7}{C:inactive}(Cartomancer + Splash){}",
+		}},
+		rarity = 5,
+		cost = 14,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = true,
+		eternal_compat = true,
+		perishable_compat = true,
+		key = "cryomancer",
+		atlas = "Tsunami",
+		pos = { x = 7, y = 3 },
+	ability_name = "Cryomancer",
+	calculate = function(self,card,context)
+		if context.setting_blind and #G.jokers.cards < (G.jokers.config.card_limit - 1) then
+			local cryocard = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Fusionlist, pseudoseed('splashjoker'))})
+			cryocard:add_to_deck()
+			G.jokers:emplace(cryocard)
+			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+					local tarotcard = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
+					tarotcard:add_to_deck()
+					G.consumeables:emplace(tarotcard)
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+			end
+		else if context.setting_blind and not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+			local tarots_to_create = math.min(2, G.consumeables.config.card_limit - (#G.consumeables.cards + G.GAME.consumeable_buffer))
+			G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + tarots_to_create
+			G.E_MANAGER:add_event(Event({
+			func = (function()
+				G.E_MANAGER:add_event(Event({
+					func = function()
+						for i = 1, tarots_to_create do
+							local tarotcards = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
+							tarotcards:add_to_deck()
+							G.consumeables:emplace(tarotcards)
+							G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+						end
+						return true
+					end}))   
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})                   
+				return true
+			end)}))
+		end
+		end
+	end
+	}
+
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 13)
+
+SMODS.Joker {
+		name = "Toaster",
+		loc_txt = {
+			name = "Toaster",
+			text = {
+				"Every {C:attention}played card{} counts in scoring",
+				"{C:attention}Retrigger{} each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}4{} or {C:attention}5",
+				"Each {C:attention}played {C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{} or {C:attention}10",
+				"has its rank {C:attention}halved {C:inactive}(rounded down)",
+				"{s:0.7}{C:inactive}(Hack + Splash){}",
+			}},
+			rarity = 5,
+			cost = 14,
+			unlocked = true,
+			discovered = true,
+			blueprint_compat = true,
+			eternal_compat = true,
+			perishable_compat = true,
+			key = "toaster",
+			atlas = "Tsunami",
+			pos = { x = 5, y = 2 },
+		ability_name = "Toaster",
+		calculate = function(self,card,context)
+		if context.repetition and context.cardarea == G.play and
+			(context.other_card:get_id() == 2 or
+			context.other_card:get_id() == 3 or
+			context.other_card:get_id() == 4 or
+			context.other_card:get_id() == 5 or
+			context.other_card:get_id() == 14) then
+				return {
+					message = localize('k_again_ex'),
+					repetitions = 1,
+					card = card
+				}
+		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 6 then
+			assert(SMODS.change_base(context.other_card, nil, "3"))
+		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 then
+			assert(SMODS.change_base(context.other_card, nil, "3"))
+		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 8 then
+			assert(SMODS.change_base(context.other_card, nil, "4"))
+		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 9 then
+			assert(SMODS.change_base(context.other_card, nil, "4"))
+		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 10 then
+			assert(SMODS.change_base(context.other_card, nil, "5"))
+		end
+		end
+		end
+		end
+		end
+	end
+end
+}
 
 SMODS.Consumable{
 	key = 'aeon',
@@ -1330,5 +1475,7 @@ if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
 	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cry_curse", nil, false, "j_tsun_still_water", 12)
 
 end
+
+Fusionmaterials(Fusionlist)
 ----------------------------------------------
 ------------MOD CODE END----------------------
