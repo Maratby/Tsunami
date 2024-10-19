@@ -140,59 +140,6 @@ SMODS.Atlas {
 	py = 95,
 	}
 
-	SMODS.Joker{
-		key = "puddle",
-		name = "Puddle",
-		rarity = 5,
-		unlocked = true,
-		discovered = true,
-		blueprint_compat = true,
-		pos = {x = 1, y = 16},
-		atlas = "Tsunami",
-		cost = 6,
-		config = {extra = 1},
-		ability_name = "puddle",
-		loc_txt = {
-			name = "Puddle",
-			text = {
-				"Every {C:attention}played card{} counts in scoring",
-				"Retrigger all {C:attention}extra scored cards",
-				"Sell this card to create 2 Splash",
-				"{s:0.7}{C:inactive}(Splash + Splash){}",
-			}
-		},
-		calculate = function(self, card, context)
-			if context.repetition and context.cardarea == G.play then
-				local puddleflag = false
-				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-				for k, v in ipairs(scoring_hand) do
-					if context.other_card == scoring_hand[k] then
-						puddleflag = true
-						end
-					end
-					if puddleflag == false then
-							return {
-								message = localize('k_again_ex'),
-								repetitions = card.ability.extra,
-								card = card
-							}
-					else
-						puddleflag = false
-					end
-				end
-			if context.selling_self then
-				local puddlecard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
-				puddlecard:add_to_deck()
-				G.jokers:emplace(puddlecard)
-				local puddlecard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
-				puddlecard:add_to_deck()
-				G.jokers:emplace(puddlecard)
-			end
-			end
-	}
-
-	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_splash", nil, false, "j_tsun_puddle", 5)
-
 	SMODS.Joker {
 		loc_txt = {
 			name = "Splish Splash",
