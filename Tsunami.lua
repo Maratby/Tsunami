@@ -10,12 +10,23 @@
 ------------MOD CODE -------------------------
 
 --- i had to make the priority higher than cryptid to get crossmod fusion to work
+
+----------------------------- CONFIG ------------------------------
+
+--- For the final-stage Splash fusion, making Tsunami and fusing with other jokers to make them far more powerful
+Superfusion = true
+--- For Crossmod fusions (Fusing Splash with jokers from other mods)
+Crossmod = true
+
+----------------------------- CONFIG END --------------------------
 --- Checking for loaded mods, for the crossmod fusions
-if (SMODS.Mods["Cryptid"] or {}).can_load then
+if ((SMODS.Mods["Cryptid"] or {}).can_load) and Crossmod == true then
 	Is_Cryptid = true
 else
 	Is_Cryptid = false
 end
+
+
 
 ---This table is sent to the lovely patch in lovely.toml and enables these jokers to use the Splash effect
 Splashkeytable = {
@@ -35,9 +46,12 @@ Splashkeytable = {
 	"j_tsun_thermos",
 	"j_tsun_still_water",
 	"j_tsun_toaster",
+	"j_puddle",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
+--- Other Jokers which create any registered fusion material joker check the Fusionjokers index manually
+--- Even though Splash can fuse with Splash, I excluded it from this list to make the spectral worth something.
 Splashkeytable2 = {
 	"j_half_joker",
 	"j_fibonacci",
@@ -87,7 +101,7 @@ function Fusionmaterials(materials)
     end
 end
 
---The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits) selected
+--The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
 function randsuit(a)
 	suits = {
 		"Hearts",
@@ -125,6 +139,59 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
 	}
+
+	SMODS.Joker{
+		key = "puddle",
+		name = "Puddle",
+		rarity = 5,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = true,
+		pos = {x = 1, y = 16},
+		atlas = "Tsunami",
+		cost = 6,
+		config = {extra = 1},
+		ability_name = "puddle",
+		loc_txt = {
+			name = "Puddle",
+			text = {
+				"Every {C:attention}played card{} counts in scoring",
+				"Retrigger all {C:attention}extra scored cards",
+				"Sell this card to create 2 Splash",
+				"{s:0.7}{C:inactive}(Splash + Splash){}",
+			}
+		},
+		calculate = function(self, card, context)
+			if context.repetition and context.cardarea == G.play then
+				local puddleflag = false
+				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
+				for k, v in ipairs(scoring_hand) do
+					if context.other_card == scoring_hand[k] then
+						puddleflag = true
+						end
+					end
+					if puddleflag == false then
+							return {
+								message = localize('k_again_ex'),
+								repetitions = card.ability.extra,
+								card = card
+							}
+					else
+						puddleflag = false
+					end
+				end
+			if context.selling_self then
+				local puddlecard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				puddlecard:add_to_deck()
+				G.jokers:emplace(puddlecard)
+				local puddlecard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				puddlecard:add_to_deck()
+				G.jokers:emplace(puddlecard)
+			end
+			end
+	}
+
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_splash", nil, false, "j_tsun_puddle", 5)
 
 	SMODS.Joker {
 		loc_txt = {
@@ -1209,7 +1276,7 @@ SMODS.Consumable{
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ---
-if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
+if Is_Cryptid == true then
 	SMODS.Joker{
 		name = "Still Water",
 		key = "still_water",
