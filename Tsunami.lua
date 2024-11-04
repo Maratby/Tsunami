@@ -6,6 +6,7 @@
 --- BADGE_COLOUR: 0000FF
 --- PRIORITY: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
 --- PREFIX: tsun
+--- DEPENDENCIES: [FusionJokers]
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
@@ -13,8 +14,6 @@
 
 ----------------------------- CONFIG ------------------------------
 
---- For the final-stage Splash fusion, making Tsunami and fusing with other jokers to make them far more powerful
-Superfusion = true
 --- For Crossmod fusions (Fusing Splash with jokers from other mods)
 Crossmod = true
 
@@ -46,7 +45,8 @@ Splashkeytable = {
 	"j_tsun_thermos",
 	"j_tsun_still_water",
 	"j_tsun_toaster",
-	"j_puddle",
+	"j_tsun_puddle",
+	"j_tsun_abyssal_tentacles",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -67,6 +67,8 @@ Splashkeytable2 = {
 	"j_ancient",
 	"j_credit_card",
 	"j_steel_joker",
+	"j_shoot_the_moon",
+	"j_hack",
 }
 
 Fusionlist = {}
@@ -148,7 +150,7 @@ SMODS.Atlas {
 				"{C:inactive}(don't need room){}",
 				"{s:0.7}{C:inactive}(Riff Raff + Splash){}",
 			}},
-			rarity = 5,
+			rarity = "fusion",
 			cost = 8,
 			unlocked = true,
 			discovered = true,
@@ -174,7 +176,7 @@ SMODS.Atlas {
 		key = "soaked_joker",
 		name = "Soaked Joker",
 		atlas = "Tsunami",
-		rarity = 5,
+		rarity = "fusion",
 		unlocked = true,
 		discovered = true,
 		blueprint_compat = true,
@@ -220,7 +222,7 @@ SMODS.Atlas {
 	SMODS.Joker{
 		key = "raft",
 		name = "Raft",
-		rarity = 5,
+		rarity = "fusion",
 		unlocked = true,
 		discovered = true,
 		blueprint_compat = true,
@@ -281,7 +283,7 @@ SMODS.Atlas {
 				"in the scoring hand",
 				"{s:0.7}{C:inactive}(Fibonacci + Splash){}",
 			}},
-			rarity = 5,
+			rarity = "fusion",
 			cost = 8,
 			config = { extra = { mult = 3 } },
 			loc_vars = function(self, info_queue, card)
@@ -325,6 +327,60 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_fibonacci", nil, fals
 
 SMODS.Joker {
 	loc_txt = {
+		name = "Lunar Tides",
+		text = {
+			"Every {C:attention}played card {}counts in scoring",
+			"Each played {C:attention}Queen{} gives {C:mult}+#1#{} Mult",
+			"{C:attention}Queens{} held in hand give {X:mult,C:white}X#2#{} Mult",
+			"{s:0.7}{C:inactive}(Shoot The Moon + Splash){}",
+		}},
+		rarity = "fusion",
+		cost = 10,
+		config = { extra = { mult = 8, xmult = 1.3 } },
+		loc_vars = function(self, info_queue, card)
+			return {vars = {card.ability.extra.mult, card.ability.extra.xmult}}
+		end,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = true,
+		eternal_compat = true,
+		perishable_compat = true,
+		key = "lunar_tides",
+		atlas = "Tsunami",
+		pos = { x = 2, y = 6 },
+	ability_name = "Lunar Tides",
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:get_id() == 12 then
+				return {
+					mult = card.ability.extra.mult,
+					card = card
+				}
+			end
+		end
+		if context.cardarea == G.hand and not context.repetition then
+			if context.other_card:get_id() == 12 then
+				if context.other_card.debuff then
+					return {
+						message = localize('k_debuffed'),
+						colour = G.C.RED,
+						card = card,
+					}
+				else
+					return {
+						xmult_mod = 1.3,
+						card = card,
+						}
+					end
+				end
+			end
+		end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_shoot_the_moon", nil, false, "j_tsun_lunar_tides", 13)
+
+SMODS.Joker {
+	loc_txt = {
 		name = "Watering Can",
 		text = {
 			"Every {C:attention}played card {}counts in scoring",
@@ -332,7 +388,7 @@ SMODS.Joker {
 			"{C:attention}suit {}in {C:attention}played hand",
 			"{s:0.7}{C:inactive}(Flower Pot + Splash){}",
 		}},
-		rarity = 5,
+		rarity = "fusion",
 		cost = 8,
 		config = { extra = 1.5 },
 		loc_vars = function(self, info_queue, card)
@@ -395,7 +451,7 @@ SMODS.Joker {
             "{s:0.7}{C:inactive}(Joker Stencil + Splash)"
         }
     },
-    rarity = 5,
+    rarity = "fusion",
     cost = 9,
     unlocked = true,
     discovered = true,
@@ -442,7 +498,7 @@ SMODS.Joker {
 			"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)"
         }
     },
-    rarity = 5,
+    rarity = "fusion",
     cost = 20,
     unlocked = true,
     discovered = true,
@@ -498,7 +554,7 @@ SMODS.Joker {
             "{s:0.7}{C:inactive}(Throwback + Splash)"
         }
     },
-    rarity = 5,
+    rarity = "fusion",
     cost = 12,
     unlocked = true,
     discovered = true,
@@ -554,10 +610,11 @@ end
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_throwback", "xmult", false, "j_tsun_vaporwave", 12)
 
+
 SMODS.Joker{
 	key = "webbed_feet",
 	name = "Webbed Feet",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -616,7 +673,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil
 SMODS.Joker{
 	key = "money_laundering",
 	name = "Money Laundering",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -668,7 +725,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_credit_card", nil, fa
 SMODS.Joker{
 	key = "escape_artist",
 	name = "Escape Artist",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -720,7 +777,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stuntman", nil, false
 SMODS.Joker{
 	key = "soup",
 	name = "Soup",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -737,7 +794,7 @@ SMODS.Joker{
 			"Every {C:attention}played card{} counts in scoring",
 			"This joker gives {X:mult,C:white}X#1#{} Mult",
 			"loses {X:mult,C:white}X0.1{} Mult per {C:attention}extra card scored",
-			"{s:0.7}{C:inactive}(Soup + Splash){}",
+			"{s:0.7}{C:inactive}(Ramen + Splash){}",
 		}
 	},
 	calculate = function(self, card, context)
@@ -777,7 +834,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ramen", nil, false, "
 SMODS.Joker{
 	key = "fractured_floodgate",
 	name = "Fractured Floodgate",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -841,10 +898,11 @@ SMODS.Joker{
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
 
+
 SMODS.Joker{
 	key = "youth",
 	name = "Fountain of Youth",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -899,7 +957,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ancient", nil, false,
 SMODS.Joker{
 	key = "thermos",
 	name = "Thermos",
-	rarity = 5,
+	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -991,7 +1049,7 @@ SMODS.Joker {
 			"{C:inactive}(must have room for all effects){}",
 			"{s:0.7}{C:inactive}(Cartomancer + Splash){}",
 		}},
-		rarity = 5,
+		rarity = "fusion",
 		cost = 14,
 		unlocked = true,
 		discovered = true,
@@ -1038,63 +1096,62 @@ SMODS.Joker {
 	end
 	}
 
-	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 13)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 13)
 
 SMODS.Joker {
+	name = "Toaster",
+	loc_txt = {
 		name = "Toaster",
-		loc_txt = {
-			name = "Toaster",
-			text = {
-				"Every {C:attention}played card{} counts in scoring",
-				"{C:attention}Retrigger{} each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}4{} or {C:attention}5",
-				"Each {C:attention}played {C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{} or {C:attention}10",
-				"has its rank {C:attention}halved {C:inactive}(rounded down)",
-				"{s:0.7}{C:inactive}(Hack + Splash){}",
-			}},
-			rarity = 5,
-			cost = 14,
-			unlocked = true,
-			discovered = true,
-			blueprint_compat = true,
-			eternal_compat = true,
-			perishable_compat = true,
-			key = "toaster",
-			atlas = "Tsunami",
-			pos = { x = 5, y = 2 },
-		ability_name = "Toaster",
-		calculate = function(self,card,context)
-		if context.repetition and context.cardarea == G.play and
-			(context.other_card:get_id() == 2 or
-			context.other_card:get_id() == 3 or
-			context.other_card:get_id() == 4 or
-			context.other_card:get_id() == 5 or
-			context.other_card:get_id() == 14) then
-				return {
-					message = localize('k_again_ex'),
-					repetitions = 1,
-					card = card
-				}
-		--- I want to flip the cards when their rank changes as a cosmetic thing, if possible
-		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 6 then
-			assert(SMODS.change_base(context.other_card, nil, "3"))
-		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 then
-			assert(SMODS.change_base(context.other_card, nil, "3"))
-		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 8 then
-			assert(SMODS.change_base(context.other_card, nil, "4"))
-		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 9 then
-			assert(SMODS.change_base(context.other_card, nil, "4"))
-		else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 10 then
-			assert(SMODS.change_base(context.other_card, nil, "5"))
-		end
-		end
-		end
-		end
-		end
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"{C:attention}Retrigger{} each played {C:attention}Ace{}, {C:attention}2{}, {C:attention}3{}, {C:attention}4{} or {C:attention}5",
+			"Each {C:attention}played {C:attention}6{}, {C:attention}7{}, {C:attention}8{}, {C:attention}9{} or {C:attention}10",
+			"has its rank {C:attention}halved {C:inactive}(rounded down)",
+			"{s:0.7}{C:inactive}(Hack + Splash){}",
+		}},
+		rarity = "fusion",
+		cost = 14,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = true,
+		eternal_compat = true,
+		perishable_compat = true,
+		key = "toaster",
+		atlas = "Tsunami",
+		pos = { x = 5, y = 2 },
+	ability_name = "Toaster",
+	calculate = function(self,card,context)
+	if context.repetition and context.cardarea == G.play and
+		(context.other_card:get_id() == 2 or
+		context.other_card:get_id() == 3 or
+		context.other_card:get_id() == 4 or
+		context.other_card:get_id() == 5 or
+		context.other_card:get_id() == 14) then
+			return {
+				message = localize('k_again_ex'),
+				repetitions = 1,
+				card = card
+			}
+	else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 6 then
+		assert(SMODS.change_base(context.other_card, nil, "3"))
+	else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 then
+		assert(SMODS.change_base(context.other_card, nil, "3"))
+	else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 8 then
+		assert(SMODS.change_base(context.other_card, nil, "4"))
+	else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 9 then
+		assert(SMODS.change_base(context.other_card, nil, "4"))
+	else if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 10 then
+		assert(SMODS.change_base(context.other_card, nil, "5"))
 	end
+	end
+	end
+	end
+	end
+end
 end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hack", nil, false, "j_tsun_toaster", 13)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hack", nil, false, "j_tsun_toaster", 11)
 
 SMODS.Consumable{
 	key = 'aeon',
@@ -1223,7 +1280,7 @@ SMODS.Consumable{
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ---
-if Is_Cryptid == true then
+if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
 	SMODS.Joker{
 		name = "Still Water",
 		key = "still_water",
@@ -1238,7 +1295,7 @@ if Is_Cryptid == true then
 				"{s:0.7}{C:inactive}(Sob + Splash){}",
 			},
 		},
-		rarity = 5,
+		rarity = "fusion",
 		cost = 9,
 		discovered = true,
 		perishable_compat = true,
