@@ -1,6 +1,8 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
-Requires Fusion Jokers mod (https://github.com/itayfeder/Fusion-Jokers)
+Requires Fusion Jokers mod (https://github.com/lshtech/Fusion-Jokers)
+The version linked here is Elbe's fork, fixing the issues with the rarity method presented by a recent Steamodded update.
+The files for this mod are included in the github for convenience
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
@@ -31,3 +33,4 @@ One Spectral card,
 
 And one Deck!
 - Splash Deck: Start with 2 Negative Eternal copies of Splash and $5
+I'll add DeckSleeves support for the Splash Deck at some point, but this is low on priority.
