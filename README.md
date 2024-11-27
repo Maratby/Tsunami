@@ -6,22 +6,7 @@ The files for this mod are included in the github for convenience
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
-Currently contains 15 fusions between Splash and the following jokers:
-- Half Joker
-- Stencil Joker
-- Hiker
-- Fibonacci
-- Ramen
-- Riff Raff
-- Throwback
-- Flower Pot
-- Sock and Buskin
-- Steel Joker
-- Hanging Chad
-- Credit Card
-- Ancient Joker
-- Stuntman
-- Any Vanilla Legendary (They all make the same thing, this *might* change in the future)
+Currently contains 20 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
 
 (Not every joker has art at the moment. The remaining jokers use placeholder art of their material joker that isn't Splash)
 
@@ -33,4 +18,13 @@ One Spectral card,
 
 And one Deck!
 - Splash Deck: Start with 2 Negative Eternal copies of Splash and $5
-I'll add DeckSleeves support for the Splash Deck at some point, but this is low on priority.
+I'll add CardSleeves support for the Splash Deck at some point, but this is low on priority.
+
+Cross-Mod Fusions available! I'll be working on more of these very soon, right now there is only one:
+- Cryptid's Sob
+Cross-Mod Fusions can be disabled in the Mod Config menu.
+
+Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, only one fusion has a Gold variant:
+- Splish Splash
+
+Gold Fusions can be disabled in the Mod Config menu.
