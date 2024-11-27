@@ -216,24 +216,15 @@ SMODS.Atlas {
 		end,
 		calculate = function(self, card, context)
 			if context.individual and context.cardarea == G.play then
-				local soakedflag = false
-				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-				for k, v in ipairs(scoring_hand) do
-					if context.other_card == scoring_hand[k] then
-						soakedflag = true
-						end
+				if card_is_splashed(context.other_card) == true then
+					return {
+						mult = card.ability.extra.mult,
+						card = card
+						}
 					end
-					if soakedflag == false then
-						return {
-							mult = card.ability.extra.mult,
-							card = card
-							}
-					else
-						local soakedflag = false
+				end
 			end
-		end
-	end
-	}
+}
 
 	FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
 
@@ -264,17 +255,11 @@ SMODS.Atlas {
 		},
 		calculate = function(self, card, context)
 			if context.individual and context.cardarea == G.play then
-				local raftflag = false
 				context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
 				context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + card.ability.extra
 				card_eval_status_text(context.other_card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.CHIPS})
-				local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-				for k, v in ipairs(scoring_hand) do
-					if context.other_card == scoring_hand[k] then
-						raftflag = true
-						end
-					end
-					if raftflag == false then
+
+				if card_is_splashed(context.other_card) == true then
 						context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
 						context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + card.ability.extra
 						return {
@@ -282,8 +267,6 @@ SMODS.Atlas {
 							colour = G.C.CHIPS,
 							card = card
 							}
-					else
-						raftflag = false
 			end
 		end
 	end
@@ -485,20 +468,11 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
-			local iceflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					iceflag = true
-					end
-			end
-			if iceflag == false then
+			if card_is_splashed(context.other_card) then
 				return {
 					x_mult = card.ability.extra.xmult,
 					card = card
 				}
-			else
-				iceflag = false
 			end
 		end
 	end
@@ -667,23 +641,14 @@ SMODS.Joker {
                     end}))
             end
 		elseif context.individual and context.cardarea == G.play then
-			local vaporflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					vaporflag = true
-					end
-				end
-				if vaporflag == false then
+				if card_is_splashed(context.other_card) == true then
 					card.ability.extra.x_mult_gain = card.ability.extra.x_mult_gain + 0.01
 					return {
 						extra = {message = "Vaporwave!", colour = G.C.RED},
 						colour = G.C.RED,
 						card = card
 						}
-				else
-					vaporflag = false
-		end
+			end
 		end
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
@@ -716,18 +681,11 @@ SMODS.Joker{
 	},
 	calculate = function(self, card, context)
 		if context.repetition and context.cardarea == G.play and context.other_card:is_face() then
-			local webbedflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					webbedflag = true
-					end
-				end
-				if webbedflag == false then
+				if card_is_splashed(context.other_card) == true then
 					if context.other_card:is_face() then
 						return {
 							message = localize('k_again_ex'),
-							repetitions = card.ability.extra * 2,
+							repetitions = card.ability.extra + 1,
 							card = card
 						}
 					else
@@ -738,14 +696,11 @@ SMODS.Joker{
 						}
 					end
 				elseif context.other_card:is_face() then
-					webbedflag = false
 						return {
 							message = localize('k_again_ex'),
 							repetitions = card.ability.extra,
 							card = card
 						}
-				else
-					webbedflag = false
 				end
 			end
 		end
@@ -784,20 +739,11 @@ SMODS.Joker{
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play and G.GAME.dollars < 0 then
-			local laundryflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					laundryflag = true
-					end
-				end
-				if laundryflag == false and G.GAME.dollars < 0 and context.other_card then
+				if card_is_splashed(context.other_card) == true and G.GAME.dollars < 0 and context.other_card then
 					return {
 						dollars = card.ability.dollars,
 						card = card
 					}
-				else
-					laundryflag = false
 				end
 			end
 		end
@@ -836,20 +782,11 @@ SMODS.Joker{
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-			local magicflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					magicflag = true
-					end
-				end
-				if magicflag == false then
+				if card_is_splashed(context.other_card) then
 					return {
 						chips = card.ability.chips,
 						card = card
 					}
-				else
-					magicflag = false
 				end
 			end
 		end
@@ -882,14 +819,7 @@ SMODS.Joker{
 	},
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play and not context.blueprint then
-			local soupflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					soupflag = true
-					end
-				end
-				if soupflag == false then
+				if card_is_splashed(context.other_card) == true then
 					card.ability.extra.x_mult = card.ability.extra.x_mult - 0.10
 					if card.ability.extra.x_mult <= 1 then
 						G.hand_text_area.blind_chips:juice_up()
@@ -897,8 +827,6 @@ SMODS.Joker{
                             play_sound('tarot1')
                             card:start_dissolve()
 					end
-				else
-					soupflag = false
 				end
 			end
 			if context.joker_main then
@@ -942,14 +870,7 @@ SMODS.Joker{
 			Firstflag = false
 		end
 		if context.repetition and context.cardarea == G.play then
-			local gateflag = false
-			local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
-			for k, v in ipairs(scoring_hand) do
-				if context.other_card == scoring_hand[k] then
-					gateflag = true
-					end
-			end
-				if gateflag == false and Firstflag == false then
+			if card_is_splashed(context.other_card) == true and Firstflag == false then
 					Firstflag = true
 					if (context.other_card == context.scoring_hand[1]) then
 						return {
