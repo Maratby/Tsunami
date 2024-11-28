@@ -12,6 +12,7 @@
 
 --- i had to make the priority higher than cryptid to get crossmod fusion to work
 
+Tsunami = {}
 Tsunami_Mod = SMODS.current_mod
 Tsunami_Config = Tsunami_Mod.config
 
@@ -45,11 +46,12 @@ Splashkeytable = {
 	"j_tsun_abyssal_tentacles",
 	"j_tsun_reflection",
 	"j_tsun_surfboard",
+	"j_tsun_gold_reflection",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
 --- Other Jokers which create any registered fusion material joker check the Fusionjokers index manually
---- Even though Gold Fusions can fuse with Splash, I excluded it from this list to make the spectral worth something.
+--- Even though Gold Fusions' materials can fuse with Splash, I excluded it from this list to make the spectral worth something.
 Splashkeytable2 = {
 	"j_half_joker",
 	"j_fibonacci",
@@ -1402,7 +1404,7 @@ if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
 				G.jokers:emplace(card)
 				return {
 					card_eval_status_text(card, "extra", nil, nil, nil, {
-						message = localize("cry_curse_ex"),
+						message = localize("tsun_curse_ex"),
 						colour = G.C.DARK_EDITION,
 					}),
 				}
@@ -1432,6 +1434,8 @@ function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
 		tsunlc()
 	end
+	---G.ARGS.LOC_COLOURS.tsun_gold = { HEX("FFD700"), HEX("d8b162")}
+	---G.ARGS.LOC_COLOURS.tsun_gold = { 1, 1, 1, 1 }
 	G.ARGS.LOC_COLOURS.tsun_gold1 = HEX("FFD700")
 	G.ARGS.LOC_COLOURS.tsun_gold2 = HEX("f6e3c3")
 	G.ARGS.LOC_COLOURS.tsun_gold3 = HEX("edd5a9")
@@ -1440,21 +1444,33 @@ function loc_colour(_c, _default)
 	return tsunlc(_c, _default)
 end
 
----local game_update_ref = Game.update
----function Game.update(self,dt)
----	G.C.tsun_gold[1] = 0.6+0.2*math.sin(self.TIMERS.REAL*1.3)
----    G.C.tsun_gold[3] = 0.6+0.2*(1- math.sin(self.TIMERS.REAL*1.3))
----    G.C.tsun_gold[2] = math.min(G.C.tsun_gold[3], G.C.tsun_gold[1])
----    ---G.C.tsun_gold = darken(Goldcolor1, (math.sin(love.timer.getTime()*10)+1)/5)
----    return game_update_ref(self,dt)
----end
+Tsunami.C = {
+    GOLD = { HEX("d8b162") , HEX("FFD700") },
+}
+
+local upd = Game.update
+function Game:update(dt)
+    upd(self, dt)
+    local anim_timer = self.TIMERS.REAL * 1.5
+    local p = 0.5 * (math.sin(anim_timer) + 1)
+    for k, c in pairs(Tsunami.C) do
+        if not G.C["TSUN_" .. k] then
+            G.C["TSUN_" .. k] = { 0, 0, 0, 0 }
+        end
+        for i = 1, 4 do
+         G.C["TSUN_" .. k][i] = c[1][i] * p + c[2][i] * (1 - p)
+        end
+    end
+local game_update_ref = Game.update
+end
 
 ---{C:tsun_gold1}{C:tsun_gold2}{C:tsun_gold3}{C:tsun_gold4}{C:tsun_gold5}{C:tsun_gold4}{C:tsun_gold3}{C:tsun_gold2}
 
 if Tsunami_Config.TsunamiLevel2 then
 	SMODS.Joker {
 		loc_txt = {
-			name = "{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
+			---name = "{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
+			name = "{C:tsun_gold,E:1}Splish Splash",
 			text = {
 				"When blind is selected, creates a {C:dark_edition}Negative{} {C:blue}Splash",
 				"{s:0.7}{C:inactive}(Splish Splash Gold Fusion)",
@@ -1469,7 +1485,7 @@ if Tsunami_Config.TsunamiLevel2 then
 			key = "gold_splish_splash",
 			atlas = "Tsunami",
 			pos = { x = 0, y = 17 },
-		ability_name = "Splish Splash",
+		ability_name = "Gold Splish Splash",
 		calculate = function(self,card,context)
 			if context.setting_blind then
 				local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
@@ -1481,6 +1497,72 @@ if Tsunami_Config.TsunamiLevel2 then
 		}
 
 	FusionJokers.fusions:add_fusion("j_tsun_splish_splash", nil, false, "j_splash", nil, false, "j_tsun_gold_splish_splash", 10)
+
+	SMODS.Joker {
+		loc_txt = {
+			name = "{C:tsun_gold1}R{C:tsun_gold2}e{C:tsun_gold3}f{C:tsun_gold4}l{C:tsun_gold5}e{C:tsun_gold4}c{C:tsun_gold3}t{C:tsun_gold2}i{C:tsun_gold5}o{C:tsun_gold4}n",
+			text = {
+				"Every {C:attention}played card {}counts in {C:tsun_gold}scoring",
+				"Gives {X:mult,C:white}X#1#{} Mult for each instance of a {C:blue}Clubs{} Suit",
+				"and a {C:attention}Non-Clubs{} suit in {C:attention}played hand",
+				"{C:attention}Extra scored cards{} count as {C:attention}2 cards{} for this effect",
+				"{C:tsun_gold4}Retriggers count the card again for this effect",
+				"{s:0.7}{C:inactive}(Reflection Gold Fusion){}",
+			}},
+			rarity = "fusion",
+			cost = 30,
+			config = { extra = 1.3, clubs = 0, nonclubs = 0 },
+			loc_vars = function(self, info_queue, card)
+				return {vars = {card.ability.extra}}
+			end,
+			unlocked = true,
+			discovered = true,
+			blueprint_compat = true,
+			eternal_compat = true,
+			perishable_compat = true,
+			key = "gold_reflection",
+			atlas = "Tsunami",
+			pos = { x = 1, y = 17 },
+		ability_name = "Gold Reflection",
+		calculate = function(self,card,context)
+			if context.individual and context.cardarea == G.play and not context.blueprint then
+				local scoredflag = false
+				local increase = 1
+				ClubsMult_return = 1
+				if card_is_splashed(context.other_card) then
+					increase = 2
+				end
+				if not context.other_card.debuff then
+					if context.other_card.ability.name == 'Wild Card' then
+						card.ability.clubs = card.ability.clubs + increase
+						card.ability.nonclubs = card.ability.nonclubs + increase
+					elseif context.other_card:is_suit("Clubs") then
+						card.ability.clubs = card.ability.clubs + increase
+					else
+						card.ability.nonclubs = card.ability.nonclubs + increase
+					end
+				end
+				print(card.ability.clubs)
+				print(card.ability.nonclubs)
+				local clubinstances = math.min(card.ability.clubs,card.ability.nonclubs)
+				if clubinstances ~= 0 then
+						ClubsMult_return = ClubsMult_return ^ card.ability.extra
+				end
+			end
+			if context.joker_main then
+				card.ability.clubs = 0
+				card.ability.nonclubs = 0
+				if ClubsMult_return > 1 then
+					return {
+						message = localize{type='variable',key='a_xmult',vars={ClubsMult_return}},
+						Xmult_mod = ClubsMult_return,
+						card = card,
+					}
+				end
+			end
+		end
+		}
+	FusionJokers.fusions:add_fusion("j_tsun_reflection", nil, false, "j_splash", nil, false, "j_tsun_gold_reflection", 20)
 end
 
 
