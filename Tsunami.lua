@@ -1469,8 +1469,8 @@ end
 if Tsunami_Config.TsunamiLevel2 then
 	SMODS.Joker {
 		loc_txt = {
-			---name = "{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
-			name = "{C:tsun_gold,E:1}Splish Splash",
+			name = "{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
+			---name = "{C:tsun_gold,E:1}Splish Splash",
 			text = {
 				"When blind is selected, creates a {C:dark_edition}Negative{} {C:blue}Splash",
 				"{s:0.7}{C:inactive}(Splish Splash Gold Fusion)",
@@ -1546,8 +1546,11 @@ if Tsunami_Config.TsunamiLevel2 then
 				print(card.ability.nonclubs)
 				local clubinstances = math.min(card.ability.clubs,card.ability.nonclubs)
 				if clubinstances ~= 0 then
-						ClubsMult_return = ClubsMult_return ^ card.ability.extra
+					for k = 1 , clubinstances , 1 do
+						ClubsMult_return = ClubsMult_return * card.ability.extra
+					end
 				end
+	
 			end
 			if context.joker_main then
 				card.ability.clubs = 0
