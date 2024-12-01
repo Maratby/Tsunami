@@ -16,4 +16,4 @@ payload = """
             end
         end
 """
-match_indent = false
+match_indent = true

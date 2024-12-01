@@ -40,19 +40,57 @@ Splashkeytable = {
 	"j_tsun_escape_artist",
 	"j_tsun_fractured_floodgate",
 	"j_tsun_thermos",
-	"j_tsun_still_water",
 	"j_tsun_toaster",
 	"j_tsun_puddle",
 	"j_tsun_abyssal_tentacles",
 	"j_tsun_reflection",
 	"j_tsun_surfboard",
+	"j_tsun_banana_tree",
+	"j_tsun_banana_plantation",
+	"j_tsun_holy_water",
+	"j_tsun_vending_machine",
+	"j_tsun_beach_ball",
+	"j_tsun_rainstorm",
+
 	"j_tsun_gold_reflection",
+}
+
+---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
+Splashvouchertable = {
+	"j_tsun_splish_splash",
+	"j_tsun_youth",
+	"j_tsun_soaked_joker",
+	"j_tsun_dihydrogen_monoxide",
+	"j_tsun_raft",
+	"j_tsun_ice_tray",
+	"j_tsun_watering_can",
+	"j_tsun_vaporwave",
+	"j_tsun_webbed_feet",
+	"j_tsun_soup",
+	"j_tsun_money_laundering",
+	"j_tsun_escape_artist",
+	"j_tsun_fractured_floodgate",
+	"j_tsun_thermos",
+	"j_tsun_toaster",
+	"j_tsun_cryomancer",
+	"j_tsun_reflection",
+	"j_tsun_surfboard",
+	"j_tsun_banana_tree",
+	"j_tsun_banana_plantation",
+	"j_tsun_holy_water",
+	"j_tsun_vending_machine",
+	"j_tsun_beach_ball",
+	"j_tsun_rainstorm",
+
+	"j_tsun_gold_reflection",
+	"j_tsun_gold_splish_splash",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
 --- Other Jokers which create any registered fusion material joker check the Fusionjokers index manually
 --- Even though Gold Fusions' materials can fuse with Splash, I excluded it from this list to make the spectral worth something.
 Splashkeytable2 = {
+	"j_gros_michel",
 	"j_half_joker",
 	"j_fibonacci",
 	"j_hiker",
@@ -71,6 +109,10 @@ Splashkeytable2 = {
 	"j_hack",
 	"j_seeing_double",
 	"j_blackboard",
+	"j_jolly",
+	"j_loyalty_card",
+	"j_8_ball",
+	"j_cloud_9",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -132,6 +174,7 @@ function randsuit(a)
 		end
 end
 
+---Defining each atlas
 
 SMODS.Atlas {
 	key = "Tsunami",
@@ -151,6 +194,14 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
 	}
+
+SMODS.Atlas {
+	key = "TsunamiVoucher",
+	path = "TsunamiVoucher.png",
+	px = 71,
+	py = 95,
+	}
+	
 
 ---A function for checking if cards were scored by Splash or not. Thanks Eremel
 	function card_is_splashed(card)
@@ -228,8 +279,99 @@ SMODS.Atlas {
 			end
 }
 
-	FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
+FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
 
+SMODS.Joker {
+    key = 'holy_water',
+	loc_txt = {
+		name = 'Holy Water',
+		text = {
+            "All {C:attention}played{} cards are {C:attention}scored{}",
+            "Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+			"{s:0.7}{C:inactive}Special order for Cryptid",
+			"{s:0.7}{C:inactive}(Jolly Joker + Splash){}",
+		},
+	},
+	atlas = "Tsunami",
+    pos = { x = 2, y = 0 },
+    cost = 6,
+    rarity = 5,
+    unlocked = true,
+    discovered = true,
+	add_to_deck = function(self,card,from_debuff)
+		Holywaterflag = true
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.hand:unhighlight_all()
+		Holywaterflag = false
+	end,
+}
+---Logic loop for Holy Water code
+local athr=CardArea.add_to_highlighted
+function CardArea:add_to_highlighted(card, silent)
+	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and Holywaterflag == true then
+		local id = card:get_id()
+        local matches = 0
+        for i = 1, #self.highlighted do
+            if self.highlighted[i]:get_id() == id then
+                matches = matches + 1
+            end
+        end
+        if matches == 1 then
+            self.highlighted[#self.highlighted+1] = card
+            card:highlight(true)
+            if not silent then play_sound('cardSlide1') end
+            self:parse_highlighted()
+            return
+        end
+	end
+	athr(self,card,silent)
+end
+
+FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_jolly', nil, nil, 'j_tsun_holy_water', 8)
+
+SMODS.Joker {
+    key = "vending_machine",
+    loc_txt = {
+        name = "Vending Machine",
+        text = {
+			"Every {C:attention}played card {}counts in scoring",
+            "{C:green}#3# in #4#{} chance for each {C:attention}Extra scored card",
+			"to give {X:mult,C:white}X#1#{} Mult",
+			"{C:attention}Guaranteed{} trigger after {C:attention}#1#{} {C:inactive}[#2#]{} failed rolls",
+            "{s:0.7}{C:inactive}(Loyalty Card + Splash)"
+        }
+    },
+    rarity = "fusion",
+    cost = 15,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    config = {extra = {xmult = 10, fails = 0, odds = 10}},
+    atlas = "Tsunami",
+	pos = { x = 4, y = 2 },
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.fails, G.GAME.probabilities.normal or 1, card.ability.extra.odds}}
+    end,
+    calculate = function(self, card, context)
+        if context.individual and context.cardarea == G.play then
+			if card_is_splashed(context.other_card) then
+				card.ability.extra.fails = card.ability.extra.fails + 1
+				if card.ability.extra.fails >= card.ability.extra.xmult or pseudorandom('THUNDERCROSSSPLITATTACK') < G.GAME.probabilities.normal / card.ability.extra.odds then
+					card.ability.extra.fails = 0
+					return {
+						x_mult = card.ability.extra.xmult,
+						card = card
+					}
+				end
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_loyalty_card', nil, nil, 'j_tsun_vending_machine', 7)
 
 	SMODS.Joker{
 		key = "raft",
@@ -269,13 +411,53 @@ SMODS.Atlas {
 							colour = G.C.CHIPS,
 							card = card
 							}
+				end
+			end
+		end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hiker", nil, false, "j_tsun_raft", 10)
+
+SMODS.Joker {
+	name = "Beach Ball",
+	loc_txt = {
+		name = "Beach Ball",
+		text = {
+			"Every {C:attention}played card counts in scoring",
+			"{C:green}#1# in #2#{} chance to create a {C:purple}Tarot{} card",
+			"for each {C:attention}Extra Scored Card{} in played hand",
+			"{C:inactive}(must have room)",
+			"{s:0.7}{C:inactive}(8 Ball + Splash){}",
+		}},
+		config = {extra = {odds = 3}},
+		loc_vars = function(self, info_queue, card)
+			return {vars = {G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		end,
+		rarity = "fusion",
+		cost = 14,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = true,
+		eternal_compat = true,
+		perishable_compat = true,
+		key = "beach_ball",
+		atlas = "Tsunami",
+		pos = { x = 0, y = 5 },
+	ability_name = "Beach Ball",
+	calculate = function(self,card,context)
+		if context.individual and context.cardarea == G.play then
+			if card_is_splashed(context.other_card) and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and pseudorandom('ballpenisball') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				local tarotcards = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
+				tarotcards:add_to_deck()
+				G.consumeables:emplace(tarotcards)
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
 			end
 		end
 	end
 }
 
-
-	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hiker", nil, false, "j_tsun_raft", 10)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_8_ball", nil, false, "j_tsun_beach_ball", 8)
 
 	SMODS.Joker {
 		loc_txt = {
@@ -444,6 +626,223 @@ SMODS.Joker {
 		end
 	}
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_flower_pot", nil, false, "j_tsun_watering_can", 10)
+
+
+SMODS.Joker{
+	key = "rainstorm",
+	loc_txt = {
+		name = "Rainstorm",
+		text = {
+			"Every {C:attention}played card{} counts in scoring",
+			"Gives {C:money}$#2#{} for each {C:attention}9{} in your {C:attention}full deck",
+			"{s:0.7}{C:inactive}(currently {C:money}$#1#)",
+			"{C:attention}Extra played {C:attention}Cards{} have a",
+			"{C:green}#3# in #4#{} chance to {C:attention}become a 9",
+			"{s:0.7}{C:inactive}(Cloud 9 + Splash){}",
+		}
+	},
+	name = "Rainstorm",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = {x = 7, y = 12},
+	cost = 18,
+	config = {extra = {nines = 0, moneys = 2, odds = 8}},
+	ability_name = "Rainstorm",
+	loc_vars = function(self, info_queue, card)
+		return {vars = {card.ability.extra.nines,card.ability.extra.moneys, G.GAME.probabilities.normal or 1, card.ability.extra.odds}}
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.extra.nines = 0
+		if G.playing_cards then
+            for k, v in pairs(G.playing_cards) do
+                if v:get_id() == 9 then card.ability.extra.nines = card.ability.extra.nines + card.ability.extra.moneys end
+            end
+		end
+	end,
+	calc_dollar_bonus = function(self, card)
+		---thanks examplejokers examplemod, saved my life
+		local bonus = card.ability.extra.nines
+		if bonus > 0 then return bonus end
+	end,
+	calculate = function(self, card, context)
+		if context.playing_card_added or context.remove_playing_cards or context.before_hand or context.after or context.end_of_round or context.setting_blind and not context.blueprint then
+			if G.playing_cards then
+				card.ability.extra.nines = 0
+				for k, v in pairs(G.playing_cards) do
+					if v:get_id() == 9 then card.ability.extra.nines = card.ability.extra.nines + card.ability.extra.moneys end
+				end
+			end
+		end
+		if context.joker_main then
+            for index, card2 in ipairs(context.full_hand) do
+                if card_is_splashed(card2) and pseudorandom("I can do this too you know!") < G.GAME.probabilities.normal / card.ability.extra.odds then
+                    assert(SMODS.change_base(card2, nil, "9"))
+            	end
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cloud_9", nil, false, "j_tsun_rainstorm", 9)
+
+
+SMODS.Joker {
+	key = 'banana_tree',
+	loc_txt = {
+	  name = 'Banana Tree',
+	  text = {
+		"Every {C:attention}played card{} counts in scoring",
+		"This joker gives {C:mult}+#1#{} Mult",
+		"Destroyed after {C:attention}#2#{C:inactive}[#3#] {C:attention}Extra Scored Cards{} are played",
+		"{s:0.7}{C:inactive}(Gros Michel + Splash){}",
+	  }
+	},
+	no_pool_flag = 'gros_michel_extinct',
+	config = { extra = { mult = 20, tosplash = 6, splashed = 0} },
+	rarity = "fusion",
+	atlas = 'Tsunami',
+	pos = { x = 7, y = 6 },
+	cost = 10,
+	discovered = true,
+	eternal_compat = false,
+	loc_vars = function(self, info_queue, card)
+	  return { vars = { card.ability.extra.mult, card.ability.extra.tosplash, card.ability.extra.splashed } }
+	end,
+	calculate = function(self, card, context)
+		if context.joker_main then
+		return {
+			mult_mod = card.ability.extra.mult,
+			message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
+		}
+		end
+		if context.before then
+			for index, card2 in ipairs(context.full_hand) do
+                if card_is_splashed(card2) then
+                    card.ability.extra.splashed = card.ability.extra.splashed + 1
+                end
+			end
+		end
+		if context.after and not context.blueprint then
+			if card.ability.extra.splashed >= card.ability.extra.tosplash then
+				---Adds Cavendish to the Polymorph pool
+				table.insert(Splashkeytable2, "j_cavendish")
+				---Removes Gros Michel from the Polymorph pool
+				if Splashkeytable2[1] == "j_gros_michel" then
+					Splashkeytable2[1] = nil
+				end
+				---The Part Where The Card Is Destroyed
+				G.E_MANAGER:add_event(Event({
+					func = function()
+					play_sound('tarot1')
+					card.T.r = -0.2
+					card:juice_up(0.3, 0.4)
+					card.states.drag.is = true
+					card.children.center.pinch.x = true
+					-- This is the part where the card gets destroyed
+					G.E_MANAGER:add_event(Event({
+						trigger = 'after',
+						delay = 0.3,
+						blockable = false,
+						func = function()
+						G.jokers:remove_card(card)
+						-- Achievement Get: The Part Where The Card Is Destroyed
+						card:remove()
+						card = nil
+						return true;
+						end
+					}))
+					return true
+					end
+				}))
+				G.GAME.pool_flags.gros_michel_extinct = true
+				return {
+					message = 'Extinct!'
+				}
+				end
+		end
+	end
+  }
+
+  FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_gros_michel", nil, false, "j_tsun_banana_tree", 5)
+
+SMODS.Joker {
+    key = "banana_plantation",
+    loc_txt = {
+        name = "Banana Plantation",
+        text = {
+			"Every {C:attention}played card {}counts in scoring",
+			"This joker gives {X:mult,C:white}#1#X{} Mult",
+            "Gains {X:mult,C:white}#2#X{} Mult per {C:attention}Extra scored card{} played",
+			"{C:green}#3# in #4#{} chance this card is destroyed at end of round",
+            "{s:0.7}{C:inactive}(Cavendish + Splash)"
+        }
+    },
+    rarity = "fusion",
+    cost = 15,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = true,
+    perishable_compat = true,
+    config = {extra = {xmult = 3, increase = 0.1, odds = 88888 }},
+    atlas = "Tsunami",
+	pos = { x = 5, y = 11 },
+    loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.increase, (G.GAME.probabilities.normal or 1), card.ability.extra.odds}}
+    end,
+    calculate = function(self, card, context)
+		if context.before then
+			for index, card2 in ipairs(context.full_hand) do
+				if card_is_splashed(card2) then
+					card.ability.extra.splashed = card.ability.extra.splashed + 1
+				end
+			end
+		end
+		if context.joker_main then
+			return {
+				message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+				Xmult_mod = card.ability.extra.xmult,
+				card = card,
+			}
+		end
+		if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
+			if pseudorandom('Splash') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			  G.E_MANAGER:add_event(Event({
+				func = function()
+				  play_sound('tarot1')
+				  card.T.r = -0.2
+				  card:juice_up(0.3, 0.4)
+				  card.states.drag.is = true
+				  card.children.center.pinch.x = true
+				  G.E_MANAGER:add_event(Event({
+					trigger = 'after',
+					delay = 0.3,
+					blockable = false,
+					func = function()
+					  G.jokers:remove_card(card)
+					  card:remove()
+					  card = nil
+					  return true;
+					end
+				  }))
+				  return true
+				end
+			  }))
+			  return {
+				message = 'Extinct!'
+			  }
+			else
+			  return {
+				message = 'Safe!'
+			  }
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cavendish", nil, false, "j_tsun_banana_plantation", 15)
 
 SMODS.Joker {
     key = "ice_tray",
@@ -1205,6 +1604,71 @@ SMODS.Joker {
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_blackboard", nil, false, "j_tsun_surfboard", 12)
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------CONSUMABLES----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+SMODS.Voucher{
+    key = "water_supply",
+	loc_txt = {
+		name = "Water Supply",
+		text = {
+			"Creates {C:attention}#1#{} {C:dark_edition}Negative {C:blue}Splash",
+		},
+	},
+	cost = 5,
+	discovered = true,
+	unlocked = true,
+    pos = {x = 0, y = 0},
+	atlas = "TsunamiVoucher",
+    config = { extra = {splash = 2} },
+    requires = {},
+    loc_vars = function(self, info_queue)
+        return { vars = {self.config.extra.splash} }
+    end,
+    redeem = function(self)
+		for i = 1, self.config.extra.splash do
+			local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
+				splishcard:add_to_deck()
+				splishcard:set_edition({negative = true})
+				G.jokers:emplace(splishcard)
+		end
+    end
+}
+
+SMODS.Voucher{
+    key = "water_source",
+	loc_txt = {
+		name = "Water Source",
+		text = {
+			"Creates {C:attention}#1#{} {C:blue}Splash{} {C:attention}Fusion Joker",
+			"{C:tsun_gold1}Gold Fusions{} and {C:blue}Marie{} excluded",
+		},
+	},
+	cost = 20,
+	discovered = true,
+	unlocked = true,
+    pos = {x = 0, y = 1},
+	atlas = "TsunamiVoucher",
+    config = { extra = {splash = 1} },
+    requires = {},
+    loc_vars = function(self, info_queue)
+        return { vars = {self.config.extra.splash} }
+    end,
+    redeem = function(self)
+		for i = 1, self.config.extra.splash do
+			local splashvoucher = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Splashvouchertable, pseudoseed('splashvoucher'))})
+				splashvoucher:add_to_deck()
+				G.jokers:emplace(splashvoucher)
+		end
+    end
+}
+
 SMODS.Consumable{
 	key = 'aeon',
 	set = 'Tarot',
@@ -1335,6 +1799,7 @@ SMODS.Consumable{
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
 if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
+
 	SMODS.Joker{
 		name = "Still Water",
 		key = "still_water",
@@ -1467,6 +1932,7 @@ end
 ---{C:tsun_gold1}{C:tsun_gold2}{C:tsun_gold3}{C:tsun_gold4}{C:tsun_gold5}{C:tsun_gold4}{C:tsun_gold3}{C:tsun_gold2}
 
 if Tsunami_Config.TsunamiLevel2 then
+
 	SMODS.Joker {
 		loc_txt = {
 			name = "{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
@@ -1497,7 +1963,6 @@ if Tsunami_Config.TsunamiLevel2 then
 		}
 
 	FusionJokers.fusions:add_fusion("j_tsun_splish_splash", nil, false, "j_splash", nil, false, "j_tsun_gold_splish_splash", 10)
-
 	SMODS.Joker {
 		loc_txt = {
 			name = "{C:tsun_gold1}R{C:tsun_gold2}e{C:tsun_gold3}f{C:tsun_gold4}l{C:tsun_gold5}e{C:tsun_gold4}c{C:tsun_gold3}t{C:tsun_gold2}i{C:tsun_gold5}o{C:tsun_gold4}n",
