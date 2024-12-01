@@ -796,7 +796,7 @@ SMODS.Joker {
 		if context.before then
 			for index, card2 in ipairs(context.full_hand) do
 				if card_is_splashed(card2) then
-					card.ability.extra.splashed = card.ability.extra.splashed + 1
+					card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.increase
 				end
 			end
 		end
@@ -1656,7 +1656,7 @@ SMODS.Voucher{
     pos = {x = 0, y = 1},
 	atlas = "TsunamiVoucher",
     config = { extra = {splash = 1} },
-    requires = {},
+    requires = {"v_tsun_water_supply"},
     loc_vars = function(self, info_queue)
         return { vars = {self.config.extra.splash} }
     end,
