@@ -18,10 +18,12 @@ One Spectral card,
 
 And one Deck!
 - Splash Deck: Start with 2 Negative Eternal copies of Splash and $5
+
 I'll add CardSleeves support for the Splash Deck at some point, but this is low on priority.
 
 Cross-Mod Fusions available! I'll be working on more of these very soon, right now there is only one:
 - Cryptid's Sob
+
 Cross-Mod Fusions can be disabled in the Mod Config menu.
 
 Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, only one fusion has a Gold variant:
