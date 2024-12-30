@@ -25,7 +25,10 @@ Cross-Mod Fusions available! I'll be working on more of these very soon, right n
 
 Cross-Mod Fusions can be disabled in the Mod Config menu.
 
-Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, only one fusion has a Gold variant:
+Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, only two fusions have Gold variants:
 - Splish Splash
+- Reflection
+
+More to come with time.
 
 Gold Fusions can be disabled in the Mod Config menu.
