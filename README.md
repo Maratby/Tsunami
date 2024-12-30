@@ -1,12 +1,11 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
 Requires Fusion Jokers mod (https://github.com/lshtech/Fusion-Jokers)
-The version linked here is Elbe's fork, fixing the issues with the rarity method presented by a recent Steamodded update.
-The files for this mod are included in the github for convenience
+The version linked here is Elbe's fork, fixing the issues with the rarity method presented by a Steamodded update.
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
-Currently contains 20 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
+Currently contains 26 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
 
 (Not every joker has art at the moment. The remaining jokers use placeholder art of their material joker that isn't Splash)
 
