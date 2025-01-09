@@ -2,6 +2,13 @@ return {
 	["misc"] = {
 		["dictionary"] = {
 			["k_mariesave"] = "Saved By Gold Marie",
+			["k_yu_cut"] = "Cut!",
+
+			["k_rise_disable"] = "Got your back!",
+			["k_rise_hand"] = "+1 Hand",
+			["k_rise_handsize"] = "+1 Hand Size",
+			["k_rise_discard"] = "+1 Discard",
+			["k_rise_money"] = "Earn $5 at end of round",
 		},
 	},
 	["descriptions"] = {
@@ -201,7 +208,7 @@ return {
 				["name"] = "Soaked Joker",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
-					"{C:attention}Extra scored cards {}give{C:red}+#1#{} Mult",
+					"{C:attention}Extra scored cards {}give {C:red}+#1#{} Mult",
 					"{}when scored",
 					"{s:0.7}{C:inactive}(Half Joker + Splash){}",
 				},
@@ -317,13 +324,52 @@ return {
 					"{s:0.7}{C:inactive}(Hanging Chad + Splash){}",
 				},
 			},
+			["j_tsun_tsunami_yu"] = {
+				["name"] = "Yu",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Extra scored cards{} are {C:red}destroyed",
+					"{C:attention}Retrigger all played cards{} once for {C:attention}every #3#{C:inactive} [#2#]{C:attention} cards{} {C:red}destroyed",
+					"{C:inactive}Currently #1# Retriggers",
+					"{s:0.7}{C:inactive}(Canio + Splash)",
+				},
+			},
 			["j_tsun_tsunami_marie"] = {
 				["name"] = "Marie",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
-					"{s:0.2}{C:inactive}(Also works with Ripple from JokerEvolution!)",
-					"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)",
+					"{s:0.7}{C:inactive}(Triboulet + Splash)",
+				},
+			},
+			["j_tsun_tsunami_yosuke"] = {
+				["name"] = "Yosuke",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Gains {X:mult,C:white}X#4#{C:mult} Mult{} for every {C:attention}#3#{C:inactive} [#2#]{C:attention} Extra played cards",
+					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
+					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
+					"{s:0.7}{C:inactive}(Yorick + Splash)",
+				},
+			},
+			["j_tsun_tsunami_rise"] = {
+				["name"] = "Rise",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Disables effect of every {C:attention}Boss Blind",
+					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					"{s:0.7}{C:inactive}(Chicot + Splash)",
+				},
+			},
+			["j_tsun_tsunami_chie"] = {
+				["name"] = "Chie",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Creates a {C:dark_edition}Negative{} copy of",
+                    "{C:attention}1{} random {C:attention}consumable{} card",
+                    "in your possession when you leave the shop",
+					"All {C:attention}consumables{} become {C:dark_edition}Negative{} at end of round",
+					"{s:0.7}{C:inactive}(Perkeo + Splash)",
 				},
 			},
 			["j_tsun_splish_splash"] = {

@@ -9,10 +9,20 @@ Tsunami_Config = Tsunami_Mod.config
 
 --- Checking for loaded mods, for the crossmod fusions
 if ((SMODS.Mods["Cryptid"] or {}).can_load) and Tsunami_Config.TsunamiXMod == true then
-	Is_Cryptid = true
+	Tsun_has_Cryptid = true
 else
-	Is_Cryptid = false
+	Tsun_has_Cryptid = false
 end
+
+if ((SMODS.Mods["Incantation"] or {}).can_load) then
+	Tsun_has_Incantation = true
+else
+	Tsun_has_Incantation = false
+end
+
+SMODS.Joker:take_ownership("splash", {
+	tsun_mine = true
+} )
 
 ---Adds a dummy function that does nothing if Talisman isn't loaded, lets me avoid having Talisman be a dependency
 ---and avoid crashes if Talisman is loaded
@@ -28,7 +38,6 @@ Splashkeytable = {
 	"j_tsun_raft",
 	"j_tsun_ice_tray",
 	"j_tsun_watering_can",
-	"j_tsun_tsunami_marie",
 	"j_tsun_vaporwave",
 	"j_tsun_webbed_feet",
 	"j_tsun_soup",
@@ -50,6 +59,11 @@ Splashkeytable = {
 	"j_tsun_swimming_trunks",
 	"j_tsun_abrasion",
 	"j_tsun_waterjet",
+	"j_tsun_tsunami_yu",
+	"j_tsun_tsunami_marie",
+	"j_tsun_tsunami_yosuke",
+	"j_tsun_tsunami_rise",
+	"j_tsun_tsunami_chie",
 
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_tsunami_marie",
@@ -126,7 +140,9 @@ Exclusionlist = {
 	"j_perkeo",
 	"j_triboulet",
 	"j_caino",
-	"j_tsun_gold_splish_splash",
+	"j_tsun_splish_splash",
+	"j_tsun_reflection",
+	"j_tsun_tsunami_marie",
 }
 Fusionlist = {}
 ---Derives from Reverie's function for the same purpose of grabbing all the fusion materials registered, but mine removes duplicates from the Materials list
@@ -211,7 +227,6 @@ SMODS.Atlas{
 	px = 34,
 	py = 34,
 	}
-
 ---A function for checking if cards were scored by Splash or not. Thanks Eremel
 	function card_is_splashed(card)
 		local _,_,_,scoring_hand,_ = G.FUNCS.get_poker_hand_info(G.play.cards)
@@ -832,48 +847,6 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
 
 SMODS.Joker {
-    key = "tsunami_marie",
-    rarity = "fusion",
-    cost = 20,
-    unlocked = true,
-    discovered = true,
-    blueprint_compat = true,
-    eternal_compat = false,
-    perishable_compat = false,
-    config = {extra = 2},
-    atlas = "Tsunami",
-	pos = { x = 4, y = 8 },
-	soul_pos = { x = 4, y = 9 },
-	loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra}}
-    end,
-    calculate = function(self, card, context)
-		if context.other_joker then
-			if ( context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami" and self ~= context.other_joker)
-			or ((context.other_joker.config.center.key == "j_splash" or context.other_joker.config.center.key == "j_evo_ripple") and self ~= context.other_joker) then
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							context.other_joker:juice_up(0.5, 0.5)
-							return true
-						end
-					}))
-				return {
-						message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
-						Xmult_mod = card.ability.extra,
-						card = context.other_joker,
-				}
-			end
-		end
-	end
-}
-
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", nil, false, "j_tsun_tsunami_marie", 20)
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_perkeo", nil, false, "j_tsun_tsunami_marie", 20)
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_triboulet", nil, false, "j_tsun_tsunami_marie", 20)
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", nil, false, "j_tsun_tsunami_marie", 20)
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_marie", 20)
-
-SMODS.Joker {
 		rarity = "fusion",
 		cost = 14,
 		config = { extra = 1.5, clubs = 0, nonclubs = 0 },
@@ -988,6 +961,7 @@ SMODS.Joker{
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
+	atlas = "Tsunami",
 	blueprint_compat = true,
 	pos = {x = 3, y = 1},
 	cost = 8,
@@ -1577,6 +1551,282 @@ SMODS.Joker{
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_marble", nil, false, "j_tsun_waterjet", 12)
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------LEGENDARIES----------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+SMODS.Joker {
+    key = "tsunami_yu",
+    rarity = "fusion",
+    cost = 20,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = false,
+    config = { extra = { triggers = 1, count = 0, countmax = 5}},
+    atlas = "Tsunami",
+	pos = { x = 3, y = 8 },
+	soul_pos = { x = 3, y = 9 },
+	loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.triggers, card.ability.extra.count, card.ability.extra.countmax}}
+    end,
+    calculate = function(self, card, context)
+		if context.destroying_card then
+			if card_is_splashed(context.destroying_card) then
+				card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_yu_cut'), colour = G.C.tsun_pale})
+				card.ability.extra.count = card.ability.extra.count + 1
+				if card.ability.extra.count >= card.ability.extra.countmax then
+					card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.tsun_pale})
+					card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
+					card.ability.extra.triggers = card.ability.extra.triggers + 1
+				end
+				return {
+					true
+				}
+			end
+		end
+		if context.repetition and context.cardarea == G.play then
+			return {
+				message = localize('k_again_ex'),
+				repetitions = card.ability.extra.triggers,
+				card = card
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", nil, false, "j_tsun_tsunami_yu", 20)
+
+SMODS.Joker {
+    key = "tsunami_marie",
+    rarity = "fusion",
+    cost = 20,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = false,
+    config = {extra = 2},
+    atlas = "Tsunami",
+	pos = { x = 4, y = 8 },
+	soul_pos = { x = 4, y = 9 },
+	loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra}}
+    end,
+    calculate = function(self, card, context)
+		if context.other_joker then
+			if ( context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami")
+			or ((context.other_joker.config.center.key == "j_splash" or context.other_joker.config.center.key == "j_evo_ripple")) then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							context.other_joker:juice_up(0.5, 0.5)
+							return true
+						end
+					}))
+				return {
+						message = localize{type='variable',key='a_xmult',vars={card.ability.extra}},
+						Xmult_mod = card.ability.extra,
+						card = context.other_joker,
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_triboulet", nil, false, "j_tsun_tsunami_marie", 20)
+
+SMODS.Joker {
+    key = "tsunami_yosuke",
+    rarity = "fusion",
+    cost = 20,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = false,
+    config = { extra = { xmult = 1, count = 0, countmax = 20, gain = 1}},
+    atlas = "Tsunami",
+	pos = { x = 5, y = 8 },
+	soul_pos = { x = 5, y = 9 },
+	loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.xmult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain}}
+    end,
+
+    calculate = function(self, card, context)
+		if context.before then
+			for index,value in ipairs(G.play.cards) do
+				if card_is_splashed(value) == true then
+					card.ability.extra.count = card.ability.extra.count + (1 * math.max(0, G.GAME.current_round.discards_left))
+					if card.ability.extra.count >= card.ability.extra.countmax then
+						card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.ATTENTION})
+						card.ability.extra.xmult = card.ability.extra.xmult + 1
+						card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
+					end
+				end
+			end
+		end
+		if context.joker_main and card.ability.extra.xmult > 1 then
+			return {
+				message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
+				Xmult_mod = card.ability.extra.xmult,
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "xmult", true, "j_tsun_tsunami_yosuke", 20)
+
+SMODS.Joker {
+    key = "tsunami_rise",
+    rarity = "fusion",
+    cost = 15,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = false,
+    config = { extra = { last_buff = "None", money = 0} },
+    atlas = "Tsunami",
+	pos = { x = 6, y = 8 },
+	soul_pos = { x = 6, y = 9 },
+	loc_vars = function(self, info_queue, card)
+        return {vars = {card.ability.extra.last_buff}}
+    end,
+	calc_dollar_bonus = function(self, card)
+		local bonus = card.ability.extra.money
+		if bonus > 0 then
+			return bonus
+		end
+	end,
+    calculate = function(self, card, context)
+		if context.setting_blind and context.blind.boss and not self.getting_sliced then
+			card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_rise_disable')})
+			G.E_MANAGER:add_event(Event({func = function()
+				G.E_MANAGER:add_event(Event({func = function()
+					G.GAME.blind:disable()
+					play_sound('timpani')
+					delay(0.4)
+					return true end }))
+			return true end }))
+
+			---Here goes nothing.
+
+			if G.GAME.blind.config.blind.key == "bl_needle" then
+				ease_hands_played(1)
+				card.ability.extra.last_buff = localize("k_rise_hand")
+
+			elseif
+
+			G.GAME.blind.config.blind.key == "bl_manacle" or
+			G.GAME.blind.config.blind.key == "bl_fish" or
+			G.GAME.blind.config.blind.key == "bl_mark" or 
+			G.GAME.blind.config.blind.key == "bl_house"  then
+				G.hand:change_size(1)
+				card.ability.extra.last_buff = localize("k_rise_handsize")
+
+			elseif
+
+			G.GAME.blind.config.blind.key == "bl_tooth" or
+			G.GAME.blind.config.blind.key == "bl_ox" then
+				card.ability.extra.money = card.ability.extra.money + 5
+				card.ability.extra.last_buff = localize("k_rise_money")
+
+			elseif
+
+			G.GAME.blind.config.blind.key == "bl_water" or
+			G.GAME.blind.config.blind.key == "bl_serpent" or
+			G.GAME.blind.config.blind.key == "bl_hook" then
+				ease_discard(1)
+				card.ability.extra.last_buff = localize("k_rise_discard")
+
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 20)
+
+SMODS.Joker {
+	name = "Chie",
+	key = "tsunami_chie",
+    rarity = "fusion",
+    cost = 12,
+    unlocked = true,
+    discovered = true,
+    blueprint_compat = true,
+    eternal_compat = false,
+    perishable_compat = false,
+    config = {},
+    atlas = "Tsunami",
+	pos = { x = 7, y = 8 },
+	soul_pos = { x = 7, y = 9 },
+	loc_vars = function(self, info_queue, center)
+		info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
+		return {vars = {center.ability.extra}}
+	end,
+	calculate = function(self, card, context)
+		if context.ending_shop then
+			---Using the code from Incantation's take_ownership patch for Perkeo if Incantation is loaded
+			if Tsun_has_Incantation then
+				if G.consumeables.cards[1] then
+					G.E_MANAGER:add_event(Event({
+						func = function() 
+							local total, checked, center = 0, 0, nil
+							for i = 1, #G.consumeables.cards do
+								total = total + (G.consumeables.cards[i]:getQty())
+							end
+							local poll = pseudorandom(pseudoseed('dragonkick'))*total
+							for i = 1, #G.consumeables.cards do
+								checked = checked + (G.consumeables.cards[i]:getQty())
+								if checked >= poll then
+									center = G.consumeables.cards[i]
+									break
+								end
+							end
+							local card = copy_card(center, nil)
+							card.ability.qty = 1
+							card:set_edition({negative = true}, true)
+							card:add_to_deck()
+							G.consumeables:emplace(card)
+							return true
+						end}))
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
+					return {calculated = true}
+				end
+			else
+				---Using the basegame Perkeo code if Incantation is not loadedd
+				if G.consumeables.cards[1] then
+                    G.E_MANAGER:add_event(Event({
+                        func = function() 
+                            local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('perkeo')), nil)
+                            card:set_edition({negative = true}, true)
+                            card:add_to_deck()
+                            G.consumeables:emplace(card) 
+                            return true
+                        end}))
+                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
+                end
+                return
+			end
+		end
+		if context.end_of_round then
+			for index, value in ipairs(G.consumeables.cards) do
+				if not value.edition then
+					value:set_edition({negative = true})
+				end
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_perkeo", nil, false, "j_tsun_tsunami_chie", 20)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1763,7 +2013,7 @@ SMODS.Consumable{
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-if Is_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
+if Tsun_has_Cryptid == true and Cryptid.enabled["Epic Jokers"] then
 
 	SMODS.Joker{
 		name = "Still Water",
@@ -1861,6 +2111,8 @@ function loc_colour(_c, _default)
 	G.ARGS.LOC_COLOURS.tsun_gold3 = HEX("edd5a9")
 	G.ARGS.LOC_COLOURS.tsun_gold4 = HEX("dcbe78")
 	G.ARGS.LOC_COLOURS.tsun_gold5 = HEX("d8b162")
+	G.ARGS.LOC_COLOURS.tsun_pale = HEX("E1ECF2")
+
 	return tsunlc(_c, _default)
 end
 
