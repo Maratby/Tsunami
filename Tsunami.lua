@@ -1214,7 +1214,7 @@ SMODS.Joker {
 		pos = { x = 7, y = 3 },
 	ability_name = "Cryomancer",
 	calculate = function(self,card,context)
-		if context.setting_blind and #G.jokers.cards < (G.jokers.config.card_limit - 1) then
+		if context.setting_blind and #G.jokers.cards <= (G.jokers.config.card_limit - 1) then
 			local cryocard = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Fusionlist, pseudoseed('splashjoker'))})
 			cryocard:add_to_deck()
 			G.jokers:emplace(cryocard)
@@ -1650,7 +1650,7 @@ SMODS.Joker {
     blueprint_compat = true,
     eternal_compat = false,
     perishable_compat = false,
-    config = { extra = { xmult = 1, count = 0, countmax = 20, gain = 1}},
+    config = { extra = { x_mult = 1, count = 0, countmax = 20, gain = 1}},
     atlas = "Tsunami",
 	pos = { x = 5, y = 8 },
 	soul_pos = { x = 5, y = 9 },
