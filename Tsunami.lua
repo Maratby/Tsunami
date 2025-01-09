@@ -1655,9 +1655,15 @@ SMODS.Joker {
 	pos = { x = 5, y = 8 },
 	soul_pos = { x = 5, y = 9 },
 	loc_vars = function(self, info_queue, card)
-        return {vars = {card.ability.extra.xmult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain}}
+        return {vars = {card.ability.extra.x_mult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain}}
     end,
-
+	---moving stat to extra
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.x_mult == 0 and card.ability.x_mult then
+			card.ability.extra.x_mult = card.ability.x_mult
+			card.ability.x_mult = nil
+		end
+	end,
     calculate = function(self, card, context)
 		if context.before then
 			for index,value in ipairs(G.play.cards) do
@@ -1665,7 +1671,7 @@ SMODS.Joker {
 					card.ability.extra.count = card.ability.extra.count + (1 * math.max(0, G.GAME.current_round.discards_left))
 					if card.ability.extra.count >= card.ability.extra.countmax then
 						card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex'), colour = G.C.ATTENTION})
-						card.ability.extra.xmult = card.ability.extra.xmult + 1
+						card.ability.extra.x_mult = card.ability.extra.x_mult + 1
 						card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
 					end
 				end
@@ -1673,14 +1679,14 @@ SMODS.Joker {
 		end
 		if context.joker_main and card.ability.extra.xmult > 1 then
 			return {
-				message = localize{type='variable',key='a_xmult',vars={card.ability.extra.xmult}},
-				Xmult_mod = card.ability.extra.xmult,
+				message = localize{type='variable',key='a_xmult',vars={card.ability.extra.x_mult}},
+				Xmult_mod = card.ability.extra.x_mult,
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "xmult", true, "j_tsun_tsunami_yosuke", 20)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "x_mult", false, "j_tsun_tsunami_yosuke", 20)
 
 SMODS.Joker {
     key = "tsunami_rise",
@@ -1705,7 +1711,7 @@ SMODS.Joker {
 		end
 	end,
     calculate = function(self, card, context)
-		if context.setting_blind and context.blind.boss and not self.getting_sliced then
+		if context.setting_blind and context.blind.boss and not self.getting_sliced and not context.blueprint then
 			card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_rise_disable')})
 			G.E_MANAGER:add_event(Event({func = function()
 				G.E_MANAGER:add_event(Event({func = function()
@@ -1725,13 +1731,13 @@ SMODS.Joker {
 
 			G.GAME.blind.config.blind.key == "bl_manacle" or
 			G.GAME.blind.config.blind.key == "bl_fish" or
-			G.GAME.blind.config.blind.key == "bl_mark" or 
+			G.GAME.blind.config.blind.key == "bl_mark" or
 			G.GAME.blind.config.blind.key == "bl_house"  then
 				G.hand:change_size(1)
 				card.ability.extra.last_buff = localize("k_rise_handsize")
 
 			elseif
-
+			
 			G.GAME.blind.config.blind.key == "bl_tooth" or
 			G.GAME.blind.config.blind.key == "bl_ox" then
 				card.ability.extra.money = card.ability.extra.money + 5
@@ -1745,6 +1751,28 @@ SMODS.Joker {
 				ease_discard(1)
 				card.ability.extra.last_buff = localize("k_rise_discard")
 
+			elseif
+				G.GAME.blind.config.blind.key == "bl_wall" or
+				G.GAME.blind.config.blind.key == "bl_final_vessel" then
+				ease_ante(-1)
+					card.ability.extra.last_buff = localize("k_rise_minus_ante")
+
+			elseif
+				G.GAME.blind.config.blind.key == "bl_flint" or
+				G.GAME.blind.config.blind.key == "bl_arm" then
+					local _hand, _tally = "High Card", 0
+					for k, v in ipairs(G.handlist) do
+						if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+							_hand = v
+							_tally = G.GAME.hands[v].played
+						end
+					end
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_level_up_ex')})
+					update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(_hand, 'poker_hands'),chips = G.GAME.hands[_hand].chips, mult = G.GAME.hands[_hand].mult, level=G.GAME.hands[_hand].level})
+					level_up_hand(context.blueprint_card or card, _hand, nil, 1)
+					update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+	
+					card.ability.extra.last_buff = localize("k_rise_pokerhand")
 			end
 		end
 	end

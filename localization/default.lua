@@ -9,6 +9,8 @@ return {
 			["k_rise_handsize"] = "+1 Hand Size",
 			["k_rise_discard"] = "+1 Discard",
 			["k_rise_money"] = "Earn $5 at end of round",
+			["k_rise_minus_ante"] = "-1 Ante",
+			["k_rise_pokerhand"] = "Level Up most played poker hand"
 		},
 	},
 	["descriptions"] = {
@@ -358,6 +360,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Disables effect of every {C:attention}Boss Blind",
 					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					"Last Buff: {C:dark_edition}#1#",
 					"{s:0.7}{C:inactive}(Chicot + Splash)",
 				},
 			},
