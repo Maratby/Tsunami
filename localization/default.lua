@@ -347,7 +347,7 @@ return {
 				["name"] = "Yu",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
-					"{C:attention}Extra scored cards{} are {C:red}destroyed",
+					"{C:attention}Extra scored Face Cards{} are {C:red}destroyed",
 					"{C:attention}Retrigger all played cards{} once for {C:attention}every #3#{C:inactive} [#2#]{C:attention} cards{} {C:red}destroyed",
 					"{C:inactive}Currently #1# Retriggers",
 					"{s:0.7}{C:inactive}(Canio + Splash)",
