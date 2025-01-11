@@ -1,16 +1,33 @@
 return {
 	["misc"] = {
 		["dictionary"] = {
+			["k_tsun_leg_fusion"] = "Legendary Fusion",
+			["k_tsun_gold_fusion"] = "Gold Fusion",
+
 			["k_mariesave"] = "Saved By Gold Marie",
 			["k_yu_cut"] = "Cut!",
 
 			["k_rise_disable"] = "Got your back!",
-			["k_rise_hand"] = "+1 Hand",
-			["k_rise_handsize"] = "+1 Hand Size",
-			["k_rise_discard"] = "+1 Discard",
-			["k_rise_money"] = "Earn $5 at end of round",
-			["k_rise_minus_ante"] = "-1 Ante",
-			["k_rise_pokerhand"] = "Level Up most played poker hand"
+			["k_rise_random"] = "Random Buff: ",
+			["k_rise_failed"] = "Failed to give a Buff, or Buff had no valid targets",
+			["k_rise_final_heart"] = "Double all future buffs from this card",
+			["k_rise_final_acorn"] = "Creates a Negative copy of a random owned Joker (Rise excluded)",
+		},
+		["v_dictionary"] = {
+			["k_rise_hand"] = "+#1# Hand",
+			["k_rise_handsize"] = "+#1# Hand Size",
+			["k_rise_discard"] = "+#1# Discard",
+			["k_rise_money"] = "Earn $#1# at end of round",
+			["k_rise_minus_ante"] = "-#1# Ante",
+			["k_rise_pokerhand"] = "Level Up most played poker hand #1# time(s)",
+			["k_rise_psychic"] = "+#1# Card Selection Limit",
+			["k_rise_retrigger_h"] = "Retrigger Hearts #1# additional time",
+			["k_rise_retrigger_s"] = "Retrigger Spades #1# additional time",
+			["k_rise_retrigger_d"] = "Retrigger Diamonds #1# additional time",
+			["k_rise_retrigger_c"] = "Retrigger Clubs #1# additional time",
+
+			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
+			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
 		},
 	},
 	["descriptions"] = {
@@ -360,7 +377,8 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Disables effect of every {C:attention}Boss Blind",
 					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
-					"Last Buff: {C:dark_edition}#1#",
+					"Last Buff: {C:dark_edition}#2##1#",
+					"{s:0.7}{C:inactive}Modded Blinds give random buffs from other blinds",
 					"{s:0.7}{C:inactive}(Chicot + Splash)",
 				},
 			},
@@ -471,7 +489,7 @@ return {
 				["name"] = "Water Source",
 				["text"] = {
 					"Creates {C:attention}#1#{} {C:blue}Splash{} {C:attention}Fusion Joker",
-					"{C:tsun_gold1}Gold Fusions{} and {C:blue}Marie{} excluded",
+					"{C:tsun_gold1}Gold Fusions{} and {C:dark_edition}Legendary Fusions{} excluded",
 				},
 			},
 		},
