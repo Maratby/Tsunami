@@ -1585,7 +1585,7 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
 	no_aeq = true,
-    config = { extra = { triggers = 1, count = 0, countmax = 5}},
+    config = { extra = { triggers = 1, count = 0, countmax = 6}},
     atlas = "Tsunami",
 	pos = { x = 3, y = 8 },
 	soul_pos = { x = 3, y = 9 },
@@ -1594,7 +1594,7 @@ SMODS.Joker {
     end,
     calculate = function(self, card, context)
 		if context.destroying_card then
-			if card_is_splashed(context.destroying_card) then
+			if context.destroying_card:is_face() and card_is_splashed(context.destroying_card) then
 				card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize('k_yu_cut'), colour = G.C.tsun_pale})
 				card.ability.extra.count = card.ability.extra.count + 1
 				if card.ability.extra.count >= card.ability.extra.countmax then
