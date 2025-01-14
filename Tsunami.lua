@@ -1460,7 +1460,7 @@ SMODS.Joker{
 			if next(context.poker_hands['Two Pair']) and #G.play.cards == 5 then
 				for index,value in ipairs(G.play.cards) do
 					if card_is_splashed(value) then
-						local carkrank = 0
+						local cardrank = 0
 						if value:get_id() == 14 then
 							cardrank = 11
 						elseif value:get_id() == 13 or value:get_id() == 12 or value:get_id() == 11 then
