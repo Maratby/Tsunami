@@ -1449,7 +1449,7 @@ SMODS.Joker{
 			if next(context.poker_hands['Two Pair']) and #G.play.cards == 5 then
 				for index,value in ipairs(G.play.cards) do
 					if card_is_splashed(value) then
-						local carkrank = 0
+						local cardrank = 0
 						if value:get_id() == 14 then
 							cardrank = 11
 						elseif value:get_id() == 13 or value:get_id() == 12 or value:get_id() == 11 then
@@ -1984,64 +1984,96 @@ SMODS.Joker {
     eternal_compat = false,
     perishable_compat = false,
 	no_aeq = true,
-    config = {},
+    config = {extra = { copies = 2, odds = 3 } },
     atlas = "Tsunami",
 	pos = { x = 7, y = 8 },
 	soul_pos = { x = 7, y = 9 },
-	loc_vars = function(self, info_queue, center)
+	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
-		return {vars = {center.ability.extra}}
+		return {vars = {card.ability.extra.copies, G.GAME.probabilities.normal or 1, card.ability.extra.odds}}
 	end,
 	calculate = function(self, card, context)
 		if context.ending_shop then
 			---Using the code from Incantation's take_ownership patch for Perkeo if Incantation is loaded
-			if Tsun_has_Incantation then
-				if G.consumeables.cards[1] then
-					G.E_MANAGER:add_event(Event({
-						func = function() 
-							local total, checked, center = 0, 0, nil
-							for i = 1, #G.consumeables.cards do
-								total = total + (G.consumeables.cards[i]:getQty())
-							end
-							local poll = pseudorandom(pseudoseed('dragonkick'))*total
-							for i = 1, #G.consumeables.cards do
-								checked = checked + (G.consumeables.cards[i]:getQty())
-								if checked >= poll then
-									center = G.consumeables.cards[i]
-									break
+			for i = 1, card.ability.extra.copies do
+				if Tsun_has_Incantation then
+					if G.consumeables.cards[1] then
+						G.E_MANAGER:add_event(Event({
+							func = function() 
+								local total, checked, center = 0, 0, nil
+								for i = 1, #G.consumeables.cards do
+									total = total + (G.consumeables.cards[i]:getQty())
 								end
-							end
-							local card = copy_card(center, nil)
-							card.ability.qty = 1
-							card:set_edition({negative = true}, true)
-							card:add_to_deck()
-							G.consumeables:emplace(card)
-							return true
-						end}))
-					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
-					return {calculated = true}
+								local poll = pseudorandom(pseudoseed('dragonkick'))*total
+								for i = 1, #G.consumeables.cards do
+									checked = checked + (G.consumeables.cards[i]:getQty())
+									if checked >= poll then
+										center = G.consumeables.cards[i]
+										break
+									end
+								end
+								local card = copy_card(center, nil)
+								card.ability.qty = 1
+								card:set_edition({negative = true}, true)
+								card:add_to_deck()
+								G.consumeables:emplace(card)
+								card.ability.qty = 1
+								return true
+							end}))
+						card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
+					end
+				else
+					---Using the basegame Perkeo code if Incantation is not loadedd
+					if G.consumeables.cards[1] then
+						G.E_MANAGER:add_event(Event({
+							func = function() 
+								local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('godshand')), nil)
+								card:set_edition({negative = true}, true)
+								card:add_to_deck()
+								G.consumeables:emplace(card)
+								return true
+							end}))
+						card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
+					end
 				end
-			else
-				---Using the basegame Perkeo code if Incantation is not loadedd
-				if G.consumeables.cards[1] then
-                    G.E_MANAGER:add_event(Event({
-                        func = function() 
-                            local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('perkeo')), nil)
-                            card:set_edition({negative = true}, true)
-                            card:add_to_deck()
-                            G.consumeables:emplace(card) 
-                            return true
-                        end}))
-                    card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
-                end
-                return
 			end
+			return {calculated = true}
 		end
-		if context.end_of_round then
-			for index, value in ipairs(G.consumeables.cards) do
-				if not value.edition then
-					value:set_edition({negative = true})
-				end
+		if context.end_of_round and not context.game_over and context.cardarea ~= G.hand then
+			if pseudorandom('chie') < G.GAME.probabilities.normal / card.ability.extra.odds and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				G.E_MANAGER:add_event(Event({
+					trigger = 'before',
+					delay = 0.0,
+					func = (function()
+							local s_card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, nil, 'spec')
+							s_card:add_to_deck()
+							G.consumeables:emplace(s_card)
+							G.GAME.consumeable_buffer = 0
+						return true
+					end)}))
+				return {
+					message = localize('k_plus_spectral'),
+					colour = G.C.SECONDARY_SET.Spectral,
+					card = card
+				}
+			elseif #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                        local t_card = create_card("Tarot",G.consumeables, nil, nil, nil, nil, nil, 'chie')
+                        t_card:add_to_deck()
+                        G.consumeables:emplace(t_card)
+                        G.GAME.consumeable_buffer = 0
+                    return true
+                        end)}))
+                    return {
+                        message = localize('k_plus_tarot'),
+                        colour = G.C.SECONDARY_SET.Tarot,
+                        card = card
+                    }
 			end
 		end
 	end
@@ -2594,7 +2626,7 @@ if Tsunami_Config.TsunamiLevel2 then
 					card.ability.extra.tally = 0
 					card.ability.extra.purplexmult = card.ability.extra.basepurplexmult
 					for index, value in ipairs(G.jokers.cards) do
-						if value.config.center.key =="j_splash" or value.config.center.mod.id == "Tsunami" then
+						if value.config.center.key =="j_splash" or (value.config.center.mod and value.config.center.mod.id == "Tsunami") then
 							card.ability.extra.tally = card.ability.extra.tally + 1
 						end
 					end
