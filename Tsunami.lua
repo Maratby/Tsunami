@@ -1677,8 +1677,6 @@ SMODS.Joker {
     end,
 	---moving stat to extra
 	add_to_deck = function(self, card, from_debuff)
-		print(card.ability.x_mult)
-		print(card.ability.extra.x_mult)
 		if card.ability.extra.x_mult == 1 and card.ability.x_mult then
 			card.ability.extra.x_mult = card.ability.x_mult
 			card.ability.x_mult = nil
@@ -1769,6 +1767,7 @@ SMODS.Joker {
 			G.GAME.blind.config.blind.key == "bl_manacle" or
 			G.GAME.blind.config.blind.key == "bl_fish" or
 			G.GAME.blind.config.blind.key == "bl_mark" or
+			G.GAME.blind.config.blind.key == "bl_wheel" or
 			G.GAME.blind.config.blind.key == "bl_house"  then
 				G.hand:change_size(card.ability.extra.interval)
 				card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_handsize", vars = {card.ability.extra.interval} }
@@ -1879,31 +1878,31 @@ SMODS.Joker {
 				if randeffect == 1 then
 					ease_hands_played(card.ability.extra.interval)
 					card.ability.extra.random = "Random Buff: "
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_hand", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_hand", vars = {card.ability.extra.interval} }
 				elseif randeffect == 2 then
 					card.ability.extra.random = "Random Buff: "
 					G.hand:change_size(card.ability.extra.interval)
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_handsize", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_handsize", vars = {card.ability.extra.interval} }
 				elseif randeffect == 3 then
 					card.ability.extra.random = "Random Buff: "
 					ease_discard(card.ability.extra.interval)
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_discard", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_discard", vars = {card.ability.extra.interval} }
 				elseif randeffect == 4 then
 					card.ability.extra.random = "Random Buff: "
 					G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + card.ability.extra.interval
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_psychic", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_psychic", vars = {card.ability.extra.interval} }
 				elseif randeffect == 5 then
 					card.ability.extra.random = "Random Buff: "
 					ease_ante(-card.ability.extra.interval)
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_minus_ante", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_minus_ante", vars = {card.ability.extra.interval} }
 				elseif randeffect == 6 then
 					card.ability.extra.random = "Random Buff: "
 					card.ability.extra.money = card.ability.extra.money + (card.ability.extra.interval * 5)
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_money", vars = {card.ability.extra.interval * 5} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_money", vars = {card.ability.extra.interval * 5} }
 				elseif randeffect == 7 then
 					card.ability.extra.random = "Random Buff: "
 					card.ability.extra.xmult_toggle = card.ability.extra.xmult_toggle + card.ability.extra.interval
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_card_xmult", vars = {card.ability.extra.interval * 1.25} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_card_xmult", vars = {card.ability.extra.interval * 1.25} }
 				elseif randeffect == 8 then
 					local _hand, _tally = "High Card", 0
 					for k, v in ipairs(G.handlist) do
@@ -1919,14 +1918,14 @@ SMODS.Joker {
 						update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 					end
 					card.ability.extra.random = "Random Buff: "
-					card.ability.extra.last_buff = localize("k_rise_random") .. localize{type = "variable", key = "k_rise_pokerhand", vars = {card.ability.extra.interval} }
+					card.ability.extra.last_buff = localize{type = "variable", key = "k_rise_pokerhand", vars = {card.ability.extra.interval} }
 				end
 			end
 
 		end
 		if context.repetition and context.cardarea == G.play then
 			if context.other_card.ability_name == "Wild Card" then
-				local triggersum = 
+				local triggersum =
 				card.ability.extra.triggers.Hearts +
 				card.ability.extra.triggers.Spades +
 				card.ability.extra.triggers.Diamonds +
@@ -1996,45 +1995,17 @@ SMODS.Joker {
 		if context.ending_shop then
 			---Using the code from Incantation's take_ownership patch for Perkeo if Incantation is loaded
 			for i = 1, card.ability.extra.copies do
-				if Tsun_has_Incantation then
-					if G.consumeables.cards[1] then
-						G.E_MANAGER:add_event(Event({
-							func = function() 
-								local total, checked, center = 0, 0, nil
-								for i = 1, #G.consumeables.cards do
-									total = total + (G.consumeables.cards[i]:getQty())
-								end
-								local poll = pseudorandom(pseudoseed('dragonkick'))*total
-								for i = 1, #G.consumeables.cards do
-									checked = checked + (G.consumeables.cards[i]:getQty())
-									if checked >= poll then
-										center = G.consumeables.cards[i]
-										break
-									end
-								end
-								local card = copy_card(center, nil)
-								card.ability.qty = 1
-								card:set_edition({negative = true}, true)
-								card:add_to_deck()
-								G.consumeables:emplace(card)
-								card.ability.qty = 1
-								return true
-							end}))
-						card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
-					end
-				else
-					---Using the basegame Perkeo code if Incantation is not loadedd
-					if G.consumeables.cards[1] then
-						G.E_MANAGER:add_event(Event({
-							func = function() 
-								local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('godshand')), nil)
-								card:set_edition({negative = true}, true)
-								card:add_to_deck()
-								G.consumeables:emplace(card)
-								return true
-							end}))
-						card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
-					end
+				if G.consumeables.cards[1] then
+					G.E_MANAGER:add_event(Event({
+						func = function() 
+							local card = copy_card(pseudorandom_element(G.consumeables.cards, pseudoseed('godshand')), nil)
+							card:set_edition({negative = true}, true)
+							card.ability.qty = 1
+							card:add_to_deck()
+							G.consumeables:emplace(card)
+							return true
+						end}))
+					card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_duplicated_ex')})
 				end
 			end
 			return {calculated = true}
