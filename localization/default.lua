@@ -1,7 +1,33 @@
 return {
 	["misc"] = {
 		["dictionary"] = {
+			["k_tsun_leg_fusion"] = "Legendary Fusion",
+			["k_tsun_gold_fusion"] = "Gold Fusion",
+
 			["k_mariesave"] = "Saved By Gold Marie",
+			["k_yu_cut"] = "Cut!",
+
+			["k_rise_disable"] = "Got your back!",
+			["k_rise_random"] = "Random Buff: ",
+			["k_rise_failed"] = "Failed to give a Buff, or Buff had no valid targets",
+			["k_rise_final_heart"] = "Double all future buffs from this card",
+			["k_rise_final_acorn"] = "Creates a Negative copy of a random owned Joker (Rise excluded)",
+		},
+		["v_dictionary"] = {
+			["k_rise_hand"] = "+#1# Hand",
+			["k_rise_handsize"] = "+#1# Hand Size",
+			["k_rise_discard"] = "+#1# Discard",
+			["k_rise_money"] = "Earn $#1# at end of round",
+			["k_rise_minus_ante"] = "-#1# Ante",
+			["k_rise_pokerhand"] = "Level Up most played poker hand #1# time(s)",
+			["k_rise_psychic"] = "+#1# Card Selection Limit",
+			["k_rise_retrigger_h"] = "Retrigger Hearts #1# additional time",
+			["k_rise_retrigger_s"] = "Retrigger Spades #1# additional time",
+			["k_rise_retrigger_d"] = "Retrigger Diamonds #1# additional time",
+			["k_rise_retrigger_c"] = "Retrigger Clubs #1# additional time",
+
+			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
+			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
 		},
 	},
 	["descriptions"] = {
@@ -201,7 +227,7 @@ return {
 				["name"] = "Soaked Joker",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
-					"{C:attention}Extra scored cards {}give{C:red}+#1#{} Mult",
+					"{C:attention}Extra scored cards {}give {C:red}+#1#{} Mult",
 					"{}when scored",
 					"{s:0.7}{C:inactive}(Half Joker + Splash){}",
 				},
@@ -317,13 +343,56 @@ return {
 					"{s:0.7}{C:inactive}(Hanging Chad + Splash){}",
 				},
 			},
+			["j_tsun_tsunami_yu"] = {
+				["name"] = "Yu",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Extra scored Face Cards{} are {C:red}destroyed",
+					"{C:attention}Retrigger all played cards{} once for {C:attention}every #3#{C:inactive} [#2#]{C:attention} cards{} {C:red}destroyed",
+					"{C:inactive}Currently #1# Retriggers",
+					"{s:0.7}{C:inactive}(Canio + Splash)",
+				},
+			},
 			["j_tsun_tsunami_marie"] = {
 				["name"] = "Marie",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
-					"{s:0.2}{C:inactive}(Also works with Ripple from JokerEvolution!)",
-					"{s:0.5}{C:inactive}(Any Vanilla Legendary + Splash)",
+					"{s:0.7}{C:inactive}(Triboulet + Splash)",
+				},
+			},
+			["j_tsun_tsunami_yosuke"] = {
+				["name"] = "Yosuke",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Gains {X:mult,C:white}X#4#{C:mult} Mult{} for every {C:attention}#3#{C:inactive} [#2#]{C:attention} Extra played cards",
+					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
+					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
+					"{s:0.7}{C:inactive}(Yorick + Splash)",
+				},
+			},
+			["j_tsun_tsunami_rise"] = {
+				["name"] = "Rise",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Disables effect of every {C:attention}Boss Blind",
+					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					"Last Buff: {C:dark_edition}#2##1#",
+					"{s:0.7}{C:inactive}Modded Blinds give random buffs from other blinds",
+					"{s:0.7}{C:inactive}(Chicot + Splash)",
+				},
+			},
+			["j_tsun_tsunami_chie"] = {
+				["name"] = "Chie",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Creates {C:dark_edition}Negative{} copies of",
+                    "{C:attention}#1#{} random {C:attention}consumable{} cards",
+                    "in your possession when you leave the shop",
+					"{C:green}#2# in #3#{} chance to create a {C:attention}random {C:blue}Spectral Card{}",
+					"at end of round, otherwise create a random {C:purple}Tarot Card{}",
+					"{C:inactive}(must have room)",
+					"{s:0.7}{C:inactive}(Perkeo + Splash)",
 				},
 			},
 			["j_tsun_splish_splash"] = {
@@ -422,7 +491,7 @@ return {
 				["name"] = "Water Source",
 				["text"] = {
 					"Creates {C:attention}#1#{} {C:blue}Splash{} {C:attention}Fusion Joker",
-					"{C:tsun_gold1}Gold Fusions{} and {C:blue}Marie{} excluded",
+					"{C:tsun_gold1}Gold Fusions{} and {C:dark_edition}Legendary Fusions{} excluded",
 				},
 			},
 		},
