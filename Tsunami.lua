@@ -59,6 +59,8 @@ Splashkeytable = {
 	"j_tsun_swimming_trunks",
 	"j_tsun_abrasion",
 	"j_tsun_waterjet",
+	"j_tsun_g_ship",
+
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
 	"j_tsun_tsunami_yosuke",
@@ -99,6 +101,7 @@ Splashvouchertable = {
 	"j_tsun_swimming_trunks",
 	"j_tsun_abrasion",
 	"j_tsun_waterjet",
+	"j_tsun_g_ship",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -131,6 +134,7 @@ Splashkeytable2 = {
 	"j_trousers",
 	"j_stone",
 	"j_marble",
+	"j_oops",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -207,6 +211,13 @@ function randsuit(a)
 			return suits[1]
 		end
 end
+
+---defining sounds
+
+SMODS.Sound({
+	key = "probability_tm",
+	path = "lucky.ogg"
+})
 
 ---Defining each atlas
 
@@ -1559,6 +1570,64 @@ SMODS.Joker{
 					}))
 				end
 				value.cut = false
+			end
+		end
+    end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_marble", nil, false, "j_tsun_waterjet", 12)
+
+SMODS.Joker{
+	name = "Gambling Ship",
+    key = 'g_ship',
+    rarity = "fusion",
+    discovered = true,
+    atlas = 'Tsunami',
+    cost = 20,
+    blueprint_compat = true,
+    perishable_compat = false,
+    pos = { x = 5, y = 6 },
+	---if you know you know
+    config = { extra = { GET_TO_USE_THESE = true, quip = "TRY AND DODGE THIS!"} },
+    loc_vars = function(self, info_queue, card)
+		return{ vars = { G.GAME.probabilities.normal or 1} }
+    end,
+	add_to_deck = function(self,card,from_debuff)
+		for k, v in pairs(G.GAME.probabilities) do
+			G.GAME.probabilities[k] = v*2
+		end
+	end,
+	remove_from_deck = function(self,card,from_debuff)
+		for k, v in pairs(G.GAME.probabilities) do
+			G.GAME.probabilities[k] = v/2
+		end
+	end,
+    calculate = function(self, card, context)
+		if context.before then
+			local hit = false
+			for index, value in ipairs(G.play.cards) do
+				if index > 1 and index < #G.play.cards then
+					if hit == false and value:get_id() == 7 and
+					G.play.cards[index - 1]:get_id() == 7 and
+					G.play.cards[index + 1]:get_id() == 7 then
+						hit = true
+						if pseudorandom('GAMBLECORE') < 1 / 7 then
+							for k, v in pairs(G.GAME.probabilities) do
+								G.GAME.probabilities[k] = v*2
+							end
+							return {
+								message = localize("k_probability_tm"),
+								colour = G.C.GREEN,
+								sound = "tsun_probability_tm"
+							}
+						else
+							return {
+								message = localize("k_nope_ex"),
+								colour = G.C.RED
+							}
+						end
+					end
+				end
 			end
 		end
     end
