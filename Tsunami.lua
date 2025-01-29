@@ -1633,7 +1633,7 @@ SMODS.Joker{
     end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_marble", nil, false, "j_tsun_waterjet", 12)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 12)
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
