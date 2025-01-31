@@ -315,7 +315,7 @@ return {
 				["name"] = "Cryomancer",
 				["text"] = {
 					"When blind is selected, creates a {C:attention}random Joker",
-					"with a registered {C:attention}Fusion",
+					"with a registered {C:blue}Splash {C:attention}Fusion",
 					"and 1 random {C:attention}Tarot Card",
 					"If {C:attention}Joker Slots{} are full, creates up",
 					"to {C:attention}2 Tarot Cards{} instead",
@@ -514,7 +514,7 @@ return {
 				["text"] = {
 					"Creates {C:blue}Splash{} and one {C:attention}random non-legendary",
 					"joker that can {C:attention}fuse{} with {C:blue}Splash",
-					"{C:attention}-1 Hand Size",
+					"{C:attention}-#1# Hand Size",
 					"{C:inactive}(Must have room)",
 				},
 			},

@@ -1241,7 +1241,7 @@ SMODS.Joker {
 	ability_name = "Cryomancer",
 	calculate = function(self,card,context)
 		if context.setting_blind and #G.jokers.cards <= (G.jokers.config.card_limit - 1) then
-			local cryocard = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Fusionlist, pseudoseed('splashjoker'))})
+			local cryocard = SMODS.create_card({area = G.jokers, key = pseudorandom_element(Splashkeytable2, pseudoseed('splashjoker'))})
 			cryocard:add_to_deck()
 			G.jokers:emplace(cryocard)
 			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -1267,7 +1267,7 @@ SMODS.Joker {
 						end
 						return true
 					end}))   
-					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})                   
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})               
 				return true
 			end)}))
 		end
@@ -1633,7 +1633,7 @@ SMODS.Joker{
     end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 12)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 14)
 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -2218,7 +2218,10 @@ SMODS.Consumable{
 	name = "tsunamipoly",
 	discovered = true,
 	cost = 8,
-	config = {extra = 2},
+	config = {extra = { handsize = 1} },
+	loc_vars = function(self, info_queue)
+        return { vars = { G.GAME.poly_minus or 1} }
+    end,
 	can_use = function(self, card)
 		return #G.jokers.cards < (G.jokers.config.card_limit - 1) or card.area == G.jokers
 	end,
@@ -2238,7 +2241,15 @@ SMODS.Consumable{
 					splashspectral2:add_to_deck()
 					G.jokers:emplace(splashspectral2)
 					used_consumable:juice_up(0.3, 0.5)
-					G.hand:change_size(-1)
+					if Tsunami_Config.PolyHandScale == true then
+						G.GAME.poly_minus = G.GAME.poly_minus or 1
+						G.hand:change_size(-G.GAME.poly_minus)
+						G.GAME.poly_minus = G.GAME.poly_minus + 1
+						self.config.extra.handsize = G.GAME.poly_minus
+					else
+						self.config.extra.handsize = 1
+						G.hand:change_size(-card.ability.extra.handsize)
+					end
 				end
 				return true
 			end,
@@ -2749,6 +2760,15 @@ Tsunami_Mod.config_tab = function()
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
                 { n = G.UIT.T, config = { text = "Gold Fusions", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
+
+		{n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Tsunami_Config, ref_value = "PolyHandScale" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Polymorph scales -Handsize like Ectoplasm", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
 
