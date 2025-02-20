@@ -1,6 +1,9 @@
 return {
 	["misc"] = {
 		["dictionary"] = {
+			["k_probability_tm"] = "Lucky!",
+			["k_enhance_tm"] = "Enhanced!",
+
 			["k_tsun_leg_fusion"] = "Legendary Fusion",
 			["k_tsun_gold_fusion"] = "Gold Fusion",
 
@@ -37,6 +40,17 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal",
 					"copies of {C:blue}Splash {}and{C:attention} $5",
+				},
+			},
+			["b_tsun_floatiedeck"] = {
+				["name"] = "Floatie Deck",
+				["text"] = {
+					"{C:blue}+#1# Hand{},",
+					"{C:red}+#1# Discard{},",
+					"{C:attention}+#2# Hand Size{},",
+					"{C:attention}+#2# Consumable Slots",
+					"{C:dark_edition}+#2# Joker Slots",
+					"{C:attention}+#3# Ante to Win",
 				},
 			},
 		},
@@ -232,6 +246,15 @@ return {
 					"{s:0.7}{C:inactive}(Half Joker + Splash){}",
 				},
 			},
+			["j_tsun_oil_spill"] = {
+				["name"] = "Oil Spill",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Extra scored cards {}give between",
+					"{C:red}+#1#{} and {C:red}+#2#{} Mult at random when scored",
+					"{s:0.7}{C:inactive}(Misprint + Splash){}",
+				},
+			},
 			["j_tsun_money_laundering"] = {
 				["name"] = "Money Laundering",
 				["text"] = {
@@ -259,6 +282,17 @@ return {
 					"Retrigger {V:1}#3#{} {C:attention}#2# time",
 					"{s:0.8}suits change at end of round",
 					"{s:0.7}{C:inactive}(Ancient Joker + Splash){}",
+				},
+			},
+			["j_tsun_magical_waterfall"] = {
+				["name"] = "Magical Waterfall",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:red}+#1#{} Mult. This joker gains {C:red}~#2#{} Mult for each {C:attention}Extra scored card",
+					"If you have more than {C:attention}1{} {C:red}Discard,",
+					"{C:red}Mult{} output is {C:attention}Divided{} by {C:attnetion}remaining {C:red}Discards",
+					"{C:inactive}(Currently {C:red}+#3#{C:inactive} Mult)",
+					"{s:0.7}{C:inactive}(Mystic Summit + Splash){}",
 				},
 			},
 			["j_tsun_dihydrogen_monoxide"] = {
@@ -314,7 +348,7 @@ return {
 				["name"] = "Cryomancer",
 				["text"] = {
 					"When blind is selected, creates a {C:attention}random Joker",
-					"with a registered {C:attention}Fusion",
+					"with a registered {C:blue}Splash {C:attention}Fusion",
 					"and 1 random {C:attention}Tarot Card",
 					"If {C:attention}Joker Slots{} are full, creates up",
 					"to {C:attention}2 Tarot Cards{} instead",
@@ -341,6 +375,15 @@ return {
 					"Retrigger {C:attention}first{} played card {C:attention}#1#{} times",
 					"Retrigger {C:attention}first extra{} played card {C:attention}#1#{} times",
 					"{s:0.7}{C:inactive}(Hanging Chad + Splash){}",
+				},
+			},
+			["j_tsun_scuba"] = {
+				["name"] = "SCUBA Mask",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Played {C:attention}Face Cards{} copy the {C:attention}Enhancement{} of",
+					"the {C:attention}first{} played card",
+					"{s:0.7}{C:inactive}(Midas Mask + Splash){}",
 				},
 			},
 			["j_tsun_tsunami_yu"] = {
@@ -387,8 +430,8 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Creates {C:dark_edition}Negative{} copies of",
-                    "{C:attention}#1#{} random {C:attention}consumable{} cards",
-                    "in your possession when you leave the shop",
+					"{C:attention}#1#{} random {C:attention}consumable{} cards",
+					"in your possession when you leave the shop",
 					"{C:green}#2# in #3#{} chance to create a {C:attention}random {C:blue}Spectral Card{}",
 					"at end of round, otherwise create a random {C:purple}Tarot Card{}",
 					"{C:inactive}(must have room)",
@@ -401,6 +444,18 @@ return {
 					"When blind is selected, creates {C:blue}Splash",
 					"{C:inactive}(don't need room){}",
 					"{s:0.7}{C:inactive}(Riff Raff + Splash){}",
+				},
+			},
+			["j_tsun_g_ship"] = {
+				["name"] = "Gambling Ship",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Doubles all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
+					"{s:0.7}{C:inactive}Current Probabilities: {C:green}#1# in X",
+					"If {C:attention}Played Hand{} contains three {C:attention}7s {}in a row,",
+					"{C:green}1 in 7 {}chance to {C:attention}permanently{} double all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
+					"{s:0.7}{C:inactive}(This effect's probability cannot be changed){}",
+					"{s:0.7}{C:inactive}(Oops! All 6s + Splash){}",
 				},
 			},
 			["j_tsun_gold_splish_splash"] = {
@@ -501,7 +556,7 @@ return {
 				["text"] = {
 					"Creates {C:blue}Splash{} and one {C:attention}random non-legendary",
 					"joker that can {C:attention}fuse{} with {C:blue}Splash",
-					"{C:attention}-1 Hand Size",
+					"{C:attention}-#1# Hand Size",
 					"{C:inactive}(Must have room)",
 				},
 			},
