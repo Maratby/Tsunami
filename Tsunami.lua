@@ -682,7 +682,7 @@ SMODS.Joker {
 					}
 				else
 					return {
-						xmult = 1.3,
+						xmult = card.ability.extra.xmult,
 						card = card,
 					}
 				end
