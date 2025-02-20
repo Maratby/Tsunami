@@ -672,7 +672,7 @@ SMODS.Joker {
 				}
 			end
 		end
-		if context.cardarea == G.hand and not context.repetition then
+		if context.individual and context.cardarea == G.hand then
 			if context.other_card:get_id() == 12 then
 				if context.other_card.debuff then
 					return {
@@ -682,7 +682,7 @@ SMODS.Joker {
 					}
 				else
 					return {
-						xmult_mod = 1.3,
+						xmult = 1.3,
 						card = card,
 					}
 				end
@@ -1833,7 +1833,7 @@ SMODS.Joker {
 					card.ability.extra.triggers = card.ability.extra.triggers + 1
 				end
 				return {
-					true
+					remove = true
 				}
 			end
 		end
