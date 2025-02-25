@@ -5,17 +5,14 @@ The version linked here is Elbe's fork, fixing the issues with the rarity method
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
-Currently contains 30 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
-For once I can say, a lot of them have original art! I'm getting my shit together on that. Woohoo..
+Currently contains 40 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
+Art is falling a bit behind... I still don't know how to do water.
 
 Contains many, many additional ways to gain Splash or Splash copies outside the joker pool!
 
-Cross-Mod Fusions available! I'll be working on more of these very soon, right now there is only one:
-- Cryptid's Sob
+Also contains a deck, and full CardSleeves support for both decks! Check out the effects when combined with other decks...
 
-Cross-Mod Fusions can be disabled in the Mod Config menu.
-
-Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, only two fusions have Gold variants:
+Introducing Gold Fusions! Fuse a second Splash with a Splash Fusion Joker at a high price to power up its effects! Currently, only three fusions have Gold variants:
 - Splish Splash
 - Reflection
 - Marie
@@ -23,3 +20,5 @@ Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker a
 More to come with time.
 
 Gold Fusions can be disabled in the Mod Config menu.
+
+
