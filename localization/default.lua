@@ -166,7 +166,7 @@ return {
 				["name"] = "Splash Sleeve | Plasma Deck",
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash",
-					"Don't Know Yet (Plasma)",
+					"{C:dark_edition}Balances{} {C:attention}Ranks{} of {C:attention}Extra Scored Cards",
 				},
 			},
 			["sleeve_tsun_splash_alt_erratic"] = {
