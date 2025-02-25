@@ -405,7 +405,7 @@ SMODS.Joker {
 				watermult = watermult * card.ability.extra
 			end
 			return {
-				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
+				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra } },
 				Xmult_mod = card.ability.extra.Xmult
 			}
 		end
