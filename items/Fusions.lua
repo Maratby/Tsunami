@@ -406,7 +406,7 @@ SMODS.Joker {
 			end
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra } },
-				Xmult_mod = card.ability.extra.Xmult
+				Xmult_mod = card.ability.extra
 			}
 		end
 	end
