@@ -1514,7 +1514,7 @@ SMODS.Joker {
 							for k, v in pairs(G.GAME.probabilities) do
 								G.GAME.probabilities[k] = v * 2
 							end
-							play_sound("s_probability_tm", 1, 1)
+							play_sound("tsun_probability_tm", 1, 1)
 							return {
 								message = localize("k_probability_tm"),
 								colour = G.C.GREEN,

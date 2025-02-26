@@ -396,7 +396,7 @@ end
 ---Defining sounds
 
 SMODS.Sound({
-	key = "s_probability_tm",
+	key = "probability_tm",
 	path = "lucky.ogg"
 })
 
