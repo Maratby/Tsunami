@@ -37,7 +37,8 @@ if Tsunami_Config.TsunamiLevel2 then
 	}
 
 	FusionJokers.fusions:add_fusion("j_tsun_splish_splash", nil, false, "j_splash", nil, false,
-		"j_tsun_gold_splish_splash", 10)
+		"j_tsun_gold_splish_splash", 15)
+
 	SMODS.Joker {
 		key = "gold_reflection",
 		rarity = "tsun_gold_fusion",
@@ -57,7 +58,7 @@ if Tsunami_Config.TsunamiLevel2 then
 		ability_name = "Gold Reflection",
 		calculate = function(self, card, context)
 			if context.individual and context.cardarea == G.play and not context.blueprint then
-				card.ability.extra.mult_from_clubs = 1
+				card.ability.mult_from_clubs = 1
 				local scoredflag = false
 				local increase = 1
 				if card_is_splashed(context.other_card) then
@@ -76,17 +77,17 @@ if Tsunami_Config.TsunamiLevel2 then
 				local clubinstances = math.min(card.ability.clubs, card.ability.nonclubs)
 				if clubinstances ~= 0 then
 					for k = 1, clubinstances, 1 do
-						card.ability.extra.mult_from_clubs = card.ability.extra.mult_from_clubs * card.ability.extra
+						card.ability.mult_from_clubs = card.ability.mult_from_clubs * card.ability.extra
 					end
 				end
 			end
 			if context.joker_main then
 				card.ability.clubs = 0
 				card.ability.nonclubs = 0
-				if card.ability.extra.mult_from_clubs > 1 then
+				if card.ability.mult_from_clubs > 1 then
 					return {
-						message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.mult_from_clubs } },
-						Xmult_mod = card.ability.extra.mult_from_clubs,
+						message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.mult_from_clubs } },
+						Xmult_mod = card.ability.mult_from_clubs,
 						card = card,
 					}
 				end

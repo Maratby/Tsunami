@@ -205,6 +205,7 @@ Splashkeytable = {
 	"j_tsun_g_ship",
 	"j_tsun_scuba",
 	"j_tsun_magical_waterfall",
+	"j_tsun_smart_water",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -249,6 +250,7 @@ Splashvouchertable = {
 	"j_tsun_waterjet",
 	"j_tsun_g_ship",
 	"j_tsun_scuba",
+	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
 }
 
@@ -286,6 +288,7 @@ Splashkeytable2 = {
 	"j_oops",
 	"j_midas_mask",
 	"j_mystic_summit",
+	"j_scholar"
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral

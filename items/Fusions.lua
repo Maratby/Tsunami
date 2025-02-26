@@ -192,6 +192,45 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_mystic_summit', nil, nil, 'j_tsun_magical_waterfall', 11)
 
 SMODS.Joker {
+	key = "smart_water",
+	name = "Smart Water",
+	atlas = "Tsunami",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = { x = 0, y = 4 },
+	cost = 8,
+	config = { extra = { mult = 5, chips = 30, xmult = 1.2 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.mult, card.ability.extra.chips, card.ability.extra.xmult } }
+	end,
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:get_id() == 14
+				and context.other_card.config.center ~= G.P_CENTERS.c_base
+				and not context.other_card.debuff
+				and not context.other_card.vampired then
+				return {
+					mult = card.ability.extra.mult,
+					chips = card.ability.extra.chips,
+					xmult = card.ability.extra.xmult,
+					card = card
+				}
+			elseif context.other_card:get_id() == 14 and not context.other_card.debuff then
+				return {
+					mult = card.ability.extra.mult,
+					chips = card.ability.extra.chips,
+					card = card
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
+
+SMODS.Joker {
 	key = "raft",
 	name = "Raft",
 	rarity = "fusion",
