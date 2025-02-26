@@ -42,7 +42,7 @@ if Tsunami_Config.TsunamiLevel2 then
 		key = "gold_reflection",
 		rarity = "tsun_gold_fusion",
 		cost = 30,
-		config = { extra = 1.3, clubs = 0, nonclubs = 0 },
+		config = { extra = 1.3, clubs = 0, nonclubs = 0 , mult_from_clubs = 1},
 		loc_vars = function(self, info_queue, card)
 			return { vars = { card.ability.extra } }
 		end,
@@ -57,9 +57,9 @@ if Tsunami_Config.TsunamiLevel2 then
 		ability_name = "Gold Reflection",
 		calculate = function(self, card, context)
 			if context.individual and context.cardarea == G.play and not context.blueprint then
+				card.ability.extra.mult_from_clubs = 1
 				local scoredflag = false
 				local increase = 1
-				ClubsMult_return = 1
 				if card_is_splashed(context.other_card) then
 					increase = 2
 				end
@@ -76,17 +76,17 @@ if Tsunami_Config.TsunamiLevel2 then
 				local clubinstances = math.min(card.ability.clubs, card.ability.nonclubs)
 				if clubinstances ~= 0 then
 					for k = 1, clubinstances, 1 do
-						ClubsMult_return = ClubsMult_return * card.ability.extra
+						card.ability.extra.mult_from_clubs = card.ability.extra.mult_from_clubs * card.ability.extra
 					end
 				end
 			end
 			if context.joker_main then
 				card.ability.clubs = 0
 				card.ability.nonclubs = 0
-				if ClubsMult_return > 1 then
+				if card.ability.extra.mult_from_clubs > 1 then
 					return {
-						message = localize { type = 'variable', key = 'a_xmult', vars = { ClubsMult_return } },
-						Xmult_mod = ClubsMult_return,
+						message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.mult_from_clubs } },
+						Xmult_mod = card.ability.extra.mult_from_clubs,
 						card = card,
 					}
 				end

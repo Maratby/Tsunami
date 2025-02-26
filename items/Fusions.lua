@@ -1274,7 +1274,7 @@ SMODS.Joker {
 				card = card,
 			}
 		end
-		if context.playing_card_added or context.remove_playing_cards or context.before_hand and not context.blueprint then
+		if context.playing_card_added or context.remove_playing_cards or context.before or context.after or context.discard or context.end_of_round and not context.blueprint then
 			card.ability.extra.steel_tally = 0
 			for k, v in pairs(G.playing_cards) do
 				if v.config.center == G.P_CENTERS.m_steel then
