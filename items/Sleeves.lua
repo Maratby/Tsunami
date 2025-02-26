@@ -253,21 +253,25 @@ CardSleeves.Sleeve {
                     table.insert(numlist, value:get_id())
                 end
             end
-            local rankmean = math.floor( (tsun_sum_table(numlist) / #numlist) )
+            local rankmean = math.floor((tsun_sum_table(numlist) / #numlist))
             for index, value2 in ipairs(context.full_hand) do
                 if card_is_splashed(value2) then
                     G.E_MANAGER:add_event(Event({
-						blockable = true,
-						blocking = true,
-						func = function()
-							assert(SMODS.change_base(value2, nil, tostring(rankmean)))
-							return true
-						end
-					}))
+                        blockable = true,
+                        blocking = true,
+                        func = function()
+                            if not (rankmean > 14 or rankmean < 2) then
+                                assert(SMODS.change_base(value2, nil, tostring(rankmean)))
+                            else
+                                assert(SMODS.change_base(value2, nil, "5"))
+                            end
+                            return true
+                        end
+                    }))
                 end
             end
             card_eval_status_text(sleeve, 'extra', nil, nil, nil,
-				{ message = localize('k_balanced'), colour = G.C.DARK_EDITION })
+                { message = localize('k_balanced'), colour = G.C.DARK_EDITION })
         end
     end
 }
