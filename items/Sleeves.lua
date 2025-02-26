@@ -262,10 +262,10 @@ CardSleeves.Sleeve {
                         blockable = true,
                         blocking = true,
                         func = function()
-                            if not (rankmean > 14 or rankmean < 2) then
+                            if not (rankmean > 13 or rankmean < 2) then
                                 assert(SMODS.change_base(value2, nil, tostring(rankmean)))
                             else
-                                assert(SMODS.change_base(value2, nil, "5"))
+                                assert(SMODS.change_base(value2, nil, "7"))
                             end
                             return true
                         end
