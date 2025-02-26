@@ -255,6 +255,7 @@ CardSleeves.Sleeve {
             end
             local rankmean = tsun_sum_table(numlist) / #numlist
             rankmean = math.floor(rankmean + 0.5)
+            print(rankmean)
             for index, value2 in ipairs(context.full_hand) do
                 if card_is_splashed(value2) then
                     G.E_MANAGER:add_event(Event({
