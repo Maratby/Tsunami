@@ -59,18 +59,14 @@ SMODS.Joker {
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
-	add_to_deck = function(self, card, from_debuff)
-		Holywaterflag = true
-	end,
 	remove_from_deck = function(self, card, from_debuff)
 		G.hand:unhighlight_all()
-		Holywaterflag = false
 	end,
 }
 ---Logic loop for Holy Water code
 local athr = CardArea.add_to_highlighted
 function CardArea:add_to_highlighted(card, silent)
-	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and Holywaterflag == true then
+	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and #SMODS.find_card("j_tsun_holy_water") >= 1 then
 		local id = card:get_id()
 		local matches = 0
 		for i = 1, #self.highlighted do
@@ -849,8 +845,8 @@ SMODS.Joker {
 		G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra
 	end,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play and G.GAME.dollars < 0 then
-			if card_is_splashed(context.other_card) == true and G.GAME.dollars < 0 and context.other_card then
+		if context.individual and context.cardarea == G.play and G.GAME.dollars < to_big(0) then
+			if card_is_splashed(context.other_card) == true and G.GAME.dollars < to_big(0) and context.other_card then
 				return {
 					dollars = card.ability.dollars,
 					card = card
@@ -1046,15 +1042,7 @@ SMODS.Joker {
 				}
 			end
 		end
-		if context.repetition and context.cardarea == G.play then
-			if context.other_card:is_suit(card.ability.extra.plussuit) then
-				return {
-					message = localize('k_again_ex'),
-					repetitions = card.ability.extra.triggers,
-					card = card
-				}
-			end
-		end
+
 		if context.end_of_round then
 			card.ability.extra.plussuit, card.ability.extra.minussuit = randsuit(2)
 		end
@@ -1320,8 +1308,8 @@ SMODS.Joker {
 					card.ability.extra.steel_tally = card.ability.extra
 						.steel_tally + 1
 				end
-				card.ability.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
 			end
+			card.ability.extra.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
 		end
 	end
 }
