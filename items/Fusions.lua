@@ -1348,6 +1348,11 @@ SMODS.Joker {
 							cardrank = 11
 						elseif value:get_id() == 13 or value:get_id() == 12 or value:get_id() == 11 then
 							cardrank = 10
+						else
+							cardrank = value:get_id() / 2
+							if Tsunami_Config.TsunRounding then
+								cardrank = math.floor(cardrank + 0.5)
+							end
 						end
 						card.ability.extra.mult = card.ability.extra.mult + (cardrank * card.ability.extra.percentile)
 					end
