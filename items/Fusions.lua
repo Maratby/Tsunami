@@ -1345,16 +1345,16 @@ SMODS.Joker {
 					if card_is_splashed(value) then
 						local cardrank = 0
 						if value:get_id() == 14 then
-							cardrank = 11
+							cardrank = 11 * card.ability.extra.percentile
 						elseif value:get_id() == 13 or value:get_id() == 12 or value:get_id() == 11 then
-							cardrank = 10
+							cardrank = 10 * card.ability.extra.percentile
 						else
-							cardrank = value:get_id() / 2
-							if Tsunami_Config.TsunRounding then
-								cardrank = math.floor(cardrank + 0.5)
-							end
+							cardrank = value:get_id() * card.ability.extra.percentile
 						end
-						card.ability.extra.mult = card.ability.extra.mult + (cardrank * card.ability.extra.percentile)
+						if Tsunami_Config.TsunRounding then
+							cardrank = math.floor(cardrank + 0.5)
+						end
+						card.ability.extra.mult = card.ability.extra.mult + (cardrank)
 					end
 				end
 			end
