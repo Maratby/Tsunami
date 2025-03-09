@@ -375,21 +375,15 @@ function split_fusion(original_key, respect_space, remove_splash)
 end
 
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
-function randsuit(a)
-	suits = {
-		"Hearts",
-		"Diamonds",
-		"Clubs",
-		"Spades"
-	}
-	for i = #suits, 2, -1 do
-		local j = math.random(i)
-		suits[i], suits[j] = suits[j], suits[i]
-	end
+---This method should now include modded suits
+function tsun_randsuit(a)
 	if a == 2 then
-		return suits[1], suits[2]
+		local j = pseudorandom_element(SMODS.Suits, pseudoseed("something"))
+		local k = pseudorandom_element(SMODS.Suits, pseudoseed("something"))
+		return j.name, k.name
 	else
-		return suits[1]
+		local j = pseudorandom_element(SMODS.Suits, pseudoseed("something"))
+		return j.name
 	end
 end
 

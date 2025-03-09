@@ -441,7 +441,7 @@ SMODS.Joker {
 			end
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra } },
-				Xmult_mod = card.ability.extra
+				Xmult_mod = watermult
 			}
 		end
 	end
@@ -1029,7 +1029,7 @@ SMODS.Joker {
 		return { vars = { card.ability.extra.xmult, card.ability.extra.triggers, card.ability.extra.plussuit, card.ability.extra.minussuit, colours = { G.C.SUITS[card.ability.extra.plussuit], G.C.SUITS[card.ability.extra.minussuit] } } }
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
-		card.ability.extra.plussuit, card.ability.extra.minussuit = randsuit(2)
+		card.ability.extra.plussuit, card.ability.extra.minussuit = tsun_randsuit(2)
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
@@ -1044,7 +1044,7 @@ SMODS.Joker {
 		end
 
 		if context.end_of_round then
-			card.ability.extra.plussuit, card.ability.extra.minussuit = randsuit(2)
+			card.ability.extra.plussuit, card.ability.extra.minussuit = tsun_randsuit(2)
 		end
 	end
 }
@@ -1217,7 +1217,7 @@ SMODS.Joker {
 	end,
 	ability_name = "Surfboard",
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.hand then
+		if context.individual and context.cardarea == G.hand and not context.end_of_round then
 			if context.other_card:is_suit('Clubs', nil, true) or context.other_card:is_suit('Spades', nil, true) then
 				if context.other_card.debuff then
 					return {
@@ -1301,16 +1301,15 @@ SMODS.Joker {
 				card = card,
 			}
 		end
-		if context.playing_card_added or context.remove_playing_cards or context.before or context.after or context.discard or context.end_of_round and not context.blueprint then
-			card.ability.extra.steel_tally = 0
-			for k, v in pairs(G.playing_cards) do
-				if v.config.center == G.P_CENTERS.m_steel then
-					card.ability.extra.steel_tally = card.ability.extra
-						.steel_tally + 1
-				end
+		---Lazy update code outside context checks so it should update during every context.
+		card.ability.extra.steel_tally = 0
+		for k, v in pairs(G.playing_cards) do
+			if v.config.center == G.P_CENTERS.m_steel then
+				card.ability.extra.steel_tally = card.ability.extra
+					.steel_tally + 1
 			end
-			card.ability.extra.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
 		end
+		card.ability.extra.xmult = 1 + (card.ability.extra.steel_tally * card.ability.extra.increase)
 	end
 }
 

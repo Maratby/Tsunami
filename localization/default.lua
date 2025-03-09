@@ -495,8 +495,7 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Played cards give {X:mult,C:white}X#1#{} Mult, except {V:2}#4#",
-					"Retrigger {V:1}#3#{} {C:attention}#2# time",
-					"{s:0.8}suits change at end of round",
+					"{s:0.8}suit changes at end of round",
 					"{s:0.7}{C:inactive}(Ancient Joker + Splash){}",
 				},
 			},
