@@ -477,13 +477,11 @@ SMODS.Joker {
 		if bonus > 0 then return bonus end
 	end,
 	calculate = function(self, card, context)
-		if context.playing_card_added or context.remove_playing_cards or context.before_hand or context.after or context.end_of_round or context.setting_blind and not context.blueprint then
-			if G.playing_cards then
-				card.ability.extra.nines = 0
-				for k, v in pairs(G.playing_cards) do
-					if v:get_id() == 9 then
-						card.ability.extra.nines = card.ability.extra.nines + card.ability.extra.moneys
-					end
+		if G.playing_cards then
+			card.ability.extra.nines = 0
+			for k, v in pairs(G.playing_cards) do
+				if v:get_id() == 9 then
+					card.ability.extra.nines = card.ability.extra.nines + card.ability.extra.moneys
 				end
 			end
 		end
@@ -494,7 +492,8 @@ SMODS.Joker {
 						blockable = true,
 						blocking = true,
 						func = function()
-							assert(SMODS.change_base(card2, nil, "9"))
+							SMODS.change_base(card2, nil, "9")
+							card2:juice_up()
 							return true
 						end
 					}))
@@ -1138,59 +1137,59 @@ SMODS.Joker {
 				repetitions = 1,
 				card = card
 			}
-		else
-			if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 6 then
-				G.E_MANAGER:add_event(Event({
-					blockable = true,
-					blocking = true,
-					func = function()
-						assert(SMODS.change_base(context.other_card, nil, "3"))
-						return true
-					end
-				}))
-			else
-				if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 7 then
+		end
+		if context.after then
+			for index, value in ipairs(G.play.cards) do
+				if value:get_id() == 6 then
 					G.E_MANAGER:add_event(Event({
 						blockable = true,
 						blocking = true,
 						func = function()
-							assert(SMODS.change_base(context.other_card, nil, "3"))
+							SMODS.change_base(value, nil, "3")
+							value:juice_up()
 							return true
 						end
 					}))
-				else
-					if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 8 then
-						G.E_MANAGER:add_event(Event({
-							blockable = true,
-							blocking = true,
-							func = function()
-								assert(SMODS.change_base(context.other_card, nil, "4"))
-								return true
-							end
-						}))
-					else
-						if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 9 then
-							G.E_MANAGER:add_event(Event({
-								blockable = true,
-								blocking = true,
-								func = function()
-									assert(SMODS.change_base(context.other_card, nil, "4"))
-									return true
-								end
-							}))
-						else
-							if context.repetition and context.cardarea == G.play and context.other_card:get_id() == 10 then
-								G.E_MANAGER:add_event(Event({
-									blockable = true,
-									blocking = true,
-									func = function()
-										assert(SMODS.change_base(context.other_card, nil, "5"))
-										return true
-									end
-								}))
-							end
+				elseif value:get_id() == 7 then
+					G.E_MANAGER:add_event(Event({
+						blockable = true,
+						blocking = true,
+						func = function()
+							SMODS.change_base(value, nil, "3")
+							value:juice_up()
+							return true
 						end
-					end
+					}))
+				elseif value:get_id() == 8 then
+					G.E_MANAGER:add_event(Event({
+						blockable = true,
+						blocking = true,
+						func = function()
+							SMODS.change_base(value, nil, "4")
+							value:juice_up()
+							return true
+						end
+					}))
+				elseif value:get_id() == 9 then
+					G.E_MANAGER:add_event(Event({
+						blockable = true,
+						blocking = true,
+						func = function()
+							SMODS.change_base(value, nil, "4")
+							value:juice_up()
+							return true
+						end
+					}))
+				elseif value:get_id() == 10 then
+					G.E_MANAGER:add_event(Event({
+						blockable = true,
+						blocking = true,
+						func = function()
+							SMODS.change_base(value, nil, "5")
+							value:juice_up()
+							return true
+						end
+					}))
 				end
 			end
 		end
