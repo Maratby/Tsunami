@@ -106,7 +106,7 @@ SMODS.Joker {
 	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.x_mult == 1 and card.ability.x_mult then
 			card.ability.extra.x_mult = card.ability.x_mult
-			card.ability.x_mult = nil
+			card.ability.x_mult = 1
 		end
 	end,
 	calculate = function(self, card, context)
@@ -171,7 +171,7 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
 		if not context.blueprint then
-			if context.setting_blind and context.blind.boss and not self.getting_sliced and not context.blueprint then
+			if context.setting_blind and context.blind.boss and not card.getting_sliced and not context.blueprint then
 				card.ability.extra.random = ""
 				card_eval_status_text(card, 'extra', nil, nil, nil, { message = localize('k_rise_disable') })
 				G.E_MANAGER:add_event(Event({
@@ -454,7 +454,7 @@ SMODS.Joker {
 							return true
 						end
 					}))
-					card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil,
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
 						{ message = localize('k_duplicated_ex') })
 				end
 			end

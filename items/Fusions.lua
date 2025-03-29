@@ -105,7 +105,7 @@ SMODS.Joker {
 		if context.individual and context.cardarea == G.play then
 			if card_is_splashed(context.other_card) == true then
 				return {
-					mult = math.random(card.ability.extra.min, card.ability.extra.max),
+					mult = pseudorandom("balls", card.ability.extra.min, card.ability.extra.max),
 					card = card
 				}
 			end

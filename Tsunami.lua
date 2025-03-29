@@ -126,11 +126,11 @@ function tsun_redeem_voucher(local_voucher, _delay)
 end
 
 function tsun_sum_table(t)
-    local sum = 0
-    for index, value in pairs(t) do
-        sum = sum + value
-    end
-    return sum
+	local sum = 0
+	for index, value in pairs(t) do
+		sum = sum + value
+	end
+	return sum
 end
 
 if CardSleeves then
@@ -140,6 +140,7 @@ end
 
 ---Functionality stuff for CardSleeves
 SMODS.Joker:take_ownership("splash", {
+	discovered = true,
 	add_to_deck = function(self, card, from_debuff)
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_black") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
 			G.jokers.config.card_limit = G.jokers.config.card_limit + 1
@@ -159,6 +160,9 @@ SMODS.Joker:take_ownership("splash", {
 			local bonus = 2
 			return bonus
 		end
+	end,
+	in_pool = function(self, args)
+		return true, { allow_duplicates = true }
 	end,
 
 	calculate = function(self, card, context)
@@ -350,7 +354,6 @@ end
 ---Function for the Splash Sleeve + SDM_0's Deck DNA effect
 ---This function should work for any fusion in theory, though.
 
-
 ---Original Key is the key of the joker you are splitting, MUST BE A FUSION JOKER! respect_space is a boolean that makes it ignore joker slots if false. remove_splash makes it not create any Splash when splitting.
 function split_fusion(original_key, respect_space, remove_splash)
 	local card1 = "j_splash"
@@ -373,6 +376,52 @@ function split_fusion(original_key, respect_space, remove_splash)
 		end
 	end
 end
+
+---The function that auto-registers Ripple as a Splash Fusion.
+---This function is run elsewhere.
+---If other extremely Splash-Like Jokers ever exist, I might add them to this list.
+TsunamiAutoRegister = {
+	"j_evo_ripple",
+}
+function auto_register(registry)
+	for index2, value2 in pairs(registry) do
+		local card1 = "j_splash"
+		local card2 = "j_splash"
+		local carry_1 = nil
+		local carry_2 = nil
+		local extra_1 = false
+		local extra_2 = false
+		local _flag = false
+		---placeholder values in case something goes wrong
+		local _result = "j_splash"
+		local _cost = 8
+		for index, value in ipairs(FusionJokers.fusions) do
+			if FusionJokers.fusions[index].jokers[1].name == "j_splash" then
+				card2 = FusionJokers.fusions[index].jokers[2].name
+				card1 = value2
+				_flag = true
+				carry_1 = FusionJokers.fusions[index].jokers[1].carry_stat
+				extra_1 = FusionJokers.fusions[index].jokers[1].extra_stat
+				_result = FusionJokers.fusions[index].result_joker
+				_cost = FusionJokers.fusions[index].cost + 3
+			elseif FusionJokers.fusions[index].jokers[2].name == "j_splash" then
+				card1 = FusionJokers.fusions[index].jokers[1].name
+				card2 = value2
+				_flag = true
+				carry_2 = FusionJokers.fusions[index].jokers[2].carry_stat
+				extra_2 = FusionJokers.fusions[index].jokers[2].extra_stat
+				_result = FusionJokers.fusions[index].result_joker
+				_cost = FusionJokers.fusions[index].cost + 3
+			else
+				_flag = false
+			end
+			if _flag then
+				FusionJokers.fusions:add_fusion(card1, carry_1, extra_1, card2, carry_2, extra_2, _result, _cost)
+			end
+		end
+	end
+end
+
 
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
 ---This method should now include modded suits
@@ -513,20 +562,6 @@ function sticker_inquisition(the_center)
 	return rank
 end
 
----Oil Spill display stuff
----Had to disable it for lag.
-
-Tsun_oiltable = {
-	"#",
-	"@",
-	"!",
-	"$",
-	"%",
-	"&",
-	"#",
-	"/",
-}
-
 SMODS.load_file("items/Fusions.lua")()
 SMODS.load_file("items/Not_Jokers.lua")()
 
@@ -571,6 +606,7 @@ end
 Tsunami.C = {
 	GOLD = { HEX("d8b162"), HEX("FFD700") },
 }
+
 
 
 
@@ -692,5 +728,6 @@ Tsunami_Mod.config_tab = function()
 	}
 end
 
+SMODS.load_file("items/end_of_code.lua")()
 ----------------------------------------------
 ------------MOD CODE END----------------------

@@ -221,12 +221,12 @@ CardSleeves.Sleeve {
             create_splash()
         end
         if context.open_booster and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_zodiac") then
-            if G.GAME.pack_choices and (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.PLANET_PACK) then
+            if G.GAME.pack_choices and SMODS.OPENED_BOOSTER and (SMODS.OPENED_BOOSTER.config.center.kind == 'Tarot' or SMODS.OPENED_BOOSTER.config.center.kind == 'Planet') then
                 G.GAME.pack_choices = G.GAME.pack_choices + 1
             end
         end
         if context.open_booster and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_hieroglyph") then
-            if G.GAME.pack_choices and G.STATE == G.STATES.SPECTRAL_PACK then
+            if G.GAME.pack_choices and SMODS.OPENED_BOOSTER and SMODS.OPENED_BOOSTER.config.center.kind == 'Spectral' then
                 G.GAME.pack_choices = G.GAME.pack_choices + 1
             end
         end
