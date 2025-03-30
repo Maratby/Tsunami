@@ -421,6 +421,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Played {C:attention}Aces{} give {C:red}+#1#{} Mult{} and {C:blue}+#2#{} Chips{}",
 					"{C:attention}Enhanced Aces{} also give {X:mult,C:white}X#3#{} Mult",
+					"{s:0.5}{C:inactive}Art by RanaPerCognome{}",
 					"{s:0.7}{C:inactive}(Scholar + Splash){}",
 				},
 			},
