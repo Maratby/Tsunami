@@ -323,7 +323,7 @@ SMODS.Joker {
 					elseif randeffect == 6 then
 						card.ability.extra.random = "Random Buff: "
 						card.ability.extra.money = card.ability.extra.money + (card.ability.extra.interval * 3)
-						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 5 } }
+						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 3 } }
 					elseif randeffect == 7 then
 						card.ability.extra.random = "Random Buff: "
 						card.ability.extra.xmult_toggle = card.ability.extra.xmult_toggle + card.ability.extra.interval
