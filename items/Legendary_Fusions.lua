@@ -10,24 +10,28 @@ SMODS.Joker {
 	eternal_compat = false,
 	perishable_compat = false,
 	no_aeq = true,
-	config = { extra = { triggers = 1, count = 0, countmax = 6 } },
+	config = { extra = 0, triggers = 1, count = 0, countmax = 6 },
 	atlas = "Tsunami",
 	pos = { x = 3, y = 8 },
 	soul_pos = { x = 3, y = 9 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.triggers, card.ability.extra.count, card.ability.extra.countmax } }
+		return { vars = { card.ability.triggers, card.ability.count, card.ability.countmax } }
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		card.ability.triggers = card.ability.caino_xmult
+		card.ability.caino_xmult = 0
 	end,
 	calculate = function(self, card, context)
 		if context.destroying_card then
 			if context.destroying_card:is_face() and card_is_splashed(context.destroying_card) then
 				card_eval_status_text(card, 'extra', nil, nil, nil,
 					{ message = localize('k_yu_cut'), colour = G.C.tsun_pale })
-				card.ability.extra.count = card.ability.extra.count + 1
-				if card.ability.extra.count >= card.ability.extra.countmax then
+				card.ability.count = card.ability.count + 1
+				if card.ability.count >= card.ability.countmax then
 					card_eval_status_text(card, 'extra', nil, nil, nil,
 						{ message = localize('k_upgrade_ex'), colour = G.C.tsun_pale })
-					card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
-					card.ability.extra.triggers = card.ability.extra.triggers + 1
+					card.ability.count = card.ability.count - card.ability.countmax
+					card.ability.triggers = card.ability.triggers + 1
 				end
 				return {
 					remove = true
@@ -37,14 +41,14 @@ SMODS.Joker {
 		if context.repetition and context.cardarea == G.play then
 			return {
 				message = localize('k_again_ex'),
-				repetitions = card.ability.extra.triggers,
+				repetitions = card.ability.triggers,
 				card = card
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", nil, false, "j_tsun_tsunami_yu", 20)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", "caino_xmult", false, "j_tsun_tsunami_yu", 20)
 
 SMODS.Joker {
 	key = "tsunami_marie",
@@ -135,6 +139,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "x_mult", false, "j_tsun_tsunami_yosuke", 20)
 
+local rs_pokerhand
 SMODS.Joker {
 	key = "tsunami_rise",
 	rarity = "tsun_leg_fusion",
@@ -153,6 +158,7 @@ SMODS.Joker {
 		random = "",
 		money = 0,
 		interval = 1,
+		planets = 0,
 		triggers = { Hearts = 0, Spades = 0, Diamonds = 0, Clubs = 0 },
 		xmult_toggle = 0
 	} },
@@ -164,8 +170,8 @@ SMODS.Joker {
 		return { vars = { card.ability.extra.last_buff, card.ability.extra.random } }
 	end,
 	calc_dollar_bonus = function(self, card)
-		local bonus = card.ability.extra.money
-		if bonus > 0 then
+		local bonus = card.ability.extra.money * G.GAME.round_resets.ante
+		if bonus > 0 and G.GAME.blind.boss then
 			return bonus
 		end
 	end,
@@ -210,7 +216,7 @@ SMODS.Joker {
 
 					G.GAME.blind.config.blind.key == "bl_tooth" or
 					G.GAME.blind.config.blind.key == "bl_ox" then
-					card.ability.extra.money = card.ability.extra.money + card.ability.extra.interval * 5
+					card.ability.extra.money = card.ability.extra.money + card.ability.extra.interval * 3
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 5 } }
 				elseif
 
@@ -238,36 +244,17 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_mouth" or
 					G.GAME.blind.config.blind.key == "bl_eye" or
 					G.GAME.blind.config.blind.key == "bl_arm" then
-					local _hand, _tally = "High Card", 0
-					for k, v in ipairs(G.handlist) do
-						if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
-							_hand = v
-							_tally = G.GAME.hands[v].played
-						end
-					end
-					for i = 1, card.ability.extra.interval do
-						card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
-							{ message = localize('k_level_up_ex') })
-						update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
-							{
-								handname = localize(_hand, 'poker_hands'),
-								chips = G.GAME.hands[_hand].chips,
-								mult = G.GAME
-									.hands[_hand].mult,
-								level = G.GAME.hands[_hand].level
-							})
-						level_up_hand(context.blueprint_card or card, _hand, nil, 1)
-						update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
-							{ mult = 0, chips = 0, handname = '', level = '' })
-					end
+					card.ability.extra.planets = (card.ability.extra.planets or 0) + 1
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand", vars = { card.ability.extra.interval } }
 				elseif
 					G.GAME.blind.config.blind.key == "bl_head" then
-					card.ability.extra.triggers.Hearts = card.ability.extra.triggers.Hearts + card.ability.extra.interval
+					card.ability.extra.triggers.Hearts = card.ability.extra.triggers.Hearts + card.ability.extra
+						.interval
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_h", vars = { card.ability.extra.interval } }
 				elseif
 					G.GAME.blind.config.blind.key == "bl_goad" then
-					card.ability.extra.triggers.Spades = card.ability.extra.triggers.Spades + card.ability.extra.interval
+					card.ability.extra.triggers.Spades = card.ability.extra.triggers.Spades + card.ability.extra
+						.interval
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_s", vars = { card.ability.extra.interval } }
 				elseif
 					G.GAME.blind.config.blind.key == "bl_window" then
@@ -335,7 +322,7 @@ SMODS.Joker {
 						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_minus_ante", vars = { card.ability.extra.interval } }
 					elseif randeffect == 6 then
 						card.ability.extra.random = "Random Buff: "
-						card.ability.extra.money = card.ability.extra.money + (card.ability.extra.interval * 5)
+						card.ability.extra.money = card.ability.extra.money + (card.ability.extra.interval * 3)
 						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 5 } }
 					elseif randeffect == 7 then
 						card.ability.extra.random = "Random Buff: "
@@ -365,7 +352,7 @@ SMODS.Joker {
 								{ mult = 0, chips = 0, handname = '', level = '' })
 						end
 						card.ability.extra.random = "Random Buff: "
-						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand", vars = { card.ability.extra.interval } }
+						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand2", vars = { card.ability.extra.interval } }
 					end
 				end
 			end
@@ -412,6 +399,36 @@ SMODS.Joker {
 					x_mult = card.ability.extra.interval * (1.25 ^ card.ability.extra.xmult_toggle),
 					card = card
 				}
+			end
+			if context.after then
+				rs_pokerhand = context.scoring_name
+			end
+			if context.end_of_round and context.main_eval and card.ability.extra.planets > 0 then
+				for i = 1, (card.ability.extra.planets * card.ability.extra.interval) do
+					G.E_MANAGER:add_event(Event({
+						trigger = 'before',
+						delay = 0.0,
+						func = (function()
+							if rs_pokerhand then
+								local _planet = 0
+								for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+									if v.config.hand_type == rs_pokerhand then
+										_planet = v.key
+									end
+								end
+								local card2 = create_card(card_type, G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
+								card2:add_to_deck()
+								card2:set_edition({ negative = true }, nil)
+								G.consumeables:emplace(card2)
+								G.GAME.consumeable_buffer = 0
+							end
+							return true
+						end)
+					}))
+					card:juice_up()
+					card_eval_status_text(card, 'extra', nil, nil, nil,
+						{ message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet })
+				end
 			end
 		end
 	end

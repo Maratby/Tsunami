@@ -217,7 +217,9 @@ Splashkeytable = {
 	"j_tsun_tsunami_rise",
 	"j_tsun_tsunami_chie",
 
+	"j_tsun_gold_splish_splash",
 	"j_tsun_gold_reflection",
+	"j_tsun_gold_cryomancer",
 	"j_tsun_gold_tsunami_marie",
 }
 

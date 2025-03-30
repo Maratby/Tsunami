@@ -98,6 +98,9 @@ CardSleeves.Sleeve {
             key = self.key .. "_alt_sdm_hoarder"
         elseif self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
             key = self.key .. "_alt_sdm_stuff"
+            ---Sauhonghu Decks (Most likely just Tsaunami Deck)
+        elseif self.get_current_deck_key() == "b_skh_tsaunami" then
+            key = self.key .. "_alt_skh_tsaunami"
         else
             key = self.key
         end
@@ -255,7 +258,6 @@ CardSleeves.Sleeve {
             end
             local rankmean = tsun_sum_table(numlist) / #numlist
             rankmean = math.floor(rankmean + 0.5)
-            print(rankmean)
             for index, value2 in ipairs(context.full_hand) do
                 if card_is_splashed(value2) then
                     G.E_MANAGER:add_event(Event({
@@ -263,19 +265,57 @@ CardSleeves.Sleeve {
                         blocking = true,
                         func = function()
                             if not (rankmean > 14 or rankmean < 2) then
-                                assert(SMODS.change_base(value2, nil, tostring(rankmean)))
+                                SMODS.change_base(value2, nil, tostring(rankmean))
                             elseif rankmean == value2:get_id() then
                                 ---pass
                             else
-                                assert(SMODS.change_base(value2, nil, "7"))
+                                SMODS.change_base(value2, nil, "7")
                             end
                             return true
                         end
                     }))
                 end
             end
-            card_eval_status_text(sleeve, 'extra', nil, nil, nil,
+            card_eval_status_text(G.deck, 'extra', nil, nil, nil,
                 { message = localize('k_balanced'), colour = G.C.DARK_EDITION })
         end
+        if context.repetition and context.cardarea == G.play and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_skh_tsaunami") then
+            local fusion_retrig = 0
+			for index, value in ipairs(Splashkeytable) do
+                if next(SMODS.find_card(value)) then
+                    fusion_retrig = fusion_retrig + 1
+                end
+            end
+			return {
+				message = localize("k_again_ex"),
+				repetitions = fusion_retrig,
+			}
+		end
     end
+}
+
+CardSleeves.Sleeve {
+	key = "floatiesleeve",
+	pos = { x = 1, y = 0 },
+	unlocked = true,
+	discovered = true,
+	config = { hands = 1, discards = 1, hand_size = 2, joker_slot = 2, extra = { win_ante = 8 } },
+	atlas = "TsunamiSleeves",
+	loc_vars = function(self)
+		return { vars = { self.config.hands, self.config.joker_slot, self.config.extra.win_ante } }
+	end,
+	apply = function(self)
+		G.E_MANAGER:add_event(Event({
+			func = function()
+				G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante
+				G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.config.joker_slot
+                G.jokers.config.card_limit = G.jokers.config.card_limit + self.config.joker_slot
+                G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.config.discards
+                ease_discard(self.config.discards)
+                G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.config.hands
+                ease_hands_played(self.config.hands)
+				return true
+			end
+		}))
+	end
 }

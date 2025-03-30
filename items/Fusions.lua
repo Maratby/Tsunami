@@ -1064,53 +1064,47 @@ SMODS.Joker {
 	pos = { x = 7, y = 3 },
 	ability_name = "Cryomancer",
 	calculate = function(self, card, context)
-		if context.setting_blind and #G.jokers.cards <= (G.jokers.config.card_limit - 1) then
-			local cryocard = SMODS.create_card({
-				area = G.jokers,
-				key = pseudorandom_element(Splashkeytable2,
-					pseudoseed('splashjoker'))
-			})
-			cryocard:add_to_deck()
-			G.jokers:emplace(cryocard)
+		if context.setting_blind then
 			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-				local tarotcard = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
-				tarotcard:add_to_deck()
-				G.consumeables:emplace(tarotcard)
-				card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
-					{ message = localize('k_plus_tarot'), colour = G.C.PURPLE })
-				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-			end
-		else
-			if context.setting_blind and not (context.blueprint_card or card).getting_sliced and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-				local tarots_to_create = math.min(2,
-					G.consumeables.config.card_limit - (#G.consumeables.cards + G.GAME.consumeable_buffer))
-				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + tarots_to_create
 				G.E_MANAGER:add_event(Event({
-					func = (function()
-						G.E_MANAGER:add_event(Event({
-							func = function()
-								for i = 1, tarots_to_create do
-									local tarotcards = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil,
-										'tar')
-									tarotcards:add_to_deck()
-									G.consumeables:emplace(tarotcards)
-									G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
-								end
-								return true
-							end
-						}))
+					blockable = true,
+					blocking = true,
+					func = function()
+						local tarotcard = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
+						tarotcard:add_to_deck()
+						G.consumeables:emplace(tarotcard)
+						card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
+							{ message = localize('k_plus_tarot'), colour = G.C.PURPLE })
+						G.GAME.consumeable_buffer = G.GAME.consumeable_buffer - 1
+						return true
+					end
+				}))
+			end
+		end
+		if context.end_of_round and context.main_eval and G.jokers and G.jokers.cards[#G.jokers.cards].config.center.key == "j_splash" then
+			if not G.jokers.cards[#G.jokers.cards].ability.eternal then
+				local killsplash = G.jokers.cards[#G.jokers.cards]
+				killsplash:start_dissolve()
+				G.E_MANAGER:add_event(Event({
+					blockable = true,
+					blocking = true,
+					func = function()
+						local tarotcard = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
+						tarotcard:set_edition({ negative = true }, nil)
+						tarotcard:add_to_deck()
+						G.consumeables:emplace(tarotcard)
 						card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
 							{ message = localize('k_plus_tarot'), colour = G.C.PURPLE })
 						return true
-					end)
+					end
 				}))
 			end
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 13)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 15)
 
 SMODS.Joker {
 	name = "Toaster",
