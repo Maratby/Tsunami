@@ -3,6 +3,7 @@ return {
 		["dictionary"] = {
 			["k_probability_tm"] = "Lucky!",
 			["k_enhance_tm"] = "Enhanced!",
+			["k_change_tm"] = "Change!",
 
 			["k_tsun_leg_fusion"] = "Legendary Fusion",
 			["k_tsun_gold_fusion"] = "Gold Fusion",
@@ -20,9 +21,10 @@ return {
 			["k_rise_hand"] = "+#1# Hand",
 			["k_rise_handsize"] = "+#1# Hand Size",
 			["k_rise_discard"] = "+#1# Discard",
-			["k_rise_money"] = "Earn $#1# at end of round",
+			["k_rise_money"] = "Earn +$#1# for each Ante when Boss Blind is defeated",
 			["k_rise_minus_ante"] = "-#1# Ante",
-			["k_rise_pokerhand"] = "Level Up most played poker hand #1# time(s)",
+			["k_rise_pokerhand"] = "Creates #1# Negative Planet Card of last played poker hand at end of round",
+			["k_rise_pokerhand2"] = "Level Up most played Poker Hand #1# time(s)",
 			["k_rise_psychic"] = "+#1# Card Selection Limit",
 			["k_rise_retrigger_h"] = "Retrigger Hearts #1# additional time",
 			["k_rise_retrigger_s"] = "Retrigger Spades #1# additional time",
@@ -39,7 +41,7 @@ return {
 				["name"] = "Splash Deck",
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal",
-					"copies of {C:blue}Splash {}and{C:attention} $5",
+					'copies of {C:blue,T:j_splash}Splash {}and{C:attention} $5',
 				},
 			},
 			["b_tsun_floatiedeck"] = {
@@ -51,6 +53,241 @@ return {
 					"{C:attention}+#2# Consumable Slots",
 					"{C:dark_edition}+#2# Joker Slots",
 					"{C:attention}+#3# Ante to Win",
+				},
+			},
+		},
+		["Sleeve"] = {
+			["sleeve_tsun_splash"] = {
+				["name"] = "Splash Sleeve",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal",
+					'copies of {C:blue,T:j_splash}Splash {}and{C:attention} $5',
+				},
+			},
+			["sleeve_tsun_floatiesleeve"] = {
+				["name"] = "Floatie Sleeve",
+				["text"] = {
+					"{C:blue}+#1# Hand{},",
+					"{C:red}+#1# Discard{},",
+					"{C:attention}+#2# Hand Size{},",
+					"{C:attention}+#2# Consumable Slots",
+					"{C:dark_edition}+#2# Joker Slots",
+					"{C:attention}+#3# Ante to Win",
+				},
+			},
+			["sleeve_tsun_splash_alt_red"] = {
+				["name"] = "Splash Sleeve | Red Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Sell {C:blue}Splash{} during a {C:attention}Blind to gain {C:attention}1{} temporary {C:red}Discard",
+				},
+			},
+			["sleeve_tsun_splash_alt_blue"] = {
+				["name"] = "Splash Sleeve | Blue Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Sell {C:blue}Splash{} during a {C:attention}Blind to gain {C:attention}1{} temporary {C:blue}Hand",
+				},
+			},
+			["sleeve_tsun_splash_alt_yellow"] = {
+				["name"] = "Splash Sleeve | Yellow Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"{C:blue}Splash{} earns {C:money}$2{} at end of round",
+				},
+			},
+			["sleeve_tsun_splash_alt_green"] = {
+				["name"] = "Splash Sleeve | Green Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"and {C:attention}0{} Interest Cap",
+					"Sell {C:blue}Splash{} to increase {C:attention}Interest Cap{} by {C:attention}1",
+				},
+			},
+			["sleeve_tsun_splash_alt_black"] = {
+				["name"] = "Splash Sleeve | Black Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"{C:blue}Splash{} gives {C:dark_edition}+1 Joker Slot{}",
+				},
+			},
+			["sleeve_tsun_splash_alt_magic"] = {
+				["name"] = "Splash Sleeve | Magic Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Creates {C:blue}Splash{} when a {C:tarot}Tarot Card{} is used",
+					"{C:inactive}(must have room)",
+				},
+			},
+			["sleeve_tsun_splash_alt_nebula"] = {
+				["name"] = "Splash Sleeve | Nebula Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Creates {C:blue}Splash{} when a {C:planet}Planet Card{} is used",
+					"{C:inactive}(must have room)",
+				},
+			},
+			["sleeve_tsun_splash_alt_ghost"] = {
+				["name"] = "Splash Sleeve | Ghost Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Creates a {C:dark_edition}Foil{}, {C:dark_edition}Holographic{} or {C:dark_edition}Polychrome{}",
+					"{C:blue,T:j_splash}Splash{} when a {C:spectral}Spectral Card{} is used",
+					"{C:inactive}(must have room)",
+				},
+			},
+			["sleeve_tsun_splash_alt_abandoned"] = {
+				["name"] = "Splash Sleeve | Abandoned Deck",
+				["text"] = {
+					"Start run with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue}Splash",
+                    "and no {C:attention}2s{} or {C:attention}3s{} in your deck",
+				},
+			},
+			["sleeve_tsun_splash_alt_checkered"] = {
+				["name"] = "Splash Sleeve | Checkered Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Creates {C:blue}Splash{} when a {C:attention}Flush{} is played",
+					"{C:inactive}(must have room)",
+				},
+			},
+			["sleeve_tsun_splash_alt_zodiac"] = {
+				["name"] = "Splash Sleeve | Zodiac Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"You can take {C:attention}1 additional card{}",
+					"from {C:purple}Tarot{} and {C:planet}Planet{} Packs",
+				},
+			},
+			["sleeve_tsun_splash_alt_painted"] = {
+				["name"] = "Splash Sleeve | Painted Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Every card {C:attention}held in hand {}counts in scoring",
+				},
+			},
+			["sleeve_tsun_splash_alt_anaglyph"] = {
+				["name"] = "Splash Sleeve | Anaglyph Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Creates a {C:attention}Double Tag{} every {C:attention}20 Extra Scored Cards{}",
+					"{C:inactive}(#3#/20)",
+				},
+			},
+			["sleeve_tsun_splash_alt_plasma"] = {
+				["name"] = "Splash Sleeve | Plasma Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"{C:dark_edition}Balances{} {C:attention}Ranks{} of {C:attention}Extra Scored Cards",
+				},
+			},
+			["sleeve_tsun_splash_alt_erratic"] = {
+				["name"] = "Splash Sleeve | Erratic Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"and 2 random {C:attention}Jokers{} with {C:blue}Splash {C:yellow}Fusions",
+				},
+			},
+			["sleeve_tsun_splash_alt_floatie"] = {
+				["name"] = "Splash Sleeve | Floatie Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"{C:attention}+1{} Card Selection Limit",
+					"{C:money}+$1{} interest per {C:money}$5{} you have when round ends",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_sdm0s"] = {
+				["name"] = "Splash Sleeve | SDM_0's Deck",
+				["text"] = {
+					"Start with 1 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash",
+					"and 1 random {C:attention}Eternal {C:blue}Splash {C:yellow}Fusion",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_bazaar"] = {
+				["name"] = "Splash Sleeve | Bazaar Deck",
+				["text"] = {
+					"Start with 2 random {C:attention}Non-Joker{} {C:blue}Tsunami{} items",
+					"{C:inactive}(Voucher, Tag, Consumable, etc)"
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_sandbox"] = {
+				["name"] = "Splash Sleeve | Sandbox Deck",
+				["text"] = {
+					"Start with {C:blue,T:v_tsun_water_supply}Water Supply{} voucher",
+					"and two {C:dark_edition}Negative{} {C:purple,T:c_tsun_aeon}Aeon",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_lucky7"] = {
+				["name"] = "Splash Sleeve | Lucky 7 Deck",
+				["text"] = {
+					"Start with {C:attention}Eternal{} {C:money,T:j_tsun_g_ship}Gambling Ship",
+					"Every starting {C:attention}Ace{} is a {C:attention,T:m_lucky}Lucky Card",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_hiero"] = {
+				["name"] = "Splash Sleeve | Hieroglyph Deck",
+				["text"] = {
+					"You can choose {C:attention}1{} additional card",
+					"from {C:spectral}Spectral{} Packs",
+                    "Start with {C:spectral,T:c_polymorph}Polymorph{}",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_dna"] = {
+				["name"] = "Splash Sleeve | DNA Deck",
+				["text"] = {
+					"When a {C:blue,T:j_splash}Splash {C:yellow}Fusion{} is {C:attention}sold,",
+					"Create its {C:yellow}Fusion Materials{}",
+					"{C:inactive}(must have room)",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_xxl"] = {
+				["name"] = "Splash Sleeve | XXL Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Earn {C:money}+$1{} per {C:attention}remaining{} {C:blue}Hand{} when round ends",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_hoarder"] = {
+				["name"] = "Splash Sleeve | Hoarder Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"{C:blue}Splash{} earns {C:money}$2{} at end of round",
+				},
+			},
+			["sleeve_tsun_splash_alt_sdm_stuff"] = {
+				["name"] = "Splash Sleeve | Deck of Stuff",
+				["text"] = {
+					"{C:dark_edition}Combines{} every {C:blue}Splash Sleeve{} effect",
+					"{C:inactive}(This deck start is chaotic...)"
+				},
+			},
+			["sleeve_tsun_splash_alt_skh_tsaunami"] = {
+				["name"] = "Splash Sleeve | Tsaunami Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
+					"Retrigger all played cards once",
+					"for each {C:blue}Splash{} {C:money}Fusion{} owned",
+					"{s:0.8,C:inactive}I feel... {s:0.8,C:legendary}Complete{s:0.8,C:inactive}!!!",
+				},
+			},
+			["sleeve_tsun_floatie"] = {
+				["name"] = "Floatie Sleeve",
+				["text"] = {
+					"{C:blue}+#1# Hand{},",
+					"{C:red}+#1# Discard{},",
+					"{C:attention}+#2# Hand Size{},",
+					"{C:attention}+#2# Consumable Slots",
+					"{C:dark_edition}+#2# Joker Slots",
+					"{C:attention}+#3# Ante to Win",
+				},
+			},
+		},
+		["Enhanced"] = {
+			["m_tsun_waterproof"] = {
+				["name"] = "Waterproof Card",
+				["text"] = {
+					"{X:chips,C:white}X#1#{} Chips if this card",
+					"is scored by the {C:blue}Splash{} effect",
 				},
 			},
 		},
@@ -98,8 +335,8 @@ return {
 			["goldmarie_orangestake"] = {
 				["name"] = "Orange Stake",
 				["text"] = {
-					"{C:attention}All{} cards {C:attention}held in hand",
-					"are {C:attention}scored",
+					"Creates a {C:dark_edition}Negative {C:tarot}Aeon{}",
+					"at end of round",
 				},
 			},
 			["goldmarie_bluestake"] = {
@@ -183,8 +420,18 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"This joker gives {X:mult,C:white}X#1#{} Mult",
-					"loses {X:mult,C:white}X0.1{} Mult per {C:attention}extra card scored",
+					"loses {X:mult,C:white}X#2#{} Mult per {C:attention}extra card scored",
 					"{s:0.7}{C:inactive}(Ramen + Splash){}",
+				},
+			},
+			["j_tsun_smart_water"] = {
+				["name"] = "Smart Water",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Played {C:attention}Aces{} give {C:red}+#1#{} Mult{} and {C:blue}+#2#{} Chips{}",
+					"{C:attention}Enhanced Aces{} also give {X:mult,C:white}X#3#{} Mult",
+					"{s:0.5}{C:inactive}Art by RanaPerCognome{}",
+					"{s:0.7}{C:inactive}(Scholar + Splash){}",
 				},
 			},
 			["j_tsun_banana_plantation"] = {
@@ -279,8 +526,7 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Played cards give {X:mult,C:white}X#1#{} Mult, except {V:2}#4#",
-					"Retrigger {V:1}#3#{} {C:attention}#2# time",
-					"{s:0.8}suits change at end of round",
+					"{s:0.8}suit changes at end of round",
 					"{s:0.7}{C:inactive}(Ancient Joker + Splash){}",
 				},
 			},
@@ -290,7 +536,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"{C:red}+#1#{} Mult. This joker gains {C:red}~#2#{} Mult for each {C:attention}Extra scored card",
 					"If you have more than {C:attention}1{} {C:red}Discard,",
-					"{C:red}Mult{} output is {C:attention}Divided{} by {C:attnetion}remaining {C:red}Discards",
+					"{C:red}Mult{} output is {C:attention}Divided{} by {C:attention}remaining {C:red}Discards",
 					"{C:inactive}(Currently {C:red}+#3#{C:inactive} Mult)",
 					"{s:0.7}{C:inactive}(Mystic Summit + Splash){}",
 				},
@@ -347,13 +593,26 @@ return {
 			["j_tsun_cryomancer"] = {
 				["name"] = "Cryomancer",
 				["text"] = {
-					"When blind is selected, creates a {C:attention}random Joker",
-					"with a registered {C:blue}Splash {C:attention}Fusion",
-					"and 1 random {C:attention}Tarot Card",
-					"If {C:attention}Joker Slots{} are full, creates up",
-					"to {C:attention}2 Tarot Cards{} instead",
-					"{C:inactive}(must have room for all effects){}",
+					"When blind is selected, creates a {C:tarot}Tarot Card{}",
+					"{C:inactive}(must have room){}",
+					"If {C:attention}Rightmost Joker{} is {C:blue}Splash{}",
+					"at {C:attention}end of round{}, {C:red}destroy{} it",
+					"to create {C:attention}1{} {C:dark_edition}Negative {C:tarot}Tarot Card{}",
 					"{s:0.7}{C:inactive}(Cartomancer + Splash){}",
+				},
+			},
+			["j_tsun_gold_cryomancer"] = {
+				["name"] = "{C:tsun_gold1}C{C:tsun_gold2}r{C:tsun_gold3}y{C:tsun_gold4}o{C:tsun_gold5}m{C:tsun_gold4}a{C:tsun_gold3}n{C:tsun_gold2}c{C:tsun_gold1}e{C:tsun_gold5}r",
+				["text"] = {
+					"When blind is selected, creates a {C:tarot}Tarot Card{}",
+					"{C:inactive}(must have room){}",
+					"If {C:attention}Rightmost Joker{} is {C:blue}Splash{}",
+					"at {C:attention}end of round{}, {C:red}destroy{} it",
+					"to create {C:attention}1{} {C:dark_edition}Negative {C:tarot}Tarot Card{}",
+					"{C:tsun_gold4}Creates an additional Negative Tarot",
+					"{C:tsun_gold4}if destroyed Splash had an edition",
+					"{C:tsun_gold4}+#1# Consumable Slot",
+					"{s:0.7}{C:inactive}(Cryomancer Gold Fusion){}",
 				},
 			},
 			["j_tsun_thermos"] = {
@@ -532,6 +791,13 @@ return {
 				["text"] = {
 					"Creates {C:blue}Splash",
 					"{C:inactive}(Must have room)",
+				},
+			},
+			["c_tsun_flood"] = {
+				["name"] = "Flood",
+				["text"] = {
+					"Enhances up to {C:attention}#1#{} selected",
+                    "cards into {C:blue}Waterproof Cards"
 				},
 			},
 		},
