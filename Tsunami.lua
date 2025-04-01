@@ -465,6 +465,14 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
 }
+
+SMODS.Atlas {
+	key = "TsunamiEnhancers",
+	path = "TsunamiEnhancers.png",
+	px = 71,
+	py = 95,
+}
+
 SMODS.Atlas {
 	key = "TsunamiDecks",
 	path = "TsunamiDecks.png",
@@ -574,6 +582,10 @@ if Tsunami_Config.TsunamiXMod then
 	SMODS.load_file("items/Crossmod_Fusions.lua")()
 end
 
+if Tsunami_Config.TsunEnhancers then
+	SMODS.load_file("items/Enhancers.lua")()
+end
+
 
 ---This is defined here because I do not want it to include the Gold Fusions in the materials
 Fusionmaterials(Fusionlist)
@@ -620,6 +632,27 @@ Tsunami_Mod.config_tab = function()
 		config = { align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6 },
 		nodes = {
 			{ n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 }, nodes = {} },
+
+			{
+				n = G.UIT.R,
+				config = { align = "cl", padding = 0 },
+				nodes = {
+					{
+						n = G.UIT.C,
+						config = { align = "cl", padding = 0.05 },
+						nodes = {
+							create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Tsunami_Config, ref_value = "TsunEnhancers" },
+						}
+					},
+					{
+						n = G.UIT.C,
+						config = { align = "c", padding = 0 },
+						nodes = {
+							{ n = G.UIT.T, config = { text = "Enhancements and Support", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
+						}
+					},
+				}
+			},
 
 			{
 				n = G.UIT.R,

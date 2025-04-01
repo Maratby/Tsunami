@@ -12,6 +12,10 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 1, y = 12 },
 	ability_name = "Splish Splash",
+	loc_vars = function(self, info_queue)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_splash
+		return {}
+	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
 			local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
@@ -1063,6 +1067,10 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 7, y = 3 },
 	ability_name = "Cryomancer",
+	loc_vars = function(self, info_queue)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_splash
+		return {}
+	end,
 	calculate = function(self, card, context)
 		if context.setting_blind then
 			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then

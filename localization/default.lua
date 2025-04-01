@@ -282,6 +282,15 @@ return {
 				},
 			},
 		},
+		["Enhanced"] = {
+			["m_tsun_waterproof"] = {
+				["name"] = "Waterproof Card",
+				["text"] = {
+					"{X:chips,C:white}X#1#{} Chips if this card",
+					"is scored by the {C:blue}Splash{} effect",
+				},
+			},
+		},
 		["Other"] = {
 			["goldmarie_blackstake"] = {
 				["name"] = "Black Stake",
@@ -782,6 +791,13 @@ return {
 				["text"] = {
 					"Creates {C:blue}Splash",
 					"{C:inactive}(Must have room)",
+				},
+			},
+			["c_tsun_flood"] = {
+				["name"] = "Flood",
+				["text"] = {
+					"Enhances up to {C:attention}#1#{} selected",
+                    "cards into {C:blue}Waterproof Cards"
 				},
 			},
 		},

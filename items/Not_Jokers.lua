@@ -51,10 +51,14 @@ SMODS.Consumable {
 	atlas = "TsunamiTarot",
 	name = "tsunamiaeon",
 	discovered = true,
-	cost = 5,
+	cost = 2,
 	config = { extra = 2 },
 	can_use = function(self, card)
 		return #G.jokers.cards < G.jokers.config.card_limit or card.area == G.jokers
+	end,
+	loc_vars = function(self, info_queue)
+		info_queue[#info_queue + 1] = G.P_CENTERS.j_splash
+		return {}
 	end,
 	can_bulk_use = true,
 	use = function(self, card, area, copier)

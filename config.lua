@@ -1,4 +1,6 @@
 return {
+    ---Enhancements and Support
+    TsunEnhancers = true,
     ---Crossmod Content
     TsunamiXMod = true,
     ---Gold Fusions
