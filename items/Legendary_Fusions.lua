@@ -434,7 +434,7 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 15)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 20)
 
 SMODS.Joker {
 	name = "Chie",

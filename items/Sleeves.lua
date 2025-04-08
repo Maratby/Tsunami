@@ -109,11 +109,9 @@ CardSleeves.Sleeve {
     unlocked = false,
     unlock_condition = { deck = "b_tsun_splashdeck", stake = "stake_blue" },
     apply = function(self)
+        G.GAME.starting_params.dollars = G.GAME.starting_params.dollars + self.config.dollars
         G.E_MANAGER:add_event(Event({
             func = function()
-                if self.key == "sleeve_tsun_splash" or self.get_current_deck_key() == "b_sdm_deck_of_stuff" then
-                    ease_dollars(self.config.dollars)
-                end
                 if not (self.get_current_deck_key() == "b_sdm_deck_of_stuff"
                         or self.get_current_deck_key() == "b_sdm_0_s"
                         or self.get_current_deck_key() == "b_sdm_bazaar"

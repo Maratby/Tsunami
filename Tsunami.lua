@@ -210,6 +210,7 @@ Splashkeytable = {
 	"j_tsun_scuba",
 	"j_tsun_magical_waterfall",
 	"j_tsun_smart_water",
+	"j_tsun_hygeine_card",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -258,6 +259,7 @@ Splashvouchertable = {
 	"j_tsun_scuba",
 	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
+	"j_tsun_hygeine_card",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -294,7 +296,8 @@ Splashkeytable2 = {
 	"j_oops",
 	"j_midas_mask",
 	"j_mystic_summit",
-	"j_scholar"
+	"j_scholar",
+	"j_drivers_license",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral

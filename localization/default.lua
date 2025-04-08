@@ -784,6 +784,17 @@ return {
 					"{s:0.7}{C:inactive}(Marble Joker + Splash){}",
 				},
 			},
+			["j_tsun_hygeine_card"] = {
+				["name"] = "Hygeine Card",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Gives {X:mult,C:white}X#2#{} Mult for each {C:attention}Enhanced Card",
+					"in your {C:attention}full deck",
+					"{s:0.7}{C:inactive}(currently {X:mult,C:white}X#1#{C:inactive} Mult)",
+					"{C:attention}Enhanced Cards{} give {X:chips,C:white}X#3#{} Chips when scored",
+					"{s:0.7}{C:inactive}(Driver's License + Splash){}",
+				},
+			},
 		},
 		["Tarot"] = {
 			["c_tsun_aeon"] = {
