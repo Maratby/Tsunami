@@ -795,6 +795,28 @@ return {
 					"{s:0.7}{C:inactive}(Driver's License + Splash){}",
 				},
 			},
+
+			["j_tsun_style_marieter"] = {
+				["name"] = "Style Marieter",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Extra played cards{} earn {C:money}$#1#{} when scored",
+					"{C:money}$#2#{} instead for {C:blue}Marie",
+					"{C:inactive}(Who's Marie?)",
+					"{s:0.7}{C:inactive}(Basepaul Card + Splash){}",
+				},
+			},
+
+			["j_tsun_waterfall_loop"] = {
+				["name"] = "Waterfall Loop",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:dark_edition}+#1#{} Joker Slot",
+					"{C:dark_edition}+#1#{} Card Selection Limit",
+					"{s:0.7}{C:inactive}(Philosophical Joker + Splash){}",
+				},
+			},
+			
 		},
 		["Tarot"] = {
 			["c_tsun_aeon"] = {

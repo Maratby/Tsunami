@@ -215,7 +215,7 @@ CardSleeves.Sleeve {
         end
         if context.before and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_painted") then
             for i = 1, #G.hand.cards do
-                context.scoring_hand[#context.scoring_hand + 1] = G.hand.cards[i]
+                table.insert(context.scoring_hand, G.hand.cards[i])
             end
         end
         if context.before and next(context.poker_hands['Flush']) and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_checkered") and #G.jokers.cards <= (G.jokers.config.card_limit - 1) then

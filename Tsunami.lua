@@ -8,14 +8,20 @@ Tsunami_Mod = SMODS.current_mod
 Tsunami_Config = Tsunami_Mod.config
 
 --- Checking for loaded mods, for the crossmod fusions
-if ((SMODS.Mods["Cryptid"] or {}).can_load) and Tsunami_Config.TsunamiXMod == true then
+if next(SMODS.find_mod("Cryptid")) and Tsunami_Config.TsunamiXMod == true then
 	Tsun_has_Cryptid = true
 else
 	Tsun_has_Cryptid = false
 end
 
+if next(SMODS.find_mod("MoreFluff")) and Tsunami_Config.TsunamiXMod == true then
+	Tsun_has_Morefluff = true
+else
+	Tsun_has_Morefluff = false
+end
+
 ---It's a surprise tool that'll help Chie later
-if ((SMODS.Mods["Incantation"] or {}).can_load) then
+if next(SMODS.find_mod("Incantation")) then
 	Tsun_has_Incantation = true
 else
 	Tsun_has_Incantation = false
@@ -314,6 +320,18 @@ Exclusionlist = {
 }
 Fusionlist = {}
 
+--inserting MoreFluff jokers into lists if you have the mod
+if Tsun_has_Morefluff then
+	table.insert(Splashkeytable, "j_tsun_waterfall_loop")
+	table.insert(Splashkeytable, "j_tsun_style_marieter")
+
+	table.insert(Splashvouchertable, "j_tsun_waterfall_loop")
+	table.insert(Splashvouchertable, "j_tsun_style_marieter")
+
+	table.insert(Splashkeytable2, "j_mf_philosophical")
+	table.insert(Splashkeytable2, "j_mf_basepaul_card")
+end
+
 ---Legendary Fusion Rarity
 SMODS.Rarity {
 	key = "tsun_leg_fusion",
@@ -324,8 +342,6 @@ SMODS.Rarity {
 		return weight
 	end,
 }
-
-
 
 ---Derives from Reverie's function for the same purpose of grabbing all the fusion materials registered, but mine removes duplicates from the Materials list
 function Fusionmaterials(materials)

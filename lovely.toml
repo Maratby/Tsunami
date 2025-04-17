@@ -54,3 +54,23 @@ payload = """
             end
 """
 match_indent = true
+
+# scoring all cards held in hand with painted deck + splash sleeve
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = '-- TARGET: adding to hand effects'
+position = 'after'
+payload = '''
+local extra_cards = 0
+if (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
+    extra_cards = #G.hand.cards
+end
+
+for i = 1, extra_cards do
+    if G.hand.cards[i] then
+        table.insert(final_scoring_hand, G.hand.cards[i])
+    end
+end
+'''
+match_indent = true
