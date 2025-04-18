@@ -1,11 +1,11 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
-Requires Fusion Jokers mod (https://github.com/lshtech/Fusion-Jokers)
-The version linked here is Elbe's fork, fixing the issues with the rarity method presented by a Steamodded update (and providing other changes to the mod)
+Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers/tree/block-ingredience)
+The version linked here is Minty's fork, fixing the issues with Jokers not using bettercalc methods and enabling a config to block materials.)
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
-Currently contains 30 fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
+Currently contains 40+ fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
 For once I can say, a lot of them have original art! I'm getting my shit together on that. Woohoo..
 
 Contains many, many additional ways to gain Splash or Splash copies outside the joker pool!
