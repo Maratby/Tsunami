@@ -8,7 +8,7 @@ I am going to fuse every vanilla Joker with Splash... Eventually.
 Currently contains 40+ fusions between Splash and Vanilla Jokers! See the Collection ingame for more information!
 For once I can say, a lot of them have original art! I'm getting my shit together on that. Woohoo..
 
-Contains many, many additional ways to gain Splash or Splash copies outside the joker pool!
+Contains many, many additional ways to gain Splash or Splash copies outside the joker pool, and an enhancement to support Splash builds.
 
 Cross-Mod Fusions available! I'll be working on more of these later, right now there are two:
 - MoreFluff's Philosophical Joker
