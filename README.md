@@ -1,7 +1,7 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
 Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers/tree/block-ingredience)
-The version linked here is Minty's fork, fixing the issues with Jokers not using bettercalc methods and enabling a config to block materials.)
+The version linked here is Minty's fork, fixing the issues with Jokers not using bettercalc methods and enabling a config to block materials.
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
@@ -10,7 +10,7 @@ For once I can say, a lot of them have original art! I'm getting my shit togethe
 
 Contains many, many additional ways to gain Splash or Splash copies outside the joker pool!
 
-Cross-Mod Fusions available! I'll be working on more of these very soon, right now there are two:
+Cross-Mod Fusions available! I'll be working on more of these later, right now there are two:
 - MoreFluff's Philosophical Joker
 - MoreFluff's Basepaul Card
 
