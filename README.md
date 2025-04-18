@@ -10,8 +10,9 @@ For once I can say, a lot of them have original art! I'm getting my shit togethe
 
 Contains many, many additional ways to gain Splash or Splash copies outside the joker pool!
 
-Cross-Mod Fusions available! I'll be working on more of these very soon, right now there is only one:
-- Cryptid's Sob
+Cross-Mod Fusions available! I'll be working on more of these very soon, right now there are two:
+- MoreFluff's Philosophical Joker
+- MoreFluff's Basepaul Card
 
 Cross-Mod Fusions can be disabled in the Mod Config menu.
 
