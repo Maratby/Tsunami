@@ -224,6 +224,7 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_serpent" or
 					G.GAME.blind.config.blind.key == "bl_hook" then
 					ease_discard(card.ability.extra.interval)
+					G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.interval
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
 				elseif
 
