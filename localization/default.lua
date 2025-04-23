@@ -739,8 +739,8 @@ return {
 				["name"] = "Holy Water",
 				["text"] = {
 					"All {C:attention}played{} cards are {C:attention}scored{}",
+					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
-					"{s:0.7}{C:inactive}Special order for Cryptid",
 					"{s:0.7}{C:inactive}(Jolly Joker + Splash){}",
 				},
 			},

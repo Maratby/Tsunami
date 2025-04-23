@@ -63,8 +63,19 @@ SMODS.Joker {
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
+	config = {mult = 12},
 	remove_from_deck = function(self, card, from_debuff)
 		G.hand:unhighlight_all()
+	end,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.mult } }
+	end,
+	calculate = function(self,card,context)
+		if context.joker_main and next(context.poker_hands['Pair']) then
+			return {
+				mult = card.ability.mult
+			}
+		end
 	end,
 }
 ---Logic loop for Holy Water code
