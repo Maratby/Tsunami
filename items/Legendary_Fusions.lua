@@ -478,7 +478,7 @@ SMODS.Joker {
 			end
 			return { calculated = true }
 		end
-		if context.end_of_round and not context.game_over and context.cardarea ~= G.hand then
+		if context.end_of_round and context.main_eval and not context.game_over then
 			if pseudorandom('chie') < G.GAME.probabilities.normal / card.ability.extra.odds and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 				G.E_MANAGER:add_event(Event({
