@@ -217,7 +217,7 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_tooth" or
 					G.GAME.blind.config.blind.key == "bl_ox" then
 					card.ability.extra.money = card.ability.extra.money + card.ability.extra.interval * 3
-					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 5 } }
+					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 3 } }
 				elseif
 
 					G.GAME.blind.config.blind.key == "bl_water" or

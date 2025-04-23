@@ -14,7 +14,7 @@ return {
 			["k_rise_disable"] = "Got your back!",
 			["k_rise_random"] = "Random Buff: ",
 			["k_rise_failed"] = "Failed to give a Buff, or Buff had no valid targets",
-			["k_rise_final_heart"] = "Double all future buffs from this card",
+			["k_rise_final_heart"] = "Double all buffs from this card",
 			["k_rise_final_acorn"] = "Creates a Negative copy of a random owned Joker (Rise excluded)",
 		},
 		["v_dictionary"] = {
@@ -163,7 +163,7 @@ return {
 				["name"] = "Splash Sleeve | Painted Deck",
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
-					"Every card {C:attention}held in hand {}counts in scoring",
+					"{C:blue}Splash{} gives {C:dark_edition}+1 Card Selection Limit{}",
 				},
 			},
 			["sleeve_tsun_splash_alt_anaglyph"] = {
