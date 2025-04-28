@@ -441,7 +441,6 @@ if Tsunami_Config.TsunamiLevel2 then
 			end
 			if card.ability.extra.sticker >= 5 then
 				G.GAME.modifiers.extra_boosters = (G.GAME.modifiers.extra_boosters or 0) + 1
-				if not G.GAME.shop then return end
 				if G.shop_booster and G.shop_booster.cards then
 					G.shop_booster.config.card_limit = G.GAME.starting_params.boosters_in_shop +
 						(G.GAME.modifiers.extra_boosters or 0)
@@ -496,6 +495,14 @@ if Tsunami_Config.TsunamiLevel2 then
 								card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
 							end
 						end
+					end
+				end
+				if context.individual and context.cardarea == G.play then
+					if card.ability.extra.count >= card.ability.extra.countmax then
+						card_eval_status_text(card, 'extra', nil, nil, nil,
+							{ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION })
+						card.ability.extra.x_mult = card.ability.extra.x_mult + 1
+						card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
 					end
 				end
 				if context.joker_main then

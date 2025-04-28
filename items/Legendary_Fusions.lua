@@ -128,6 +128,14 @@ SMODS.Joker {
 				end
 			end
 		end
+		if context.individual and context.cardarea == G.play then
+			if card.ability.extra.count >= card.ability.extra.countmax then
+				card_eval_status_text(card, 'extra', nil, nil, nil,
+					{ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION })
+				card.ability.extra.x_mult = card.ability.extra.x_mult + 1
+				card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
+			end
+		end
 		if context.joker_main and card.ability.extra.x_mult > 1 then
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },

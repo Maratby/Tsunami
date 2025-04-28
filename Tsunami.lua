@@ -235,6 +235,7 @@ Splashkeytable = {
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
 	"j_tsun_gold_tsunami_marie",
+	"j_tsun_gold_tsunami_yosuke",
 }
 
 ---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
@@ -324,6 +325,7 @@ Exclusionlist = {
 	"j_tsun_splish_splash",
 	"j_tsun_reflection",
 	"j_tsun_tsunami_marie",
+	"j_tsun_tsunami_yosuke",
 }
 Fusionlist = {}
 
