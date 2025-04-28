@@ -8,14 +8,20 @@ Tsunami_Mod = SMODS.current_mod
 Tsunami_Config = Tsunami_Mod.config
 
 --- Checking for loaded mods, for the crossmod fusions
-if ((SMODS.Mods["Cryptid"] or {}).can_load) and Tsunami_Config.TsunamiXMod == true then
+if next(SMODS.find_mod("Cryptid")) and Tsunami_Config.TsunamiXMod == true then
 	Tsun_has_Cryptid = true
 else
 	Tsun_has_Cryptid = false
 end
 
+if next(SMODS.find_mod("MoreFluff")) and Tsunami_Config.TsunamiXMod == true then
+	Tsun_has_Morefluff = true
+else
+	Tsun_has_Morefluff = false
+end
+
 ---It's a surprise tool that'll help Chie later
-if ((SMODS.Mods["Incantation"] or {}).can_load) then
+if next(SMODS.find_mod("Incantation")) then
 	Tsun_has_Incantation = true
 else
 	Tsun_has_Incantation = false
@@ -149,10 +155,17 @@ SMODS.Joker:take_ownership("splash", {
 			---So I add a dummy calculate function to stop it.
 			---That makes it not retrigger, but now Negative Splashes don't give joker slots???
 		end
+		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_black") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
 			G.jokers.config.card_limit = G.jokers.config.card_limit - 1
+		end
+		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - 1
+			G.hand:unhighlight_all()
 		end
 	end,
 	calc_dollar_bonus = function(self, card)
@@ -210,6 +223,7 @@ Splashkeytable = {
 	"j_tsun_scuba",
 	"j_tsun_magical_waterfall",
 	"j_tsun_smart_water",
+	"j_tsun_hygeine_card",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -258,6 +272,7 @@ Splashvouchertable = {
 	"j_tsun_scuba",
 	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
+	"j_tsun_hygeine_card",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -294,7 +309,8 @@ Splashkeytable2 = {
 	"j_oops",
 	"j_midas_mask",
 	"j_mystic_summit",
-	"j_scholar"
+	"j_scholar",
+	"j_drivers_license",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -311,6 +327,18 @@ Exclusionlist = {
 }
 Fusionlist = {}
 
+--inserting MoreFluff jokers into lists if you have the mod
+if Tsun_has_Morefluff then
+	table.insert(Splashkeytable, "j_tsun_waterfall_loop")
+	table.insert(Splashkeytable, "j_tsun_style_marieter")
+
+	table.insert(Splashvouchertable, "j_tsun_waterfall_loop")
+	table.insert(Splashvouchertable, "j_tsun_style_marieter")
+
+	table.insert(Splashkeytable2, "j_mf_philosophical")
+	table.insert(Splashkeytable2, "j_mf_basepaul_card")
+end
+
 ---Legendary Fusion Rarity
 SMODS.Rarity {
 	key = "tsun_leg_fusion",
@@ -321,8 +349,6 @@ SMODS.Rarity {
 		return weight
 	end,
 }
-
-
 
 ---Derives from Reverie's function for the same purpose of grabbing all the fusion materials registered, but mine removes duplicates from the Materials list
 function Fusionmaterials(materials)
@@ -459,6 +485,13 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
 }
+---Separate atlas for Gold Legendary Fusions
+SMODS.Atlas {
+	key = "TsunamiGoldLegendary",
+	path = "gold-legendary.png",
+	px = 71,
+	py = 95,
+}
 SMODS.Atlas {
 	key = "TsunamiTarot",
 	path = "TsunamiTarot.png",
@@ -497,7 +530,10 @@ SMODS.Atlas {
 function card_is_splashed(card)
 	local _, _, _, scoring_hand, _ = G.FUNCS.get_poker_hand_info(G.play.cards)
 	for _, scored_card in ipairs(scoring_hand) do
-		if scored_card == card then
+		if GMAllExtra == true then
+			return true
+		end
+		if scored_card == card and GMAllExtra == false then
 			return false
 		end
 	end
@@ -568,6 +604,28 @@ function sticker_inquisition(the_center)
 		if sticker == value then
 			rank = 8
 		end
+	end
+	return rank
+end
+---The inverse of the above function, converts stake numbers to keys
+function sticker_reverse(_number)
+	local rank = "none"
+	if _number == 1 then
+		rank = "white"
+	elseif _number == 2 then
+		rank = "red"
+	elseif _number == 3 then
+		rank = "green"
+	elseif _number == 4 then
+		rank = "black"
+	elseif _number == 5 then
+		rank = "blue"
+	elseif _number == 6 then
+		rank = "purple"
+	elseif _number == 7 then
+		rank = "orange"
+	elseif _number >= 8 then
+		rank = "gold"
 	end
 	return rank
 end

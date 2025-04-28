@@ -217,13 +217,14 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_tooth" or
 					G.GAME.blind.config.blind.key == "bl_ox" then
 					card.ability.extra.money = card.ability.extra.money + card.ability.extra.interval * 3
-					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 5 } }
+					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 3 } }
 				elseif
 
 					G.GAME.blind.config.blind.key == "bl_water" or
 					G.GAME.blind.config.blind.key == "bl_serpent" or
 					G.GAME.blind.config.blind.key == "bl_hook" then
 					ease_discard(card.ability.extra.interval)
+					G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.interval
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
 				elseif
 
@@ -434,7 +435,7 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 15)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 20)
 
 SMODS.Joker {
 	name = "Chie",
@@ -477,7 +478,7 @@ SMODS.Joker {
 			end
 			return { calculated = true }
 		end
-		if context.end_of_round and not context.game_over and context.cardarea ~= G.hand then
+		if context.end_of_round and context.main_eval and not context.game_over then
 			if pseudorandom('chie') < G.GAME.probabilities.normal / card.ability.extra.odds and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 				G.E_MANAGER:add_event(Event({
