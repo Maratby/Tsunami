@@ -256,8 +256,9 @@ SMODS.Joker {
 		return { vars = { card.ability.mult, card.ability.increase } }
 	end,
 	calculate = function(self, card, context)
+		local resetflag
 		if context.before then
-			local resetflag = false
+			resetflag = false
 		end
 		if context.individual and context.cardarea == G.play then
 			if card_is_splashed(context.other_card) == true then
