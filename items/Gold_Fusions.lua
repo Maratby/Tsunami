@@ -43,7 +43,7 @@ if Tsunami_Config.TsunamiLevel2 then
 		key = "gold_reflection",
 		rarity = "tsun_gold_fusion",
 		cost = 30,
-		config = { extra = 1.3, clubs = 0, nonclubs = 0 , mult_from_clubs = 1},
+		config = { extra = 1.3, clubs = 0, nonclubs = 0, mult_from_clubs = 1 },
 		loc_vars = function(self, info_queue, card)
 			return { vars = { card.ability.extra } }
 		end,
@@ -193,14 +193,27 @@ if Tsunami_Config.TsunamiLevel2 then
 		"goldmarie_orangestake",
 		"goldmarie_goldstake"
 	}
+	GYo_infolist = {
+		"goldyosuke_whitestake",
+		"goldyosuke_redstake",
+		"goldyosuke_greenstake",
+		"goldyosuke_blackstake",
+		"goldyosuke_bluestake",
+		"goldyosuke_purplestake",
+		"goldyosuke_orangestake",
+		"goldyosuke_goldstake"
+	}
 
 	---Used in a Lovely Patch to change the "Saved by Mr. Bones" text to say "Saved By Gold Marie" if this joker saved you instead
 	GMSaved = false
+	---Sent to card_is_splashed for extra scored card calculation in Gold Marie's Red Stake effect.
+	GMAllExtra = false
 
-	---Flag activates White Stake effect
+	---Sent to the Aeon Tarot Card to activate double-splash spawning.
 	AeonDoubleSplash = false
 
 	SMODS.Joker {
+		name = "Marie",
 		key = "gold_tsunami_marie",
 		rarity = "tsun_gold_fusion",
 		cost = 50,
@@ -218,16 +231,13 @@ if Tsunami_Config.TsunamiLevel2 then
 			stickerkey = "none, you suck",
 			sticker = 0,
 			retriggers = 1,
-			--- Prevents this card from reducing probabilities, unless it has already increased them..
-			probcount = 1,
 			tally = 0,
-			basepurplexmult = 1.5,
-			purplexmult = 1.5,
-			goldtriggers = 2,
+			basegoldxmult = 1.5,
+			goldxmult = 1.5,
 		} },
-		atlas = "Tsunami",
-		pos = { x = 2, y = 17 },
-		soul_pos = { x = 4, y = 9 },
+		atlas = "TsunamiGoldLegendary",
+		pos = { x = 1, y = 0 },
+		soul_pos = { x = 1, y = 1 },
 		ability_name = "Gold Marie",
 		loc_vars = function(self, info_queue, card)
 			for i = 1, 8 do
@@ -241,66 +251,48 @@ if Tsunami_Config.TsunamiLevel2 then
 		set_ability = function(self, card, initial, delay_sprites)
 			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_splash)
 			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_splash)
+			if card.ability.extra.sticker >= 6 then
+				card.ability.extra.base = card.ability.extra.base * 1.5
+			end
 		end,
 		add_to_deck = function(self, card, from_debuff)
-			if card.ability.extra.sticker >= 1 then
+			if card.ability.extra.sticker >= 2 then
+				GMAllExtra = true
+			end
+			if card.ability.extra.sticker >= 3 then
 				AeonDoubleSplash = true
 			end
 			if card.ability.extra.sticker >= 4 then
 				card:set_edition({ negative = true })
 				card:set_eternal(true)
 			end
-			if card.ability.extra.sticker >= 3 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v * 2
-				end
-				card.ability.extra.probcount = card.ability.extra.probcount * 2
-			end
 		end,
 		remove_from_deck = function(self, card, from_debuff)
-			if card.ability.extra.sticker >= 1 then
+			if card.ability.extra.sticker >= 3 then
 				AeonDoubleSplash = false
 			end
-			if card.ability.extra.sticker >= 3 and card.ability.extra.probcount > 1 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v / 2
-				end
-				card.ability.extra.probcount = card.ability.extra.probcount / 2
-			end
 			GMSaved = false
+			GMAllExtra = false
 		end,
 		calculate = function(self, card, context)
-			if context.other_joker then
-				if (context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami" and self ~= context.other_joker)
-					or ((context.other_joker.config.center.key == "j_splash" or context.other_joker.config.center.key == "j_evo_ripple")) then
-					return {
-						message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.base } },
-						Xmult_mod = card.ability.extra.base,
-						card = context.other_joker,
-					}
-				end
-			end
+			---base marie effect
 			if not context.blueprint then
+				if context.other_joker then
+					if (context.other_joker.config.center.mod and context.other_joker.config.center.mod.id == "Tsunami" and self ~= context.other_joker)
+						or ((context.other_joker.config.center.key == "j_splash" or context.other_joker.config.center.key == "j_evo_ripple")) then
+						return {
+							message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.base } },
+							Xmult_mod = card.ability.extra.base,
+							card = context.other_joker,
+						}
+					end
+				end
 				if context.setting_blind then
 					GMSaved = false
 				end
 				if context.repetition and context.cardarea == G.play and card.ability.extra.sticker >= 2 then
-					local triggerbonus = 0
-					if card.ability.extra.sticker >= 8 then
-						triggerbonus = card.ability.extra.goldtriggers
-					end
-					if context.other_card:get_id() == 8 or context.other_card:get_id() == 14 then
-						return {
-							message = localize('k_again_ex'),
-							repetitions = card.ability.extra.retriggers + triggerbonus,
-							card = card
-						}
-					elseif triggerbonus >= 1 then
-						return {
-							message = localize('k_again_ex'),
-							repetitions = triggerbonus,
-							card = card
-						}
+					if card_is_splashed(context.other_card) then
+						context.other_card:set_ability(G.P_CENTERS.m_tsun_waterproof)
 					end
 				end
 				if context.end_of_round and context.main_eval and not context.repetition and not context.individual and card.ability.extra.sticker >= 4 then
@@ -310,27 +302,39 @@ if Tsunami_Config.TsunamiLevel2 then
 						end
 					end
 				end
-				if context.end_of_round and context.main_eval and card.ability.extra.sticker >= 7 then
-					local card = SMODS.create_card({
-						area = G.consumeables,
-						key = "c_tsun_aeon"
-					})
-					card:set_edition("e_negative")
-					card:add_to_deck()
-					G.consumeables:emplace(card)
+				if context.end_of_round and context.main_eval and not context.game_over then
+					if card.ability.extra.sticker >= 1 then
+						if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+							G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+							G.E_MANAGER:add_event(Event({
+								trigger = 'before',
+								delay = 0.0,
+								func = (function()
+									SMODS.add_card({ area = G.consumeables, key = "c_tsun_aeon" })
+									G.GAME.consumeable_buffer = 0
+									return true
+								end)
+							}))
+							return {
+								message = localize('k_plus_tarot'),
+								colour = G.C.SECONDARY_SET.Tarot,
+								card = card
+							}
+						end
+					end
 				end
-				if context.individual and context.cardarea == G.play and card.ability.extra.sticker >= 6 then
+				if context.individual and context.cardarea == G.play and card.ability.extra.sticker >= 8 then
 					card.ability.extra.tally = 0
-					card.ability.extra.purplexmult = card.ability.extra.basepurplexmult
+					card.ability.extra.goldxmult = card.ability.extra.basegoldxmult
 					for index, value in ipairs(G.jokers.cards) do
 						if value.config.center.key == "j_splash" or (value.config.center.mod and value.config.center.mod.id == "Tsunami") then
 							card.ability.extra.tally = card.ability.extra.tally + 1
 						end
 					end
-					card.ability.extra.purplexmult = card.ability.extra.basepurplexmult ^ card.ability.extra.tally
-					if card.ability.extra.tally > 0 and (context.other_card:get_id() == 8 or context.other_card:get_id() == 14) then
+					card.ability.extra.goldxmult = card.ability.extra.basegoldxmult ^ card.ability.extra.tally
+					if card.ability.extra.tally > 0 and card_is_splashed(context.other_card) then
 						return {
-							x_mult = card.ability.extra.purplexmult,
+							x_mult = card.ability.extra.goldxmult,
 							card = context.other_card
 						}
 					end
@@ -380,6 +384,192 @@ if Tsunami_Config.TsunamiLevel2 then
 
 	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_marie", nil, false,
 		"j_tsun_gold_tsunami_marie", 50)
+
+	SMODS.Joker {
+		name = "Yosuke",
+		key = "gold_tsunami_yosuke",
+		rarity = "tsun_gold_fusion",
+		cost = 50,
+		unlocked = true,
+		discovered = false,
+		blueprint_compat = false,
+		eternal_compat = true,
+		perishable_compat = false,
+		no_aeq = true,
+		config = { extra = {
+			x_mult = 1,
+			count = 0,
+			countmax = 20,
+			gain = 1,
+			probcount = 1,
+			sticker = 0,
+			stickerkey = "none",
+		} },
+		atlas = "TsunamiGoldLegendary",
+		pos = { x = 2, y = 0 },
+		soul_pos = { x = 2, y = 1 },
+		loc_vars = function(self, info_queue, card)
+			for i = 1, 8 do
+				info_queue[#info_queue + 1] = {
+					key = GYo_infolist[i],
+					set = 'Other',
+				}
+			end
+			return { vars = { card.ability.extra.x_mult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain, card.ability.extra.sticker, card.ability.extra.stickerkey } }
+		end,
+		set_ability = function(self, card, initial, delay_sprites)
+			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_yosuke)
+			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_yosuke)
+		end,
+		add_to_deck = function(self, card, from_debuff)
+			if card.ability.extra.x_mult == 1 and card.ability.x_mult then
+				card.ability.extra.x_mult = card.ability.x_mult
+				card.ability.x_mult = 1
+			end
+			if card.ability.extra.sticker >= 4 then
+				card:set_edition({ negative = true })
+				card:set_eternal(true)
+			end
+			if card.ability.extra.sticker >= 3 then
+				for k, v in pairs(G.GAME.probabilities) do
+					G.GAME.probabilities[k] = v + 1
+				end
+				card.ability.extra.probcount = math.max(card.ability.extra.probcount + 1, 0)
+			end
+			if card.ability.extra.sticker >= 4 then
+				for k, v in pairs(G.GAME.probabilities) do
+					G.GAME.probabilities[k] = v * 2
+				end
+				card.ability.extra.probcount = math.max(card.ability.extra.probcount * 2, 0)
+			end
+			if card.ability.extra.sticker >= 5 then
+				G.GAME.modifiers.extra_boosters = (G.GAME.modifiers.extra_boosters or 0) + 1
+				if G.shop_booster and G.shop_booster.cards then
+					G.shop_booster.config.card_limit = G.GAME.starting_params.boosters_in_shop +
+						(G.GAME.modifiers.extra_boosters or 0)
+					for i = #G.shop_booster.cards + 1, G.shop_booster.config.card_limit do
+						G.GAME.current_round.used_packs[i] = get_pack('shop_pack').key
+						local card = Card(G.shop_booster.T.x + G.shop_booster.T.w / 2,
+							G.shop_booster.T.y, G.CARD_W * 1.27, G.CARD_H * 1.27, G.P_CARDS.empty,
+							G.P_CENTERS[G.GAME.current_round.used_packs[i]],
+							{ bypass_discovery_center = true, bypass_discovery_ui = true })
+						create_shop_card_ui(card, 'Booster', G.shop_booster)
+						card.ability.booster_pos = i
+						G.shop_booster:emplace(card)
+					end
+				end
+			end
+			if card.ability.extra.sticker >= 6 then
+				change_shop_size(1)
+			end
+		end,
+		remove_from_deck = function(self, card, from_debuff)
+			if card.ability.extra.sticker >= 3 and card.ability.extra.probcount > 1 then
+				for k, v in pairs(G.GAME.probabilities) do
+					G.GAME.probabilities[k] = v - 1
+				end
+				card.ability.extra.probcount = math.floor(math.max(card.ability.extra.probcount - 1, 0))
+			end
+			if card.ability.extra.sticker >= 4 and card.ability.extra.probcount > 1 then
+				for k, v in pairs(G.GAME.probabilities) do
+					G.GAME.probabilities[k] = v / 2
+				end
+				card.ability.extra.probcount = math.floor(math.max(card.ability.extra.probcount / 2, 0))
+			end
+			if card.ability.extra.sticker >= 5 then
+				G.GAME.modifiers.extra_boosters = math.max(G.GAME.modifiers.extra_boosters - 1, 0)
+			end
+			if card.ability.extra.sticker >= 6 then
+				change_shop_size(-1)
+			end
+		end,
+		calculate = function(self, card, context)
+			if not context.blueprint then
+				---base Yosuke effect
+				if context.before then
+					for index, value in ipairs(G.play.cards) do
+						if card_is_splashed(value) == true then
+							card.ability.extra.count = card.ability.extra.count +
+								(1 * math.max(0, G.GAME.current_round.discards_left))
+							if card.ability.extra.count >= card.ability.extra.countmax then
+								card_eval_status_text(card, 'extra', nil, nil, nil,
+									{ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION })
+								card.ability.extra.x_mult = card.ability.extra.x_mult + 1
+								card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
+							end
+						end
+					end
+				end
+				if context.individual and context.cardarea == G.play then
+					if card.ability.extra.count >= card.ability.extra.countmax then
+						card_eval_status_text(card, 'extra', nil, nil, nil,
+							{ message = localize('k_upgrade_ex'), colour = G.C.ATTENTION })
+						card.ability.extra.x_mult = card.ability.extra.x_mult + 1
+						card.ability.extra.count = card.ability.extra.count - card.ability.extra.countmax
+					end
+				end
+				if context.joker_main then
+					if card.ability.extra.sticker >= 8 then
+						return {
+							message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult * 2 } },
+							Xmult_mod = card.ability.extra.x_mult * 2,
+						}
+					else
+						return {
+							message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
+							Xmult_mod = card.ability.extra.x_mult,
+						}
+					end
+				end
+				if context.end_of_round and context.main_eval and not context.game_over then
+					if card.ability.extra.sticker >= 2 then
+						card.ability.extra.count = card.ability.extra.count +
+							math.max(0, G.GAME.current_round.discards_left)
+					end
+					if card.ability.extra.sticker >= 1 then
+						if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+							G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+							G.E_MANAGER:add_event(Event({
+								trigger = 'before',
+								delay = 0.0,
+								func = (function()
+									SMODS.add_card({ area = G.consumeables, key = "c_magician" })
+									G.GAME.consumeable_buffer = 0
+									return true
+								end)
+							}))
+							return {
+								message = localize('k_plus_tarot'),
+								colour = G.C.SECONDARY_SET.Tarot,
+								card = card
+							}
+						end
+					end
+				end
+				if G.GAME.shop and card.ability.extra.sticker >= 5 then
+					if G.shop_booster and G.shop_booster.cards then
+						for _, booster in ipairs(G.shop_booster.cards) do
+							if not booster.yosuke_hit then
+								booster.ability.extra = (booster.ability.extra or 1) + 1
+								booster.ability.choose = (booster.ability.choose or 1) + 1
+								booster.yosuke_hit = true
+							end
+						end
+					end
+				end
+				if context.buying_card and card.ability.extra.sticker >= 7 then
+					if not context.card.edition then
+						context.card:set_edition(poll_edition("yosuke", nil, true, true,
+							{ "e_foil", "e_holo", "e_polychrome", "e_negative" }))
+					end
+				end
+			end
+		end
+	}
+
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_yosuke", "x_mult", true,
+		"j_tsun_gold_tsunami_yosuke", 50)
+
 
 	--- this end is for the gold jokers config check DO NOT REMOVE IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 end

@@ -63,14 +63,14 @@ SMODS.Joker {
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
-	config = {mult = 12},
+	config = { mult = 12 },
 	remove_from_deck = function(self, card, from_debuff)
 		G.hand:unhighlight_all()
 	end,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.mult } }
 	end,
-	calculate = function(self,card,context)
+	calculate = function(self, card, context)
 		if context.joker_main and next(context.poker_hands['Pair']) then
 			return {
 				mult = card.ability.mult
@@ -240,6 +240,45 @@ SMODS.Joker {
 }
 
 FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
+
+SMODS.Joker {
+	key = "ride_the_sub",
+	name = "Ride the Sub",
+	atlas = "Tsunami",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = { x = 1, y = 6 },
+	cost = 16,
+	config = { mult = 0, increase = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.mult, card.ability.increase } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			local resetflag = false
+		end
+		if context.individual and context.cardarea == G.play then
+			if card_is_splashed(context.other_card) == true then
+				card.ability.mult = 0
+				resetflag = true
+				return {
+					card = card,
+					message = localize('k_reset')
+				}
+			end
+		end
+		if context.joker_main and resetflag == false then
+			card.ability.mult = card.ability.mult + 2
+			return {
+				mult = card.ability.mult
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_ride_the_bus", "mult", false, "j_splash", nil, false, "j_tsun_ride_the_sub", 8)
 
 SMODS.Joker {
 	key = "raft",

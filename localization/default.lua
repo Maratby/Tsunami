@@ -292,6 +292,28 @@ return {
 			},
 		},
 		["Other"] = {
+			["goldmarie_whitestake"] = {
+				["name"] = "White Stake",
+				["text"] = {
+					"Creates {C:tarot}Aeon{}",
+					"at {C:attention}end of round",
+					"{C:inactive}(must have room)"
+				},
+			},
+			["goldmarie_redstake"] = {
+				["name"] = "Red Stake",
+				["text"] = {
+					"{C:attention}Extra Scored Cards{}",
+					"become {C:blue}Waterproof Cards{}"
+				},
+			},
+			["goldmarie_greenstake"] = {
+				["name"] = "Green Stake",
+				["text"] = {
+					"{C:tarot}Aeon{} creates",
+					"1 additional {C:blue}Splash{}",
+				},
+			},
 			["goldmarie_blackstake"] = {
 				["name"] = "Black Stake",
 				["text"] = {
@@ -299,44 +321,6 @@ return {
 					"at end of round",
 					"This joker becomes {C:dark_edition}Negative{}",
 					"and {C:attention}Eternal{} when fused",
-				},
-			},
-			["goldmarie_purplestake"] = {
-				["name"] = "Purple Stake",
-				["text"] = {
-					"Played {C:attention}Aces{} and {C:attention}8s{} give {X:mult,C:white}X1.5{} Mult",
-					"for each {C:blue}Splash {C:yellow}Fusion{} or {C:blue}Splash",
-					"{C:inactive+}{s:0.7}(multiplicative)",
-				},
-			},
-			["goldmarie_whitestake"] = {
-				["name"] = "White Stake",
-				["text"] = {
-					"The {C:attention}Aeon {C:purple}Tarot Card",
-					"Creates 1 additional {C:blue}Splash{}",
-				},
-			},
-			["goldmarie_redstake"] = {
-				["name"] = "Red Stake",
-				["text"] = {
-					"{C:attention}Retrigger{} all played",
-					"{C:attention}Aces{} and {C:attention}8s{}",
-				},
-			},
-			["goldmarie_goldstake"] = {
-				["name"] = "Gold Stake",
-				["text"] = {
-					"{C:attention}Retrigger{} all played cards",
-					"{C:attention}2{} times for each {C:blue}Splash{} or",
-					"{C:blue}Splash{} {C:yellow}Fusion{} held",
-					"{s:0.7}Counts Splash Evolution from JokerEvolution",
-				},
-			},
-			["goldmarie_orangestake"] = {
-				["name"] = "Orange Stake",
-				["text"] = {
-					"Creates a {C:dark_edition}Negative {C:tarot}Aeon{}",
-					"at end of round",
 				},
 			},
 			["goldmarie_bluestake"] = {
@@ -349,12 +333,90 @@ return {
 					"{C:attention}{s:0.7}Eternal {C:blue}{s:0.7}Splash{}{s:0.7} lose {C:attention}{s:0.7}Eternal{} {s:0.7}instead",
 				},
 			},
-			["goldmarie_greenstake"] = {
+			["goldmarie_purplestake"] = {
+				["name"] = "Purple Stake",
+				["text"] = {
+					"{X:dark_edition,C:white}X1.5{} increase to",
+					"base ability {X:mult,C:white}X{C:red} Mult{}"
+				},
+			},
+			["goldmarie_orangestake"] = {
+				["name"] = "Orange Stake",
+				["text"] = {
+					"Every {C:attention}played{} card",
+					"counts as an",
+					"{C:attention}Extra Scored Card{}"
+				},
+			},
+			["goldmarie_goldstake"] = {
+				["name"] = "Gold Stake",
+				["text"] = {
+					"{C:attention}Extra scored cards{}",
+					"give {X:mult,C:white}X1.5{} Mult",
+					"for each {C:blue}Splash",
+					"or {C:blue}Splash {C:yellow}Fusion{}",
+					"{C:inactive+}{s:0.7}(multiplicative)",
+				},
+			},
+
+			["goldyosuke_whitestake"] = {
+				["name"] = "White Stake",
+				["text"] = {
+					"Creates {C:tarot}The Magician{}",
+					"at {C:attention}end of round",
+					"{C:inactive}(must have room)"
+				},
+			},
+			["goldyosuke_redstake"] = {
+				["name"] = "Red Stake",
+				["text"] = {
+					"Remaining {C:red}Discards are added",
+					"to {C:attention}Extra Scored Cards",
+					"tally at end of round"
+				},
+			},
+			["goldyosuke_greenstake"] = {
 				["name"] = "Green Stake",
 				["text"] = {
-					"Doubles all {C:attention}listed",
+					"Adds {C:attention}1{} to all {C:attention}listed",
 					"{C:green,E:1,S:1.1}probabilities",
-					"{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})"
+					"{C:inactive}(ex: {C:green}2 in 10{C:inactive} -> {C:green}3 in 10{C:inactive})"
+				},
+			},
+			["goldyosuke_blackstake"] = {
+				["name"] = "Black Stake",
+				["text"] = {
+					"Doubles all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
+					"This joker becomes {C:dark_edition}Negative{}",
+					"and {C:attention}Eternal{} when fused",
+				},
+			},
+			["goldyosuke_bluestake"] = {
+				["name"] = "Blue Stake",
+				["text"] = {
+					"{C:attention}Booster Packs{}",
+					"contain {C:attention}1{} additional card",
+					"{C:attention}+1{} Choice in {C:attention}Booster Packs{}"
+				},
+			},
+			["goldyosuke_purplestake"] = {
+				["name"] = "Purple Stake",
+				["text"] = {
+					"{C:attention}+1{} Shpp Slot",
+					"{C:attention}+1{} Booster Pack in Shop"
+				},
+			},
+			["goldyosuke_orangestake"] = {
+				["name"] = "Orange Stake",
+				["text"] = {
+					"Cards {C:money}bought{} from shop",
+					"gain a random {C:dark_edition}Edition"
+				},
+			},
+			["goldyosuke_goldstake"] = {
+				["name"] = "Gold Stake",
+				["text"] = {
+					"Double {X:mult,C:white}X{C:red} Mult{} output"
 				},
 			},
 		},
@@ -385,6 +447,15 @@ return {
 					"Each played {C:attention}Queen{} gives {C:red}+#1#{} Mult",
 					"{C:attention}Queens{} held in hand give {X:mult,C:white}X#2#{} Mult",
 					"{s:0.7}{C:inactive}(Shoot The Moon + Splash){}",
+				},
+			},
+			["j_tsun_ride_the_sub"] = {
+				["name"] = "Ride the Sub",
+				["text"] = {
+					"{C:mult}+#2#{} Mult per consecutive hand",
+                    "played without an",
+                    "{C:attention}Extra Scored Card{}",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
 				},
 			},
 			["j_tsun_ice_tray"] = {
@@ -454,6 +525,20 @@ return {
 					"{C:blue}Splash's {C:tsun_gold4}Stake Sticker: {C:attention}#2# {C:inactive}(#3#/8)",
 					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
 					"{s:0.5}{C:inactive}(Marie Gold Fusion)",
+				},
+			},
+			["j_tsun_gold_tsunami_yosuke"] = {
+				["name"] = "{C:tsun_gold5}Y{C:tsun_gold1}o{C:tsun_gold4}s{C:tsun_gold2}u{C:tsun_gold4}k{C:tsun_gold5}e",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"{C:attention}Gains {X:mult,C:white}X#4#{C:mult} Mult{} for every {C:attention}#3#{C:inactive} [#2#]{C:attention} Extra played cards",
+					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
+					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
+					"{C:tsun_gold4}Grants additional effects based on",
+					"{C:dark_edition}Yosuke's{}{C:tsun_gold4} Stake Sticker",
+					"{C:blue}Yosuke's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
+					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
+					"{s:0.5}{C:inactive}(Yosuke Gold Fusion)",
 				},
 			},
 			["j_tsun_reflection"] = {
@@ -738,7 +823,7 @@ return {
 			["j_tsun_holy_water"] = {
 				["name"] = "Holy Water",
 				["text"] = {
-					"All {C:attention}played{} cards are {C:attention}scored{}",
+					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
 					"{s:0.7}{C:inactive}(Jolly Joker + Splash){}",

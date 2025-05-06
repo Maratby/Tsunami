@@ -155,10 +155,17 @@ SMODS.Joker:take_ownership("splash", {
 			---So I add a dummy calculate function to stop it.
 			---That makes it not retrigger, but now Negative Splashes don't give joker slots???
 		end
+		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
+		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_black") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
 			G.jokers.config.card_limit = G.jokers.config.card_limit - 1
+		end
+		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - 1
+			G.hand:unhighlight_all()
 		end
 	end,
 	calc_dollar_bonus = function(self, card)
@@ -228,6 +235,7 @@ Splashkeytable = {
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
 	"j_tsun_gold_tsunami_marie",
+	"j_tsun_gold_tsunami_yosuke",
 }
 
 ---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
@@ -317,6 +325,7 @@ Exclusionlist = {
 	"j_tsun_splish_splash",
 	"j_tsun_reflection",
 	"j_tsun_tsunami_marie",
+	"j_tsun_tsunami_yosuke",
 }
 Fusionlist = {}
 
@@ -478,6 +487,13 @@ SMODS.Atlas {
 	px = 71,
 	py = 95,
 }
+---Separate atlas for Gold Legendary Fusions
+SMODS.Atlas {
+	key = "TsunamiGoldLegendary",
+	path = "gold-legendary.png",
+	px = 71,
+	py = 95,
+}
 SMODS.Atlas {
 	key = "TsunamiTarot",
 	path = "TsunamiTarot.png",
@@ -516,7 +532,10 @@ SMODS.Atlas {
 function card_is_splashed(card)
 	local _, _, _, scoring_hand, _ = G.FUNCS.get_poker_hand_info(G.play.cards)
 	for _, scored_card in ipairs(scoring_hand) do
-		if scored_card == card then
+		if GMAllExtra == true then
+			return true
+		end
+		if scored_card == card and GMAllExtra == false then
 			return false
 		end
 	end
@@ -587,6 +606,28 @@ function sticker_inquisition(the_center)
 		if sticker == value then
 			rank = 8
 		end
+	end
+	return rank
+end
+---The inverse of the above function, converts stake numbers to keys
+function sticker_reverse(_number)
+	local rank = "none"
+	if _number == 1 then
+		rank = "white"
+	elseif _number == 2 then
+		rank = "red"
+	elseif _number == 3 then
+		rank = "green"
+	elseif _number == 4 then
+		rank = "black"
+	elseif _number == 5 then
+		rank = "blue"
+	elseif _number == 6 then
+		rank = "purple"
+	elseif _number == 7 then
+		rank = "orange"
+	elseif _number >= 8 then
+		rank = "gold"
 	end
 	return rank
 end
