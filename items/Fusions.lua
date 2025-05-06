@@ -241,6 +241,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
 
+local rb_resetflag
 SMODS.Joker {
 	key = "ride_the_sub",
 	name = "Ride the Sub",
@@ -256,21 +257,20 @@ SMODS.Joker {
 		return { vars = { card.ability.mult, card.ability.increase } }
 	end,
 	calculate = function(self, card, context)
-		local resetflag
 		if context.before then
-			resetflag = false
+			rb_resetflag = false
 		end
 		if context.individual and context.cardarea == G.play then
 			if card_is_splashed(context.other_card) == true then
 				card.ability.mult = 0
-				resetflag = true
+				rb_resetflag = true
 				return {
 					card = card,
 					message = localize('k_reset')
 				}
 			end
 		end
-		if context.joker_main and resetflag == false then
+		if context.joker_main and rb_resetflag == false then
 			card.ability.mult = card.ability.mult + 2
 			return {
 				mult = card.ability.mult
