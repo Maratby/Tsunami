@@ -224,6 +224,7 @@ Splashkeytable = {
 	"j_tsun_magical_waterfall",
 	"j_tsun_smart_water",
 	"j_tsun_hygeine_card",
+	"j_tsun_ride_the_sub",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -232,6 +233,7 @@ Splashkeytable = {
 	"j_tsun_tsunami_chie",
 
 	"j_tsun_gold_splish_splash",
+	"j_tsun_gold_holy_water",
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
 	"j_tsun_gold_tsunami_marie",
@@ -274,6 +276,7 @@ Splashvouchertable = {
 	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
 	"j_tsun_hygeine_card",
+	"j_tsun_ride_the_sub",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -312,6 +315,7 @@ Splashkeytable2 = {
 	"j_mystic_summit",
 	"j_scholar",
 	"j_drivers_license",
+	"j_ride_the_bus",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -545,7 +549,7 @@ end
 local canplayref = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
 	canplayref(e) ---complete function hook
-	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 then
+	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
 		if #G.hand.highlighted > 5 then
 			e.config.colour = G.C.BLUE
 			e.config.button = 'play_cards_from_highlighted'

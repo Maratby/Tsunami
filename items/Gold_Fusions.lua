@@ -179,9 +179,33 @@ if Tsunami_Config.TsunamiLevel2 then
 
 	FusionJokers.fusions:add_fusion("j_tsun_cryomancer", nil, false, "j_splash", nil, false,
 		"j_tsun_gold_cryomancer", 14)
+	
+		SMODS.Joker {
+			key = 'gold_holy_water',
+			atlas = "Tsunami",
+			rarity = "tsun_gold_fusion",
+			unlocked = true,
+			cost = 20,
+			discovered = true,
+			config = { mult = 20 },
+			pos = { x = 2, y = 17 },
+			remove_from_deck = function(self, card, from_debuff)
+				G.hand:unhighlight_all()
+			end,
+			loc_vars = function(self, info_queue, card)
+				return { vars = { card.ability.mult } }
+			end,
+			calculate = function(self, card, context)
+				if context.before and next(context.poker_hands['Pair']) then
+					return {
+						mult = card.ability.mult
+					}
+				end
+			end,
+		}
+		
+		FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 18)
 
-
-	--- This one's gonna be a fucking nightmare but it'll be so worth it.
 	--- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
 	GMinfolist = {
 		"goldmarie_whitestake",

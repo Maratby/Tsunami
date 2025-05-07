@@ -901,7 +901,18 @@ return {
 					"{s:0.7}{C:inactive}(Philosophical Joker + Splash){}",
 				},
 			},
-			
+
+			["j_tsun_gold_holy_water"] = {
+				["name"] = "Holy Water",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
+					"{C:tsun_gold4}Gives Mult before hand is scored",
+					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}(Holy Water Gold Fusion){}",
+				},
+			},
+
 		},
 		["Tarot"] = {
 			["c_tsun_aeon"] = {

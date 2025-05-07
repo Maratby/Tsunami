@@ -81,7 +81,7 @@ SMODS.Joker {
 ---Logic loop for Holy Water code
 local athr = CardArea.add_to_highlighted
 function CardArea:add_to_highlighted(card, silent)
-	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and #SMODS.find_card("j_tsun_holy_water") >= 1 then
+	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and (#SMODS.find_card("j_tsun_holy_water") >= 1 or #SMODS.find_card("j_tsun_gold_holy_water") >= 1) then
 		local id = card:get_id()
 		local matches = 0
 		for i = 1, #self.highlighted do
@@ -264,16 +264,17 @@ SMODS.Joker {
 			if card_is_splashed(context.other_card) == true then
 				card.ability.mult = 0
 				rb_resetflag = true
-				return {
-					card = card,
-					message = localize('k_reset')
-				}
 			end
 		end
 		if context.joker_main and rb_resetflag == false then
 			card.ability.mult = card.ability.mult + 2
 			return {
 				mult = card.ability.mult
+			}
+		elseif context.joker_main and rb_resetflag == true then
+			return {
+				card = card,
+				message = localize('k_reset')
 			}
 		end
 	end
