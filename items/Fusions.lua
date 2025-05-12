@@ -1601,8 +1601,8 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_todo_list", nil, false, "j_tsun_wet_floor_sign", 15)
 
 SMODS.Joker {
-	key = "hygeine_card",
-	name = "Hygeine Card",
+	key = "hygiene_card",
+	name = "hygiene Card",
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -1611,7 +1611,7 @@ SMODS.Joker {
 	pos = { x = 0, y = 7 },
 	cost = 18,
 	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.1 } },
-	ability_name = "Hygeine Card",
+	ability_name = "hygiene Card",
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, card.ability.extra.xchips } }
 	end,
@@ -1651,4 +1651,4 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygeine_card", 16)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygiene_card", 16)

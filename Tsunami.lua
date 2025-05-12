@@ -223,7 +223,7 @@ Splashkeytable = {
 	"j_tsun_scuba",
 	"j_tsun_magical_waterfall",
 	"j_tsun_smart_water",
-	"j_tsun_hygeine_card",
+	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
 
@@ -276,7 +276,7 @@ Splashvouchertable = {
 	"j_tsun_scuba",
 	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
-	"j_tsun_hygeine_card",
+	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
 }

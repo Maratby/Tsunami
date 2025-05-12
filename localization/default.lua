@@ -876,8 +876,8 @@ return {
 					"{s:0.7}{C:inactive}(Marble Joker + Splash){}",
 				},
 			},
-			["j_tsun_hygeine_card"] = {
-				["name"] = "Hygeine Card",
+			["j_tsun_hygiene_card"] = {
+				["name"] = "Hygiene Card",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Gives {X:mult,C:white}X#2#{} Mult for each {C:attention}Enhanced Card",
