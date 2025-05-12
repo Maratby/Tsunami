@@ -225,6 +225,7 @@ Splashkeytable = {
 	"j_tsun_smart_water",
 	"j_tsun_hygeine_card",
 	"j_tsun_ride_the_sub",
+	"j_tsun_wet_floor_sign",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -277,6 +278,7 @@ Splashvouchertable = {
 	"j_tsun_magical_waterfall",
 	"j_tsun_hygeine_card",
 	"j_tsun_ride_the_sub",
+	"j_tsun_wet_floor_sign",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -284,7 +286,7 @@ Splashvouchertable = {
 --- Even though Gold Fusions' materials can fuse with Splash, I excluded it from this list to make the spectral worth something.
 Splashkeytable2 = {
 	"j_gros_michel",
-	"j_half_joker",
+	"j_half",
 	"j_fibonacci",
 	"j_misprint",
 	"j_hiker",
@@ -316,6 +318,7 @@ Splashkeytable2 = {
 	"j_scholar",
 	"j_drivers_license",
 	"j_ride_the_bus",
+	"j_todo_list",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -635,6 +638,7 @@ function sticker_reverse(_number)
 	end
 	return rank
 end
+
 
 SMODS.load_file("items/Fusions.lua")()
 SMODS.load_file("items/Not_Jokers.lua")()

@@ -179,32 +179,32 @@ if Tsunami_Config.TsunamiLevel2 then
 
 	FusionJokers.fusions:add_fusion("j_tsun_cryomancer", nil, false, "j_splash", nil, false,
 		"j_tsun_gold_cryomancer", 14)
-	
-		SMODS.Joker {
-			key = 'gold_holy_water',
-			atlas = "Tsunami",
-			rarity = "tsun_gold_fusion",
-			unlocked = true,
-			cost = 20,
-			discovered = true,
-			config = { mult = 20 },
-			pos = { x = 2, y = 17 },
-			remove_from_deck = function(self, card, from_debuff)
-				G.hand:unhighlight_all()
-			end,
-			loc_vars = function(self, info_queue, card)
-				return { vars = { card.ability.mult } }
-			end,
-			calculate = function(self, card, context)
-				if context.before and next(context.poker_hands['Pair']) then
-					return {
-						mult = card.ability.mult
-					}
-				end
-			end,
-		}
-		
-		FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 18)
+
+	SMODS.Joker {
+		key = 'gold_holy_water',
+		atlas = "Tsunami",
+		rarity = "tsun_gold_fusion",
+		unlocked = true,
+		cost = 20,
+		discovered = true,
+		config = { mult = 20 },
+		pos = { x = 2, y = 17 },
+		remove_from_deck = function(self, card, from_debuff)
+			G.hand:unhighlight_all()
+		end,
+		loc_vars = function(self, info_queue, card)
+			return { vars = { card.ability.mult } }
+		end,
+		calculate = function(self, card, context)
+			if context.before and next(context.poker_hands['Pair']) then
+				return {
+					mult = card.ability.mult
+				}
+			end
+		end,
+	}
+
+	FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 18)
 
 	--- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
 	GMinfolist = {
@@ -444,6 +444,10 @@ if Tsunami_Config.TsunamiLevel2 then
 		set_ability = function(self, card, initial, delay_sprites)
 			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_yosuke)
 			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_yosuke)
+			if card.ability.extra.sticker >= 6 then
+				card.ability.extra.x_mult = card.ability.extra.x_mult * 2
+				card.ability.extra.gain = card.ability.extra.gain * 2
+			end
 		end,
 		add_to_deck = function(self, card, from_debuff)
 			if card.ability.extra.x_mult == 1 and card.ability.x_mult then
@@ -533,17 +537,10 @@ if Tsunami_Config.TsunamiLevel2 then
 					end
 				end
 				if context.joker_main then
-					if card.ability.extra.sticker >= 8 then
-						return {
-							message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult * 2 } },
-							Xmult_mod = card.ability.extra.x_mult * 2,
-						}
-					else
-						return {
-							message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
-							Xmult_mod = card.ability.extra.x_mult,
-						}
-					end
+					return {
+						message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
+						Xmult_mod = card.ability.extra.x_mult,
+					}
 				end
 				if context.end_of_round and context.main_eval and not context.game_over then
 					if card.ability.extra.sticker >= 2 then

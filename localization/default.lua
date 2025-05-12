@@ -370,8 +370,9 @@ return {
 			["goldyosuke_redstake"] = {
 				["name"] = "Red Stake",
 				["text"] = {
-					"Remaining {C:red}Discards are added",
-					"to {C:attention}Extra Scored Cards",
+					"Remaining {C:red}Discards",
+					"are added to",
+					"{C:attention}Extra Scored Cards",
 					"tally at end of round"
 				},
 			},
@@ -380,43 +381,49 @@ return {
 				["text"] = {
 					"Adds {C:attention}1{} to all {C:attention}listed",
 					"{C:green,E:1,S:1.1}probabilities",
-					"{C:inactive}(ex: {C:green}2 in 10{C:inactive} -> {C:green}3 in 10{C:inactive})"
+					"{C:inactive,S:0.5}(ex: {C:green}2 in 10{C:inactive} -> {C:green}3 in 10{C:inactive})"
 				},
 			},
 			["goldyosuke_blackstake"] = {
 				["name"] = "Black Stake",
 				["text"] = {
-					"Doubles all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
-					"This joker becomes {C:dark_edition}Negative{}",
-					"and {C:attention}Eternal{} when fused",
+					"Doubles all {C:attention}listed",
+					"{C:green,E:1,S:1.1}probabilities",
+					"This joker becomes",
+					"{C:dark_edition}Negative{} and {C:attention}Eternal{}",
+					"when fused",
 				},
 			},
 			["goldyosuke_bluestake"] = {
 				["name"] = "Blue Stake",
 				["text"] = {
-					"{C:attention}Booster Packs{}",
-					"contain {C:attention}1{} additional card",
-					"{C:attention}+1{} Choice in {C:attention}Booster Packs{}"
+					"{C:attention}Booster Packs{} contain",
+					"{C:attention}1{} additional card",
+					"{C:attention}+1{} Choice in",
+					"{C:attention}Booster Packs{}"
 				},
 			},
 			["goldyosuke_purplestake"] = {
 				["name"] = "Purple Stake",
 				["text"] = {
 					"{C:attention}+1{} Shpp Slot",
-					"{C:attention}+1{} Booster Pack in Shop"
+					"{C:attention}+1{} Pack",
+					"in Shop"
 				},
 			},
 			["goldyosuke_orangestake"] = {
 				["name"] = "Orange Stake",
 				["text"] = {
-					"Cards {C:money}bought{} from shop",
-					"gain a random {C:dark_edition}Edition"
+					"Cards {C:money}bought{}",
+					"from shop gain a",
+					"random {C:dark_edition}Edition"
 				},
 			},
 			["goldyosuke_goldstake"] = {
 				["name"] = "Gold Stake",
 				["text"] = {
-					"Double {X:mult,C:white}X{C:red} Mult{} output"
+					"Double",
+					"{X:mult,C:white}X{C:red} Mult{} values"
 				},
 			},
 		},
@@ -881,6 +888,16 @@ return {
 				},
 			},
 
+			["j_tsun_wet_floor_sign"] = {
+				["name"] = "Wet Floor Sign",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"Each scored card with",
+					"{V:1}#1#{} suit gives {C:money}$#2#{}",
+					"{s:0.7}{C:inactive}(To-Do List + Splash){}",
+				},
+			},
+
 			["j_tsun_style_marieter"] = {
 				["name"] = "Style Marieter",
 				["text"] = {
@@ -903,7 +920,7 @@ return {
 			},
 
 			["j_tsun_gold_holy_water"] = {
-				["name"] = "Holy Water",
+				["name"] = "{C:tsun_gold1}H{C:tsun_gold2}o{C:tsun_gold3}l{C:tsun_gold4}y {C:tsun_gold5}W{C:tsun_gold4}a{C:tsun_gold3}t{C:tsun_gold2}e{C:tsun_gold1}r",
 				["text"] = {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",

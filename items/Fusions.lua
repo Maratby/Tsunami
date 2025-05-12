@@ -662,7 +662,7 @@ SMODS.Joker {
 				card = card,
 			}
 		end
-		if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
+		if context.end_of_round and context.main_eval and not context.game_over and not context.repetition and not context.blueprint then
 			if pseudorandom('Splash') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -1567,6 +1567,40 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 14)
 
 SMODS.Joker {
+	name = "Wet Floor Sign",
+	key = 'wet_floor_sign',
+	rarity = "fusion",
+	discovered = true,
+	atlas = 'Tsunami',
+	cost = 20,
+	blueprint_compat = true,
+	perishable_compat = true,
+	pos = { x = 4, y = 11 },
+	config = { suit = "Hearts", dollars = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.suit, card.ability.dollars, colours = { G.C.SUITS[card.ability.suit], } } }
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.suit = tsun_randsuit(1)
+	end,
+	calculate = function(self, card, context)
+		if context.end_of_round and context.main_eval and not context.blueprint then
+			card.ability.suit = tsun_randsuit(1)
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_suit(card.ability.suit) then
+				return {
+					dollars = card.ability.dollars,
+					card = context.other_card
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_todo_list", nil, false, "j_tsun_wet_floor_sign", 15)
+
+SMODS.Joker {
 	key = "hygeine_card",
 	name = "Hygeine Card",
 	rarity = "fusion",
@@ -1576,7 +1610,7 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 0, y = 7 },
 	cost = 18,
-	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.2 } },
+	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.1 } },
 	ability_name = "Hygeine Card",
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, card.ability.extra.xchips } }
@@ -1617,4 +1651,4 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygeine_card", 18)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygeine_card", 16)
