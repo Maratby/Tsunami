@@ -63,14 +63,14 @@ SMODS.Joker {
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
-	config = {mult = 12},
+	config = { mult = 12 },
 	remove_from_deck = function(self, card, from_debuff)
 		G.hand:unhighlight_all()
 	end,
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.mult } }
 	end,
-	calculate = function(self,card,context)
+	calculate = function(self, card, context)
 		if context.joker_main and next(context.poker_hands['Pair']) then
 			return {
 				mult = card.ability.mult
@@ -81,7 +81,7 @@ SMODS.Joker {
 ---Logic loop for Holy Water code
 local athr = CardArea.add_to_highlighted
 function CardArea:add_to_highlighted(card, silent)
-	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and #SMODS.find_card("j_tsun_holy_water") >= 1 then
+	if self.config.type ~= 'shop' and self.config.type ~= 'joker' and self.config.type ~= 'consumeable' and (#SMODS.find_card("j_tsun_holy_water") >= 1 or #SMODS.find_card("j_tsun_gold_holy_water") >= 1) then
 		local id = card:get_id()
 		local matches = 0
 		for i = 1, #self.highlighted do
@@ -240,6 +240,47 @@ SMODS.Joker {
 }
 
 FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
+
+local rb_resetflag
+SMODS.Joker {
+	key = "ride_the_sub",
+	name = "Ride the Sub",
+	atlas = "Tsunami",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = { x = 1, y = 6 },
+	cost = 16,
+	config = { mult = 0, increase = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.mult, card.ability.increase } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			rb_resetflag = false
+		end
+		if context.individual and context.cardarea == G.play then
+			if card_is_splashed(context.other_card) == true then
+				card.ability.mult = 0
+				rb_resetflag = true
+			end
+		end
+		if context.joker_main and rb_resetflag == false then
+			card.ability.mult = card.ability.mult + 2
+			return {
+				mult = card.ability.mult
+			}
+		elseif context.joker_main and rb_resetflag == true then
+			return {
+				card = card,
+				message = localize('k_reset')
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_ride_the_bus", "mult", false, "j_splash", nil, false, "j_tsun_ride_the_sub", 8)
 
 SMODS.Joker {
 	key = "raft",
@@ -621,7 +662,7 @@ SMODS.Joker {
 				card = card,
 			}
 		end
-		if context.end_of_round and not context.game_over and not context.repetition and not context.blueprint then
+		if context.end_of_round and context.main_eval and not context.game_over and not context.repetition and not context.blueprint then
 			if pseudorandom('Splash') < G.GAME.probabilities.normal / card.ability.extra.odds then
 				G.E_MANAGER:add_event(Event({
 					func = function()
@@ -1526,8 +1567,42 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 14)
 
 SMODS.Joker {
-	key = "hygeine_card",
-	name = "Hygeine Card",
+	name = "Wet Floor Sign",
+	key = 'wet_floor_sign',
+	rarity = "fusion",
+	discovered = true,
+	atlas = 'Tsunami',
+	cost = 20,
+	blueprint_compat = true,
+	perishable_compat = true,
+	pos = { x = 4, y = 11 },
+	config = { suit = "Hearts", dollars = 2 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.suit, card.ability.dollars, colours = { G.C.SUITS[card.ability.suit], } } }
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.suit = tsun_randsuit(1)
+	end,
+	calculate = function(self, card, context)
+		if context.end_of_round and context.main_eval and not context.blueprint then
+			card.ability.suit = tsun_randsuit(1)
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_suit(card.ability.suit) then
+				return {
+					dollars = card.ability.dollars,
+					card = context.other_card
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_todo_list", nil, false, "j_tsun_wet_floor_sign", 15)
+
+SMODS.Joker {
+	key = "hygiene_card",
+	name = "hygiene Card",
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -1535,8 +1610,8 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 0, y = 7 },
 	cost = 18,
-	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.2 } },
-	ability_name = "Hygeine Card",
+	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.1 } },
+	ability_name = "hygiene Card",
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, card.ability.extra.xchips } }
 	end,
@@ -1576,4 +1651,4 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygeine_card", 18)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygiene_card", 16)

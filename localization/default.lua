@@ -336,7 +336,8 @@ return {
 			["goldmarie_purplestake"] = {
 				["name"] = "Purple Stake",
 				["text"] = {
-					"None right now."
+					"{X:dark_edition,C:white}X1.5{} increase to",
+					"base ability {X:mult,C:white}X{C:red} Mult{}"
 				},
 			},
 			["goldmarie_orangestake"] = {
@@ -369,8 +370,9 @@ return {
 			["goldyosuke_redstake"] = {
 				["name"] = "Red Stake",
 				["text"] = {
-					"Remaining {C:red}Discards are added",
-					"to {C:attention}Extra Scored Cards",
+					"Remaining {C:red}Discards",
+					"are added to",
+					"{C:attention}Extra Scored Cards",
 					"tally at end of round"
 				},
 			},
@@ -379,43 +381,116 @@ return {
 				["text"] = {
 					"Adds {C:attention}1{} to all {C:attention}listed",
 					"{C:green,E:1,S:1.1}probabilities",
-					"{C:inactive}(ex: {C:green}2 in 10{C:inactive} -> {C:green}3 in 10{C:inactive})"
+					"{C:inactive,S:0.5}(ex: {C:green}2 in 10{C:inactive} -> {C:green}3 in 10{C:inactive})"
 				},
 			},
 			["goldyosuke_blackstake"] = {
 				["name"] = "Black Stake",
 				["text"] = {
-					"Doubles all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
-					"This joker becomes {C:dark_edition}Negative{}",
-					"and {C:attention}Eternal{} when fused",
+					"Doubles all {C:attention}listed",
+					"{C:green,E:1,S:1.1}probabilities",
+					"This joker becomes",
+					"{C:dark_edition}Negative{} and {C:attention}Eternal{}",
+					"when fused",
 				},
 			},
 			["goldyosuke_bluestake"] = {
 				["name"] = "Blue Stake",
 				["text"] = {
-					"{C:attention}Booster Packs{}",
-					"contain {C:attention}1{} additional card",
-					"{C:attention}+1{} Choice in {C:attention}Booster Packs{}"
+					"{C:attention}Booster Packs{} contain",
+					"{C:attention}1{} additional card",
+					"{C:attention}+1{} Choice in",
+					"{C:attention}Booster Packs{}"
 				},
 			},
 			["goldyosuke_purplestake"] = {
 				["name"] = "Purple Stake",
 				["text"] = {
-					"{C:attention}+1{} Shpp Slot",
-					"{C:attention}+1{} Booster Pack in Shop"
+					"{C:attention}+1{} Shop Slot",
+					"{C:attention}+1{} Pack",
+					"in Shop"
 				},
 			},
 			["goldyosuke_orangestake"] = {
 				["name"] = "Orange Stake",
 				["text"] = {
-					"Cards {C:money}bought{} from shop",
-					"gain a random {C:dark_edition}Edition"
+					"Cards {C:money}bought{}",
+					"from shop gain a",
+					"random {C:dark_edition}Edition"
 				},
 			},
 			["goldyosuke_goldstake"] = {
 				["name"] = "Gold Stake",
 				["text"] = {
-					"Double {X:mult,C:white}X{C:red} Mult{} output"
+					"Double",
+					"{X:mult,C:white}X{C:red} Mult{} values"
+				},
+			},
+
+			["goldrise_whitestake"] = {
+				["name"] = "White Stake",
+				["text"] = {
+					"Creates {C:tarot}The Lovers{}",
+					"at {C:attention}end of round",
+					"{C:inactive}(must have room)"
+				},
+			},
+			["goldrise_redstake"] = {
+				["name"] = "Red Stake",
+				["text"] = {
+					"Played {C:attention}Wild Cards",
+					"gain random {C:attention}Editions"
+				},
+			},
+			["goldrise_greenstake"] = {
+				["name"] = "Green Stake",
+				["text"] = {
+					"{C:attention}+5{} {C:money}Free Rerolls{}",
+					"per {C:attention}Shop"
+				},
+			},
+			["goldrise_blackstake"] = {
+				["name"] = "Black Stake",
+				["text"] = {
+					"Turns rightmost joker",
+					"{C:dark_edition}Negative{} after each",
+					"{C:attention}Boss Blind",
+					"This joker becomes",
+					"{C:dark_edition}Negative{} and {C:attention}Eternal{}",
+					"when fused",
+				},
+			},
+			["goldrise_bluestake"] = {
+				["name"] = "Blue Stake",
+				["text"] = {
+					"Start each {C:attention}Boss Blind",
+					"with {C:blue}+2 Hands{} and",
+					"{C:red}+2 Discards"
+				},
+			},
+			["goldrise_purplestake"] = {
+				["name"] = "Purple Stake",
+				["text"] = {
+					"Retrigger played",
+					"{C:attention}Wild Cards",
+					"once for each",
+					"{C:attention}4th{}{C:inactive}[#2#/#3#] skipped Blind",
+					"{C:inactive}(#1# retriggers)"
+				},
+			},
+			["goldrise_orangestake"] = {
+				["name"] = "Orange Stake",
+				["text"] = {
+					"{X:mult,C:white}X10{} Mult",
+					"during {C:attention}Boss Blinds",
+				},
+			},
+			["goldrise_goldstake"] = {
+				["name"] = "Gold Stake",
+				["text"] = {
+					"Uses an {C:dark_edition}alternate{} set",
+					"of {C:dark_edition}Permanent Buffs",
+					"{C:inactive}(Not yet implemented!)"
 				},
 			},
 		},
@@ -446,6 +521,15 @@ return {
 					"Each played {C:attention}Queen{} gives {C:red}+#1#{} Mult",
 					"{C:attention}Queens{} held in hand give {X:mult,C:white}X#2#{} Mult",
 					"{s:0.7}{C:inactive}(Shoot The Moon + Splash){}",
+				},
+			},
+			["j_tsun_ride_the_sub"] = {
+				["name"] = "Ride the Sub",
+				["text"] = {
+					"{C:mult}+#2#{} Mult per consecutive hand",
+                    "played without an",
+                    "{C:attention}Extra Scored Card{}",
+                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
 				},
 			},
 			["j_tsun_ice_tray"] = {
@@ -525,10 +609,24 @@ return {
 					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
 					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
 					"{C:tsun_gold4}Grants additional effects based on",
-					"{C:dark_edition}Yosuke's{}{C:tsun_gold4} Stake Sticker",
-					"{C:blue}Yosuke's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
+					"{C:dark_edition}Chie's{}{C:tsun_gold4} Stake Sticker",
+					"{C:dark_edition}Chie's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
 					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
 					"{s:0.5}{C:inactive}(Yosuke Gold Fusion)",
+				},
+			},
+			["j_tsun_gold_tsunami_rise"] = {
+				["name"] = "{C:tsun_gold3}R{C:tsun_gold1}i{C:tsun_gold4}s{C:tsun_gold5}e",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Disables effect of every {C:attention}Boss Blind",
+					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					"{C:tsun_gold4}Grants additional effects based on",
+					"{C:dark_edition}Yu's{}{C:tsun_gold4} Stake Sticker",
+					"{C:dark_edition}Yu's {C:tsun_gold4}Stake Sticker: {C:attention}#3# {C:inactive}(#4#/8)",
+					"Last Buff: {C:dark_edition}#2##1#",
+					"{s:0.5}{C:inactive}Modded Blinds give random buffs from other blinds",
+					"{s:0.7}{C:inactive}(Rise Gold Fusion)",
 				},
 			},
 			["j_tsun_reflection"] = {
@@ -859,8 +957,8 @@ return {
 					"{s:0.7}{C:inactive}(Marble Joker + Splash){}",
 				},
 			},
-			["j_tsun_hygeine_card"] = {
-				["name"] = "Hygeine Card",
+			["j_tsun_hygiene_card"] = {
+				["name"] = "Hygiene Card",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Gives {X:mult,C:white}X#2#{} Mult for each {C:attention}Enhanced Card",
@@ -868,6 +966,16 @@ return {
 					"{s:0.7}{C:inactive}(currently {X:mult,C:white}X#1#{C:inactive} Mult)",
 					"{C:attention}Enhanced Cards{} give {X:chips,C:white}X#3#{} Chips when scored",
 					"{s:0.7}{C:inactive}(Driver's License + Splash){}",
+				},
+			},
+
+			["j_tsun_wet_floor_sign"] = {
+				["name"] = "Wet Floor Sign",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"Each scored card with",
+					"{V:1}#1#{} suit gives {C:money}$#2#{}",
+					"{s:0.7}{C:inactive}(To-Do List + Splash){}",
 				},
 			},
 
@@ -891,7 +999,18 @@ return {
 					"{s:0.7}{C:inactive}(Philosophical Joker + Splash){}",
 				},
 			},
-			
+
+			["j_tsun_gold_holy_water"] = {
+				["name"] = "{C:tsun_gold1}H{C:tsun_gold2}o{C:tsun_gold3}l{C:tsun_gold4}y {C:tsun_gold5}W{C:tsun_gold4}a{C:tsun_gold3}t{C:tsun_gold2}e{C:tsun_gold1}r",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
+					"{C:tsun_gold4}Gives Mult before hand is scored",
+					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}(Holy Water Gold Fusion){}",
+				},
+			},
+
 		},
 		["Tarot"] = {
 			["c_tsun_aeon"] = {

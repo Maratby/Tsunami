@@ -106,9 +106,9 @@ end
 function get_current_deck_fallback()
 	if Galdur and Galdur.config.use and Galdur.run_setup.choices.deck then
 		return Galdur.run_setup.choices.deck.effect.center.key
-	elseif G.GAME.viewed_back then
+	elseif G.GAME.viewed_back and G.GAME.viewed_back.effect then
 		return G.GAME.viewed_back.effect.center.key
-	elseif G.GAME.selected_back then
+	elseif G.GAME.selected_back and G.GAME.selected_back.effect then
 		return G.GAME.selected_back.effect.center.key
 	end
 	return "b_red"
@@ -223,7 +223,9 @@ Splashkeytable = {
 	"j_tsun_scuba",
 	"j_tsun_magical_waterfall",
 	"j_tsun_smart_water",
-	"j_tsun_hygeine_card",
+	"j_tsun_hygiene_card",
+	"j_tsun_ride_the_sub",
+	"j_tsun_wet_floor_sign",
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -232,6 +234,7 @@ Splashkeytable = {
 	"j_tsun_tsunami_chie",
 
 	"j_tsun_gold_splish_splash",
+	"j_tsun_gold_holy_water",
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
 	"j_tsun_gold_tsunami_marie",
@@ -273,7 +276,9 @@ Splashvouchertable = {
 	"j_tsun_scuba",
 	"j_tsun_smart_water",
 	"j_tsun_magical_waterfall",
-	"j_tsun_hygeine_card",
+	"j_tsun_hygiene_card",
+	"j_tsun_ride_the_sub",
+	"j_tsun_wet_floor_sign",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -281,7 +286,7 @@ Splashvouchertable = {
 --- Even though Gold Fusions' materials can fuse with Splash, I excluded it from this list to make the spectral worth something.
 Splashkeytable2 = {
 	"j_gros_michel",
-	"j_half_joker",
+	"j_half",
 	"j_fibonacci",
 	"j_misprint",
 	"j_hiker",
@@ -312,6 +317,8 @@ Splashkeytable2 = {
 	"j_mystic_summit",
 	"j_scholar",
 	"j_drivers_license",
+	"j_ride_the_bus",
+	"j_todo_list",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -545,7 +552,7 @@ end
 local canplayref = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
 	canplayref(e) ---complete function hook
-	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 then
+	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
 		if #G.hand.highlighted > 5 then
 			e.config.colour = G.C.BLUE
 			e.config.button = 'play_cards_from_highlighted'
@@ -631,6 +638,7 @@ function sticker_reverse(_number)
 	end
 	return rank
 end
+
 
 SMODS.load_file("items/Fusions.lua")()
 SMODS.load_file("items/Not_Jokers.lua")()
