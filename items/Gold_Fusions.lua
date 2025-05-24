@@ -700,6 +700,11 @@ if Tsunami_Config.TsunamiLevel2 then
 						card.ability.extra.wild_retriggers = card.ability.extra.wild_retriggers + 1
 					end
 				end
+				if context.joker_main and card.ability.extra.sticker >= 7 then
+					return {
+						x_mult = card.ability.extra.boss_xmult
+					}
+				end
 				if context.end_of_round and context.main_eval and card.ability.extra.sticker >= 1 then
 					if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
 						G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1

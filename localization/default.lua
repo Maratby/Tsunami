@@ -33,6 +33,11 @@ return {
 
 			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
 			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
+
+			["k_rise_card_xmult_gold"] = "All Jokers give X#1# Mult",
+			["k_rise_money_gold"] = "Earn +$#1# for each ante at end of round",
+			["k_rise_pokerhand_gold"] = "Creates #1# Black Hole at end of round",
+			["k_rise_minus_ante_gold"] = "-#1# Ante, X0.5 blind size",
 		},
 	},
 	["descriptions"] = {
