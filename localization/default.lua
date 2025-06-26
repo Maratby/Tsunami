@@ -33,6 +33,11 @@ return {
 
 			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
 			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
+
+			["k_rise_card_xmult_gold"] = "All Jokers give X#1# Mult",
+			["k_rise_money_gold"] = "Earn +$#1# for each ante at end of round",
+			["k_rise_pokerhand_gold"] = "Creates #1# Black Hole at end of round",
+			["k_rise_minus_ante_gold"] = "-#1# Ante, X0.5 blind size",
 		},
 	},
 	["descriptions"] = {
@@ -406,7 +411,7 @@ return {
 			["goldyosuke_purplestake"] = {
 				["name"] = "Purple Stake",
 				["text"] = {
-					"{C:attention}+1{} Shpp Slot",
+					"{C:attention}+1{} Shop Slot",
 					"{C:attention}+1{} Pack",
 					"in Shop"
 				},
@@ -424,6 +429,73 @@ return {
 				["text"] = {
 					"Double",
 					"{X:mult,C:white}X{C:red} Mult{} values"
+				},
+			},
+
+			["goldrise_whitestake"] = {
+				["name"] = "White Stake",
+				["text"] = {
+					"Creates {C:tarot}The Lovers{}",
+					"at {C:attention}end of round",
+					"{C:inactive}(must have room)"
+				},
+			},
+			["goldrise_redstake"] = {
+				["name"] = "Red Stake",
+				["text"] = {
+					"Played {C:attention}Wild Cards",
+					"gain random {C:attention}Editions"
+				},
+			},
+			["goldrise_greenstake"] = {
+				["name"] = "Green Stake",
+				["text"] = {
+					"{C:attention}+5{} {C:money}Free Rerolls{}",
+					"per {C:attention}Shop"
+				},
+			},
+			["goldrise_blackstake"] = {
+				["name"] = "Black Stake",
+				["text"] = {
+					"Turns rightmost joker",
+					"{C:dark_edition}Negative{} after each",
+					"{C:attention}Boss Blind",
+					"This joker becomes",
+					"{C:dark_edition}Negative{} and {C:attention}Eternal{}",
+					"when fused",
+				},
+			},
+			["goldrise_bluestake"] = {
+				["name"] = "Blue Stake",
+				["text"] = {
+					"Start each {C:attention}Boss Blind",
+					"with {C:blue}+2 Hands{} and",
+					"{C:red}+2 Discards"
+				},
+			},
+			["goldrise_purplestake"] = {
+				["name"] = "Purple Stake",
+				["text"] = {
+					"Retrigger played",
+					"{C:attention}Wild Cards",
+					"once for each",
+					"{C:attention}4th{}{C:inactive}[#2#/#3#] skipped Blind",
+					"{C:inactive}(#1# retriggers)"
+				},
+			},
+			["goldrise_orangestake"] = {
+				["name"] = "Orange Stake",
+				["text"] = {
+					"{X:mult,C:white}X10{} Mult",
+					"during {C:attention}Boss Blinds",
+				},
+			},
+			["goldrise_goldstake"] = {
+				["name"] = "Gold Stake",
+				["text"] = {
+					"Uses an {C:dark_edition}alternate{} set",
+					"of {C:dark_edition}Permanent Buffs",
+					"{C:inactive}(Not yet implemented!)"
 				},
 			},
 		},
@@ -542,10 +614,24 @@ return {
 					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
 					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
 					"{C:tsun_gold4}Grants additional effects based on",
-					"{C:dark_edition}Yosuke's{}{C:tsun_gold4} Stake Sticker",
-					"{C:blue}Yosuke's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
+					"{C:dark_edition}Chie's{}{C:tsun_gold4} Stake Sticker",
+					"{C:dark_edition}Chie's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
 					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
 					"{s:0.5}{C:inactive}(Yosuke Gold Fusion)",
+				},
+			},
+			["j_tsun_gold_tsunami_rise"] = {
+				["name"] = "{C:tsun_gold3}R{C:tsun_gold1}i{C:tsun_gold4}s{C:tsun_gold5}e",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Disables effect of every {C:attention}Boss Blind",
+					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					"{C:tsun_gold4}Grants additional effects based on",
+					"{C:dark_edition}Yu's{}{C:tsun_gold4} Stake Sticker",
+					"{C:dark_edition}Yu's {C:tsun_gold4}Stake Sticker: {C:attention}#3# {C:inactive}(#4#/8)",
+					"Last Buff: {C:dark_edition}#2##1#",
+					"{s:0.5}{C:inactive}Modded Blinds give random buffs from other blinds",
+					"{s:0.7}{C:inactive}(Rise Gold Fusion)",
 				},
 			},
 			["j_tsun_reflection"] = {

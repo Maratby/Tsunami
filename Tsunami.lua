@@ -21,7 +21,8 @@ else
 end
 
 ---It's a surprise tool that'll help Chie later
-if next(SMODS.find_mod("Incantation")) then
+---Overflow is a newgen replacement for Incantation - I will support both just in case.
+if next(SMODS.find_mod("Incantation")) or next(SMODS.find_mod("Overflow")) then
 	Tsun_has_Incantation = true
 else
 	Tsun_has_Incantation = false
@@ -106,9 +107,9 @@ end
 function get_current_deck_fallback()
 	if Galdur and Galdur.config.use and Galdur.run_setup.choices.deck then
 		return Galdur.run_setup.choices.deck.effect.center.key
-	elseif G.GAME.viewed_back then
+	elseif G.GAME.viewed_back and G.GAME.viewed_back.effect then
 		return G.GAME.viewed_back.effect.center.key
-	elseif G.GAME.selected_back then
+	elseif G.GAME.selected_back and G.GAME.selected_back.effect then
 		return G.GAME.selected_back.effect.center.key
 	end
 	return "b_red"
@@ -156,8 +157,7 @@ SMODS.Joker:take_ownership("splash", {
 			---That makes it not retrigger, but now Negative Splashes don't give joker slots???
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-            SMODS.change_discard_limit(1)
-            SMODS.change_play_limit(1)
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
@@ -165,8 +165,7 @@ SMODS.Joker:take_ownership("splash", {
 			G.jokers.config.card_limit = G.jokers.config.card_limit - 1
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-            SMODS.change_discard_limit(-1)
-            SMODS.change_play_limit(-1)
+			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - 1
 			G.hand:unhighlight_all()
 		end
 	end,
@@ -554,7 +553,7 @@ end
 local canplayref = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
 	canplayref(e) ---complete function hook
-	if #G.hand.highlighted <= G.GAME.starting_params.play_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
+	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
 		if #G.hand.highlighted > 5 then
 			e.config.colour = G.C.BLUE
 			e.config.button = 'play_cards_from_highlighted'
@@ -587,7 +586,32 @@ Gtsun_Cryptid_Stakelist = {
 	"horizon",
 	"blossom",
 	"azure",
-	"ascendant"
+	"ascendant",
+
+---Sometimes they have the cry_ prefix so I'm adding both to cover all bases
+	"cry_pink",
+	"cry_brown",
+	"cry_yellow",
+	"cry_jade",
+	"cry_cyan",
+	"cry_gray",
+	"cry_crimson",
+	"cry_diamond",
+	"cry_amber",
+	"cry_bronze",
+	"cry_quartz",
+	"cry_ruby",
+	"cry_glass",
+	"cry_sapphire",
+	"cry_emerald",
+	"cry_platinum",
+	"cry_verdant",
+	"cry_ember",
+	"cry_dawn",
+	"cry_horizon",
+	"cry_blossom",
+	"cry_azure",
+	"cry_ascendant"
 }
 ---NOBODY EXPECTS THE STICKER INQUISITION
 ---Returns a sticker rank value which lets me check if the sticker for said center is above a certain stake rather than being equal to a certain stake

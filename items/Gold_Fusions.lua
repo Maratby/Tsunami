@@ -227,12 +227,21 @@ if Tsunami_Config.TsunamiLevel2 then
 		"goldyosuke_orangestake",
 		"goldyosuke_goldstake"
 	}
+	GR_infolist = {
+		"goldrise_whitestake",
+		"goldrise_redstake",
+		"goldrise_greenstake",
+		"goldrise_blackstake",
+		"goldrise_bluestake",
+		"goldrise_purplestake",
+		"goldrise_orangestake",
+		"goldrise_goldstake"
+	}
 
 	---Used in a Lovely Patch to change the "Saved by Mr. Bones" text to say "Saved By Gold Marie" if this joker saved you instead
 	GMSaved = false
 	---Sent to card_is_splashed for extra scored card calculation in Gold Marie's Red Stake effect.
 	GMAllExtra = false
-
 	---Sent to the Aeon Tarot Card to activate double-splash spawning.
 	AeonDoubleSplash = false
 
@@ -286,7 +295,7 @@ if Tsunami_Config.TsunamiLevel2 then
 			if card.ability.extra.sticker >= 3 then
 				AeonDoubleSplash = true
 			end
-			if card.ability.extra.sticker >= 4 then
+			if card.ability.extra.sticker >= 4 and not from_debuff then
 				card:set_edition({ negative = true })
 				card:set_eternal(true)
 			end
@@ -299,6 +308,14 @@ if Tsunami_Config.TsunamiLevel2 then
 			GMAllExtra = false
 		end,
 		calculate = function(self, card, context)
+			---lazy updating values so they get reapplied when exiting and re-entering a run
+			if card.ability.extra.sticker >= 2 then
+				GMAllExtra = true
+			end
+			if card.ability.extra.sticker >= 3 then
+				AeonDoubleSplash = true
+			end
+
 			---base marie effect
 			if not context.blueprint then
 				if context.other_joker then
@@ -442,8 +459,8 @@ if Tsunami_Config.TsunamiLevel2 then
 			return { vars = { card.ability.extra.x_mult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain, card.ability.extra.sticker, card.ability.extra.stickerkey } }
 		end,
 		set_ability = function(self, card, initial, delay_sprites)
-			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_yosuke)
-			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_yosuke)
+			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_chie)
+			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_chie)
 			if card.ability.extra.sticker >= 6 then
 				card.ability.extra.x_mult = card.ability.extra.x_mult * 2
 				card.ability.extra.gain = card.ability.extra.gain * 2
@@ -454,7 +471,7 @@ if Tsunami_Config.TsunamiLevel2 then
 				card.ability.extra.x_mult = card.ability.x_mult
 				card.ability.x_mult = 1
 			end
-			if card.ability.extra.sticker >= 4 then
+			if card.ability.extra.sticker >= 4 and not from_debuff then
 				card:set_edition({ negative = true })
 				card:set_eternal(true)
 			end
@@ -590,6 +607,423 @@ if Tsunami_Config.TsunamiLevel2 then
 
 	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_yosuke", "x_mult", true,
 		"j_tsun_gold_tsunami_yosuke", 50)
+
+
+
+	--- Gold rise...
+	--- Ffffucking hell this is gonna be a nightmare
+
+	local rs_pokerhand
+	SMODS.Joker {
+		key = "gold_tsunami_rise",
+		rarity = "tsun_gold_fusion",
+		cost = 50,
+		unlocked = true,
+		discovered = true,
+		blueprint_compat = false,
+		eternal_compat = true,
+		perishable_compat = false,
+		---Cryptid config things
+		immutable = true,
+		no_aeq = true,
+
+		config = { extra = {
+			---Base Rise Values
+			last_buff = "None",
+			random = "",
+			money = 0,
+			interval = 1,
+			planets = 0,
+			triggers = { Hearts = 0, Spades = 0, Diamonds = 0, Clubs = 0 },
+			xmult_toggle = 0,
+			---Gold Fusion Values
+			sticker = 0,
+			stickerkey = "None! You can do this!",
+			boss_xmult = 10,
+			odds = 4,
+			handbonus = 2,
+			wild_retriggers = 0,
+			skips = 0,
+			skipmax = 4,
+			bossblind = false,
+		} },
+
+		atlas = "TsunamiGoldLegendary",
+		pos = { x = 3, y = 0 },
+		soul_pos = { x = 3, y = 1 },
+		loc_vars = function(self, info_queue, card)
+			for i = 1, 8 do
+				info_queue[#info_queue + 1] = {
+					key = GR_infolist[i],
+					set = 'Other',
+					vars = { card.ability.extra.wild_retriggers, card.ability.extra.skips, card.ability.extra.skipmax, G.GAME.probabilities.normal or 1 }
+				}
+			end
+			return { vars = { card.ability.extra.last_buff, card.ability.extra.random, card.ability.extra.stickerkey, card.ability.extra.sticker, card.ability.extra.base_xmult } }
+		end,
+		calc_dollar_bonus = function(self, card)
+			local bonus = card.ability.extra.money * G.GAME.round_resets.ante
+			if bonus > 0 and context.blind.boss then
+				return bonus
+			end
+		end,
+		set_ability = function(self, card, initial, delay_sprites)
+			card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_yu)
+			card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_yu)
+		end,
+		add_to_deck = function(self, card, from_debuff)
+			if card.ability.extra.sticker >= 4 and not from_debuff then
+				card:set_edition({ negative = true })
+				card:set_eternal(true)
+			end
+			if card.ability.extra.sticker >= 3 and not from_debuff then
+				SMODS.change_free_rerolls(5)
+			end
+		end,
+		remove_from_deck = function(self,card, from_debuff)
+			if card.ability.extra.sticker >= 3 and not from_debuff then
+				SMODS.change_free_rerolls(-5)
+			end
+		end,
+		calculate = function(self, card, context)
+			if not context.blueprint then
+				if context.setting_blind and context.blind.boss and card.ability.extra.sticker >= 5 then
+					ease_hands_played(2)
+					ease_discard(2)
+				end
+				if context.setting_blind and not context.blind.boss then
+					card.ability.extra.bossblind = false
+				end
+				if context.skip_blind and card.ability.extra.sticker >= 6 then
+					card.ability.extra.skips = card.ability.extra.skips + 1
+					if card.ability.extra.skips >= card.ability.extra.skipmax then
+						card.ability.extra.wild_retriggers = card.ability.extra.wild_retriggers + 1
+					end
+				end
+				if context.joker_main and card.ability.extra.sticker >= 7 then
+					return {
+						x_mult = card.ability.extra.boss_xmult
+					}
+				end
+				if context.end_of_round and context.main_eval and card.ability.extra.sticker >= 1 then
+					if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+						G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+						G.E_MANAGER:add_event(Event({
+							trigger = 'before',
+							delay = 0.0,
+							func = (function()
+								SMODS.add_card({ area = G.consumeables, key = "c_lovers" })
+								G.GAME.consumeable_buffer = 0
+								return true
+							end)
+						}))
+						return {
+							message = localize('k_plus_tarot'),
+							colour = G.C.SECONDARY_SET.Tarot,
+							card = card
+						}
+					end
+				end
+				if context.before and card.ability.extra.sticker >= 2 then
+					for index, value in ipairs(G.play.cards) do
+						if value.config.center == G.P_CENTERS.m_wild then
+							value:set_edition(poll_edition("rise", nil, true, true,
+								{ "e_foil", "e_polychrome", "e_negative" }))
+						end
+					end
+				end
+				if context.end_of_round and context.main_eval and card.ability.extra.sticker >= 4 then
+					G.jokers.cards[#G.jokers.cards]:set_edition({ negative = true }, true)
+				end
+				---Handling Wild Card retriggers for Rise's Purple Stake Effect
+				if context.repetition and context.cardarea == G.play and card.ability.extra.sticker >= 6 and card.ability.extra.wild_retriggers >= 1 then
+					if context.other_card.config.center == G.P_CENTERS.m_wild then
+						return {
+							repetitions = card.ability.extra.wild_retriggers
+						}
+					end
+				end
+				---Blind Disabling
+				if context.setting_blind and context.blind.boss and not card.getting_sliced and not context.blueprint then
+					---Resetting values
+					card.ability.extra.bossblind = true
+					card.ability.extra.random = ""
+					card_eval_status_text(card, 'extra', nil, nil, nil, { message = localize('k_rise_disable') })
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							G.E_MANAGER:add_event(Event({
+								func = function()
+									G.GAME.blind:disable()
+									play_sound('timpani')
+									delay(0.4)
+									return true
+								end
+							}))
+							return true
+						end
+					}))
+
+
+					if card.ability.extra.sticker >= 9 then --- REMEMBER TO CHANGE THIS TO 8 WHEN THE GOLD STAKE EFFECT IS READY
+
+					else
+						---Base Rise effects
+						if G.GAME.blind.config.blind.key == "bl_needle" then
+							ease_hands_played(card.ability.extra.interval)
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_hand", vars = { card.ability.extra.interval } }
+						elseif
+
+							G.GAME.blind.config.blind.key == "bl_psychic" or
+							G.GAME.blind.config.blind.key == "bl_final_bell" then
+							G.hand.config.highlighted_limit = G.hand.config.highlighted_limit +
+								card.ability.extra.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
+						elseif
+
+							G.GAME.blind.config.blind.key == "bl_manacle" or
+							G.GAME.blind.config.blind.key == "bl_fish" or
+							G.GAME.blind.config.blind.key == "bl_mark" or
+							G.GAME.blind.config.blind.key == "bl_wheel" or
+							G.GAME.blind.config.blind.key == "bl_house" then
+							G.hand:change_size(card.ability.extra.interval)
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_handsize", vars = { card.ability.extra.interval } }
+						elseif
+
+							G.GAME.blind.config.blind.key == "bl_tooth" or
+							G.GAME.blind.config.blind.key == "bl_ox" then
+							card.ability.extra.money = card.ability.extra.money + card.ability.extra.interval * 3
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 3 } }
+						elseif
+
+							G.GAME.blind.config.blind.key == "bl_water" or
+							G.GAME.blind.config.blind.key == "bl_serpent" or
+							G.GAME.blind.config.blind.key == "bl_hook" then
+							ease_discard(card.ability.extra.interval)
+							G.GAME.round_resets.discards = G.GAME.round_resets.discards + card.ability.extra.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
+						elseif
+
+							G.GAME.blind.config.blind.key == "bl_final_leaf" or
+							G.GAME.blind.config.blind.key == "bl_plant" or
+							G.GAME.blind.config.blind.key == "bl_pillar" then
+							card.ability.extra.xmult_toggle = card.ability.extra.xmult_toggle +
+								card.ability.extra.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_card_xmult", vars = { card.ability.extra.interval * 1.25 } }
+						elseif G.GAME.blind.config.blind.key == "bl_wall" then
+							ease_ante(-card.ability.extra.interval)
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_minus_ante", vars = { card.ability.extra.interval } }
+						elseif G.GAME.blind.config.blind.key == "bl_final_vessel" then
+							ease_ante(-card.ability.extra.interval)
+							ease_ante_to_win(-card.ability.extra.interval)
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_minus_ante", vars = { card.ability.extra.interval } }
+						elseif
+							G.GAME.blind.config.blind.key == "bl_flint" or
+							G.GAME.blind.config.blind.key == "bl_mouth" or
+							G.GAME.blind.config.blind.key == "bl_eye" or
+							G.GAME.blind.config.blind.key == "bl_arm" then
+							card.ability.extra.planets = (card.ability.extra.planets or 0) + 1
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand", vars = { card.ability.extra.interval } }
+						elseif
+							G.GAME.blind.config.blind.key == "bl_head" then
+							card.ability.extra.triggers.Hearts = card.ability.extra.triggers.Hearts + card.ability.extra
+								.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_h", vars = { card.ability.extra.interval } }
+						elseif
+							G.GAME.blind.config.blind.key == "bl_goad" then
+							card.ability.extra.triggers.Spades = card.ability.extra.triggers.Spades + card.ability.extra
+								.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_s", vars = { card.ability.extra.interval } }
+						elseif
+							G.GAME.blind.config.blind.key == "bl_window" then
+							card.ability.extra.triggers.Diamonds = card.ability.extra.triggers.Diamonds +
+								card.ability.extra
+								.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_d", vars = { card.ability.extra.interval } }
+						elseif
+							G.GAME.blind.config.blind.key == "bl_club" then
+							card.ability.extra.triggers.Clubs = card.ability.extra.triggers.Clubs +
+								card.ability.extra.interval
+							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_retrigger_c", vars = { card.ability.extra.interval } }
+						elseif G.GAME.blind.config.blind.key == "bl_final_heart" then
+							card.ability.extra.interval = card.ability.extra.interval * 2
+							card.ability.extra.last_buff = localize("k_rise_final_heart")
+						elseif G.GAME.blind.config.blind.key == "bl_final_acorn" then
+							if #G.jokers.cards > 0 then
+								local valid_cards = {}
+								for i = 1, #G.jokers.cards do
+									if G.jokers.cards[i].ability.name ~= "j_tsun_tsunami_rise" then
+										table.insert(valid_cards, G.jokers.cards[i])
+									end
+								end
+								if #valid_cards > 0 then
+									G.E_MANAGER:add_event(Event({
+										func = function()
+											local rand_card = pseudorandom_element(valid_cards, pseudoseed('risette'))
+											local new_card = create_card('Joker', G.jokers, nil, nil, nil, nil,
+												rand_card.config.center.key, nil)
+											new_card:set_edition({ negative = true }, true)
+											new_card:add_to_deck()
+											G.jokers:emplace(new_card)
+											new_card:start_materialize()
+											return true
+										end
+									}))
+									card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil, {
+										message = localize('k_plus_joker'),
+										colour = G.C.DARK_EDITION,
+									})
+									card.ability.extra.last_buff = localize("k_rise_final_acorn")
+								else
+									card.ability.extra.last_buff = localize("k_rise_failed")
+								end
+							end
+						else
+							local randeffect = math.random(1, 8)
+							if randeffect == 1 then
+								ease_hands_played(card.ability.extra.interval)
+								card.ability.extra.random = "Random Buff: "
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_hand", vars = { card.ability.extra.interval } }
+							elseif randeffect == 2 then
+								card.ability.extra.random = "Random Buff: "
+								G.hand:change_size(card.ability.extra.interval)
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_handsize", vars = { card.ability.extra.interval } }
+							elseif randeffect == 3 then
+								card.ability.extra.random = "Random Buff: "
+								ease_discard(card.ability.extra.interval)
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
+							elseif randeffect == 4 then
+								card.ability.extra.random = "Random Buff: "
+								G.hand.config.highlighted_limit = G.hand.config.highlighted_limit +
+									card.ability.extra.interval
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
+							elseif randeffect == 5 then
+								card.ability.extra.random = "Random Buff: "
+								ease_ante(-card.ability.extra.interval)
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_minus_ante", vars = { card.ability.extra.interval } }
+							elseif randeffect == 6 then
+								card.ability.extra.random = "Random Buff: "
+								card.ability.extra.money = card.ability.extra.money + (card.ability.extra.interval * 3)
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_money", vars = { card.ability.extra.interval * 3 } }
+							elseif randeffect == 7 then
+								card.ability.extra.random = "Random Buff: "
+								card.ability.extra.xmult_toggle = card.ability.extra.xmult_toggle +
+									card.ability.extra.interval
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_card_xmult", vars = { card.ability.extra.interval * 1.25 } }
+							elseif randeffect == 8 then
+								local _hand, _tally = "High Card", 0
+								for k, v in ipairs(G.handlist) do
+									if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+										_hand = v
+										_tally = G.GAME.hands[v].played
+									end
+								end
+								for i = 1, card.ability.extra.interval do
+									card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
+										{ message = localize('k_level_up_ex') })
+									update_hand_text({ sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3 },
+										{
+											handname = localize(_hand, 'poker_hands'),
+											chips = G.GAME.hands[_hand].chips,
+											mult = G
+												.GAME.hands[_hand].mult,
+											level = G.GAME.hands[_hand].level
+										})
+									level_up_hand(context.blueprint_card or card, _hand, nil, 1)
+									update_hand_text({ sound = 'button', volume = 0.7, pitch = 1.1, delay = 0 },
+										{ mult = 0, chips = 0, handname = '', level = '' })
+								end
+								card.ability.extra.random = "Random Buff: "
+								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand2", vars = { card.ability.extra.interval } }
+							end
+						end
+					end
+					if context.repetition and context.cardarea == G.play then
+						if context.other_card.ability_name == "Wild Card" then
+							local triggersum =
+								card.ability.extra.triggers.Hearts +
+								card.ability.extra.triggers.Spades +
+								card.ability.extra.triggers.Diamonds +
+								card.ability.extra.triggers.Clubs
+							return {
+								message = localize('k_again_ex'),
+								repetitions = triggersum,
+								card = card
+							}
+						elseif context.other_card:is_suit("Hearts") and card.ability.extra.triggers.Hearts >= 1 then
+							return {
+								message = localize('k_again_ex'),
+								repetitions = card.ability.extra.triggers.Hearts,
+								card = card
+							}
+						elseif context.other_card:is_suit("Spades") and card.ability.extra.triggers.Spades >= 1 then
+							return {
+								message = localize('k_again_ex'),
+								repetitions = card.ability.extra.triggers.Spades,
+								card = card
+							}
+						elseif context.other_card:is_suit("Diamonds") and card.ability.extra.triggers.Diamonds >= 1 then
+							return {
+								message = localize('k_again_ex'),
+								repetitions = card.ability.extra.triggers.Diamonds,
+								card = card
+							}
+						elseif context.other_card:is_suit("Clubs") and card.ability.extra.triggers.Clubs >= 1 then
+							return {
+								message = localize('k_again_ex'),
+								repetitions = card.ability.extra.triggers.Clubs,
+								card = card
+							}
+						end
+					end
+					if context.individual and context.cardarea == G.play and card.ability.extra.xmult_toggle >= 1 then
+						return {
+							x_mult = card.ability.extra.interval * (1.25 ^ card.ability.extra.xmult_toggle),
+							card = card
+						}
+					end
+					if context.after then
+						rs_pokerhand = context.scoring_name
+					end
+					if context.end_of_round and context.main_eval and card.ability.extra.planets > 0 then
+						for i = 1, (card.ability.extra.planets * card.ability.extra.interval) do
+							G.E_MANAGER:add_event(Event({
+								trigger = 'before',
+								delay = 0.0,
+								func = (function()
+									if rs_pokerhand then
+										local _planet = 0
+										for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+											if v.config.hand_type == rs_pokerhand then
+												_planet = v.key
+											end
+										end
+										local card2 = create_card(card_type, G.consumeables, nil, nil, nil, nil, _planet,
+											'blusl')
+										card2:add_to_deck()
+										card2:set_edition({ negative = true }, nil)
+										G.consumeables:emplace(card2)
+										G.GAME.consumeable_buffer = 0
+									end
+									return true
+								end)
+							}))
+							card:juice_up()
+							card_eval_status_text(card, 'extra', nil, nil, nil,
+								{ message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet })
+						end
+					end
+				end
+			end
+		end
+	}
+
+	FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_rise", nil, false, "j_tsun_gold_tsunami_rise",
+		50)
+
+
+
+
+
 
 
 	--- this end is for the gold jokers config check DO NOT REMOVE IT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
