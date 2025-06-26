@@ -196,7 +196,7 @@ if Tsunami_Config.TsunamiLevel2 then
 			return { vars = { card.ability.mult } }
 		end,
 		calculate = function(self, card, context)
-			if context.before and next(context.poker_hands['Pair']) then
+			if context.joker_main and next(context.poker_hands['Pair']) then
 				return {
 					mult = card.ability.mult
 				}
@@ -204,7 +204,7 @@ if Tsunami_Config.TsunamiLevel2 then
 		end,
 	}
 
-	FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 18)
+	FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 10)
 
 	--- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
 	GMinfolist = {
@@ -775,8 +775,8 @@ if Tsunami_Config.TsunamiLevel2 then
 
 							G.GAME.blind.config.blind.key == "bl_psychic" or
 							G.GAME.blind.config.blind.key == "bl_final_bell" then
-							G.hand.config.highlighted_limit = G.hand.config.highlighted_limit +
-								card.ability.extra.interval
+							SMODS.change_discard_limit(card.ability.extra.interval)
+           					SMODS.change_play_limit(card.ability.extra.interval)
 							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 						elseif
 
@@ -893,8 +893,8 @@ if Tsunami_Config.TsunamiLevel2 then
 								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
 							elseif randeffect == 4 then
 								card.ability.extra.random = "Random Buff: "
-								G.hand.config.highlighted_limit = G.hand.config.highlighted_limit +
-									card.ability.extra.interval
+								SMODS.change_discard_limit(card.ability.extra.interval)
+            					SMODS.change_play_limit(card.ability.extra.interval)
 								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 							elseif randeffect == 5 then
 								card.ability.extra.random = "Random Buff: "

@@ -157,7 +157,8 @@ SMODS.Joker:take_ownership("splash", {
 			---That makes it not retrigger, but now Negative Splashes don't give joker slots???
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
+			SMODS.change_discard_limit(1)
+            SMODS.change_play_limit(1)
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
@@ -165,7 +166,8 @@ SMODS.Joker:take_ownership("splash", {
 			G.jokers.config.card_limit = G.jokers.config.card_limit - 1
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - 1
+			SMODS.change_discard_limit(-1)
+            SMODS.change_play_limit(-1)
 			G.hand:unhighlight_all()
 		end
 	end,
@@ -553,7 +555,7 @@ end
 local canplayref = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
 	canplayref(e) ---complete function hook
-	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
+	if #G.hand.highlighted <= G.GAME.starting_params.play_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
 		if #G.hand.highlighted > 5 then
 			e.config.colour = G.C.BLUE
 			e.config.button = 'play_cards_from_highlighted'

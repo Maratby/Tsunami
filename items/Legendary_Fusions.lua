@@ -209,7 +209,8 @@ SMODS.Joker {
 
 					G.GAME.blind.config.blind.key == "bl_psychic" or
 					G.GAME.blind.config.blind.key == "bl_final_bell" then
-					G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + card.ability.extra.interval
+					SMODS.change_discard_limit(card.ability.extra.interval)
+            		SMODS.change_play_limit(card.ability.extra.interval)
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 				elseif
 
@@ -323,7 +324,8 @@ SMODS.Joker {
 						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_discard", vars = { card.ability.extra.interval } }
 					elseif randeffect == 4 then
 						card.ability.extra.random = "Random Buff: "
-						G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + card.ability.extra.interval
+						SMODS.change_discard_limit(card.ability.extra.interval)
+            			SMODS.change_play_limit(card.ability.extra.interval)
 						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 					elseif randeffect == 5 then
 						card.ability.extra.random = "Random Buff: "
