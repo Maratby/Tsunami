@@ -237,9 +237,6 @@ if Tsunami_Config.TsunamiLevel2 then
 		"goldrise_orangestake",
 		"goldrise_goldstake"
 	}
-
-	---Used in a Lovely Patch to change the "Saved by Mr. Bones" text to say "Saved By Gold Marie" if this joker saved you instead
-	GMSaved = false
 	---Sent to card_is_splashed for extra scored card calculation in Gold Marie's Red Stake effect.
 	GMAllExtra = false
 	---Sent to the Aeon Tarot Card to activate double-splash spawning.
@@ -304,7 +301,6 @@ if Tsunami_Config.TsunamiLevel2 then
 			if card.ability.extra.sticker >= 3 then
 				AeonDoubleSplash = false
 			end
-			GMSaved = false
 			GMAllExtra = false
 		end,
 		calculate = function(self, card, context)
@@ -327,9 +323,6 @@ if Tsunami_Config.TsunamiLevel2 then
 							card = context.other_joker,
 						}
 					end
-				end
-				if context.setting_blind then
-					GMSaved = false
 				end
 				if context.repetition and context.cardarea == G.play and card.ability.extra.sticker >= 2 then
 					if card_is_splashed(context.other_card) then
@@ -411,10 +404,9 @@ if Tsunami_Config.TsunamiLevel2 then
 								end
 							end
 						end
-						GMSaved = true
 						return {
 							message = localize('k_saved_ex'),
-							saved = true,
+							saved = "k_mariesave",
 							colour = G.C.RED
 						}
 					end
