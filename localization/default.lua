@@ -888,7 +888,6 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Doubles all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
-					"{s:0.7}{C:inactive}Current Probabilities: {C:green}#1# in X",
 					"If {C:attention}Played Hand{} contains three {C:attention}7s {}in a row,",
 					"{C:green}1 in 7 {}chance to {C:attention}permanently{} double all {C:attention}listed {C:green,E:1,S:1.1}probabilities",
 					"{s:0.7}{C:inactive}(This effect's probability cannot be changed){}",

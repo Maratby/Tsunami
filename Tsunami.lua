@@ -22,7 +22,7 @@ end
 
 ---It's a surprise tool that'll help Chie later
 ---Overflow is a newgen replacement for Incantation - I will support both just in case.
-if next(SMODS.find_mod("Incantation")) or next(SMODS.find_mod("Overflow")) then
+if next(SMODS.find_mod("Incantation")) or Overflow then
 	Tsun_has_Incantation = true
 else
 	Tsun_has_Incantation = false

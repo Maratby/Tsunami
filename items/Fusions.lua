@@ -143,13 +143,15 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 4, y = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult, card.ability.extra.fails, G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
+			'tsun_vending_machine')
+		return { vars = { card.ability.extra.xmult, card.ability.extra.fails, new_numerator, new_denominator } }
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if card_is_splashed(context.other_card) then
 				card.ability.extra.fails = card.ability.extra.fails + 1
-				if card.ability.extra.fails >= card.ability.extra.xmult or pseudorandom('THUNDERCROSSSPLITATTACK') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				if card.ability.extra.fails >= card.ability.extra.xmult or SMODS.pseudorandom_probability(card, 'monseiur', 1, card.ability.extra.odds, 'tsun_vending_machine') then
 					card.ability.extra.fails = 0
 					return {
 						x_mult = card.ability.extra.xmult,
@@ -323,7 +325,8 @@ SMODS.Joker {
 	name = "Beach Ball",
 	config = { extra = { odds = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'identifier')
+		return { vars = { new_numerator, new_denominator } }
 	end,
 	rarity = "fusion",
 	cost = 17,
@@ -338,7 +341,7 @@ SMODS.Joker {
 	ability_name = "Beach Ball",
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and pseudorandom('ballpenisball') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if card_is_splashed(context.other_card) and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and SMODS.pseudorandom_probability(card, 'penile', 1, card.ability.extra.odds, 'tsun_beach_ball') then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 				local tarotcards = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
 				tarotcards:add_to_deck()
@@ -517,7 +520,8 @@ SMODS.Joker {
 	config = { extra = { nines = 0, moneys = 2, odds = 8 } },
 	ability_name = "Rainstorm",
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.nines, card.ability.extra.moneys, G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'identifier')
+		return { vars = { card.ability.extra.nines, card.ability.extra.moneys, new_numerator, new_denominator } }
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
 		card.ability.extra.nines = 0
@@ -543,7 +547,7 @@ SMODS.Joker {
 		end
 		if context.after then
 			for index, card2 in ipairs(context.full_hand) do
-				if card_is_splashed(card2) and pseudorandom("I can do this too you know!") < G.GAME.probabilities.normal / card.ability.extra.odds then
+				if card_is_splashed(card2) and SMODS.pseudorandom_probability(card, 'super', 1, card.ability.extra.odds, 'tsun_rainstorm') then
 					G.E_MANAGER:add_event(Event({
 						blockable = true,
 						blocking = true,
@@ -645,7 +649,9 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 5, y = 11 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
+			'tsun_plantation')
+		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, new_numerator, new_denominator } }
 	end,
 	calculate = function(self, card, context)
 		if context.before then
@@ -663,7 +669,7 @@ SMODS.Joker {
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and not context.repetition and not context.blueprint then
-			if pseudorandom('Splash') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if SMODS.pseudorandom_probability(card, 'get-the-banana-kris', 1, card.ability.extra.odds, 'tsun_plantation') then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -1519,20 +1525,7 @@ SMODS.Joker {
 	perishable_compat = false,
 	pos = { x = 5, y = 6 },
 	---if you know you know
-	config = { extra = { GET_TO_USE_THESE = true, quip = "TRY AND DODGE THIS!" } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal or 1 } }
-	end,
-	add_to_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.GAME.probabilities) do
-			G.GAME.probabilities[k] = v * 2
-		end
-	end,
-	remove_from_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.GAME.probabilities) do
-			G.GAME.probabilities[k] = v / 2
-		end
-	end,
+	config = { chancecount = 2, extra = { GET_TO_USE_THESE = true, quip = "TRY AND DODGE THIS!" } },
 	calculate = function(self, card, context)
 		if context.before then
 			local hit = false
@@ -1543,9 +1536,7 @@ SMODS.Joker {
 						G.play.cards[index + 1]:get_id() == 7 then
 						hit = true
 						if pseudorandom('GAMBLECORE') < 1 / 7 then
-							for k, v in pairs(G.GAME.probabilities) do
-								G.GAME.probabilities[k] = v * 2
-							end
+							card.ability.chancecount = card.ability.chancecount * 2
 							play_sound("tsun_probability_tm", 1, 1)
 							return {
 								message = localize("k_probability_tm"),
@@ -1560,6 +1551,11 @@ SMODS.Joker {
 					end
 				end
 			end
+		end
+		if context.mod_probability and not context.blueprint then
+			return {
+				numerator = context.numerator * card.ability.chancecount
+			}
 		end
 	end
 }

@@ -434,7 +434,7 @@ if Tsunami_Config.TsunamiLevel2 then
 			count = 0,
 			countmax = 20,
 			gain = 1,
-			probcount = 1,
+			---Probcount value no longer needed due to new probability changes
 			sticker = 0,
 			stickerkey = "none",
 		} },
@@ -467,18 +467,6 @@ if Tsunami_Config.TsunamiLevel2 then
 				card:set_edition({ negative = true })
 				card:set_eternal(true)
 			end
-			if card.ability.extra.sticker >= 3 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v + 1
-				end
-				card.ability.extra.probcount = math.max(card.ability.extra.probcount + 1, 0)
-			end
-			if card.ability.extra.sticker >= 4 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v * 2
-				end
-				card.ability.extra.probcount = math.max(card.ability.extra.probcount * 2, 0)
-			end
 			if card.ability.extra.sticker >= 5 then
 				G.GAME.modifiers.extra_boosters = (G.GAME.modifiers.extra_boosters or 0) + 1
 				if G.shop_booster and G.shop_booster.cards then
@@ -501,18 +489,6 @@ if Tsunami_Config.TsunamiLevel2 then
 			end
 		end,
 		remove_from_deck = function(self, card, from_debuff)
-			if card.ability.extra.sticker >= 3 and card.ability.extra.probcount > 1 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v - 1
-				end
-				card.ability.extra.probcount = math.floor(math.max(card.ability.extra.probcount - 1, 0))
-			end
-			if card.ability.extra.sticker >= 4 and card.ability.extra.probcount > 1 then
-				for k, v in pairs(G.GAME.probabilities) do
-					G.GAME.probabilities[k] = v / 2
-				end
-				card.ability.extra.probcount = math.floor(math.max(card.ability.extra.probcount / 2, 0))
-			end
 			if card.ability.extra.sticker >= 5 then
 				G.GAME.modifiers.extra_boosters = math.max(G.GAME.modifiers.extra_boosters - 1, 0)
 			end
@@ -521,6 +497,19 @@ if Tsunami_Config.TsunamiLevel2 then
 			end
 		end,
 		calculate = function(self, card, context)
+			---New probability stuff
+			if context.mod_probability and not context.blueprint then
+				if card.ability.extra.sticker <= 4 then
+					return {
+						numerator = (context.numerator + 1) * 2
+					}
+				elseif card.ability.extra.sticker <= 3 then
+					return {
+						numerator = context.numerator + 1
+					}
+				end
+			end
+
 			if not context.blueprint then
 				---base Yosuke effect
 				if context.before then
@@ -644,19 +633,21 @@ if Tsunami_Config.TsunamiLevel2 then
 		pos = { x = 3, y = 0 },
 		soul_pos = { x = 3, y = 1 },
 		loc_vars = function(self, info_queue, card)
+			local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
+				'tsun_gold_rise')
 			for i = 1, 8 do
 				info_queue[#info_queue + 1] = {
 					key = GR_infolist[i],
 					set = 'Other',
-					vars = { card.ability.extra.wild_retriggers, card.ability.extra.skips, card.ability.extra.skipmax, G.GAME.probabilities.normal or 1 }
+					vars = { card.ability.extra.wild_retriggers, card.ability.extra.skips, card.ability.extra.skipmax, new_numerator, new_denominator }
 				}
 			end
 			return { vars = { card.ability.extra.last_buff, card.ability.extra.random, card.ability.extra.stickerkey, card.ability.extra.sticker, card.ability.extra.base_xmult } }
 		end,
 		calc_dollar_bonus = function(self, card)
 			local bonus = card.ability.extra.money * G.GAME.round_resets.ante
-			if bonus > 0 and context.blind.boss then
-				return bonus
+			if bonus > 0 then
+				return G.GAME.blind.boss and bonus or nil
 			end
 		end,
 		set_ability = function(self, card, initial, delay_sprites)
@@ -672,12 +663,17 @@ if Tsunami_Config.TsunamiLevel2 then
 				SMODS.change_free_rerolls(5)
 			end
 		end,
-		remove_from_deck = function(self,card, from_debuff)
+		remove_from_deck = function(self, card, from_debuff)
 			if card.ability.extra.sticker >= 3 and not from_debuff then
 				SMODS.change_free_rerolls(-5)
 			end
 		end,
 		calculate = function(self, card, context)
+			if context.end_of_round and context.beat_boss then
+				card.ability.extra.bossblind = true
+			else
+				card.ability.extra.bossblind = false
+			end
 			if not context.blueprint then
 				if context.setting_blind and context.blind.boss and card.ability.extra.sticker >= 5 then
 					ease_hands_played(2)
@@ -768,7 +764,7 @@ if Tsunami_Config.TsunamiLevel2 then
 							G.GAME.blind.config.blind.key == "bl_psychic" or
 							G.GAME.blind.config.blind.key == "bl_final_bell" then
 							SMODS.change_discard_limit(card.ability.extra.interval)
-           					SMODS.change_play_limit(card.ability.extra.interval)
+							SMODS.change_play_limit(card.ability.extra.interval)
 							card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 						elseif
 
@@ -886,7 +882,7 @@ if Tsunami_Config.TsunamiLevel2 then
 							elseif randeffect == 4 then
 								card.ability.extra.random = "Random Buff: "
 								SMODS.change_discard_limit(card.ability.extra.interval)
-            					SMODS.change_play_limit(card.ability.extra.interval)
+								SMODS.change_play_limit(card.ability.extra.interval)
 								card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 							elseif randeffect == 5 then
 								card.ability.extra.random = "Random Buff: "

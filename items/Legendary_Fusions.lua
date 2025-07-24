@@ -168,7 +168,8 @@ SMODS.Joker {
 		interval = 1,
 		planets = 0,
 		triggers = { Hearts = 0, Spades = 0, Diamonds = 0, Clubs = 0 },
-		xmult_toggle = 0
+		xmult_toggle = 0,
+		bossblind = true,
 	} },
 
 	atlas = "Tsunami",
@@ -179,11 +180,16 @@ SMODS.Joker {
 	end,
 	calc_dollar_bonus = function(self, card)
 		local bonus = card.ability.extra.money * G.GAME.round_resets.ante
-		if bonus > 0 and G.GAME.blind.boss then
-			return bonus
+		if bonus > 0 then
+			return G.GAME.blind.boss and bonus or nil
 		end
 	end,
 	calculate = function(self, card, context)
+		if context.end_of_round and context.beat_boss then
+			card.ability.extra.bossblind = true
+		else
+			card.ability.extra.bossblind = false
+		end
 		if not context.blueprint then
 			if context.setting_blind and context.blind.boss and not card.getting_sliced and not context.blueprint then
 				card.ability.extra.random = ""
@@ -464,7 +470,8 @@ SMODS.Joker {
 	soul_pos = { x = 7, y = 9 },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = { key = 'e_negative_consumable', set = 'Edition', config = { extra = 1 } }
-		return { vars = { card.ability.extra.copies, G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'tsun_chie')
+		return { vars = { card.ability.extra.copies, new_numerator, new_denominator } }
 	end,
 	calculate = function(self, card, context)
 		if context.ending_shop then
@@ -489,7 +496,7 @@ SMODS.Joker {
 			return { calculated = true }
 		end
 		if context.end_of_round and context.main_eval and not context.game_over then
-			if pseudorandom('chie') < G.GAME.probabilities.normal / card.ability.extra.odds and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+			if SMODS.pseudorandom_probability(card, 'god-s_hand', 1, card.ability.extra.odds, 'tsun_chie') and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 				G.E_MANAGER:add_event(Event({
 					trigger = 'before',
