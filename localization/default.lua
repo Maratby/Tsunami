@@ -33,11 +33,22 @@ return {
 
 			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
 			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
-
-			["k_rise_card_xmult_gold"] = "All Jokers give X#1# Mult",
-			["k_rise_money_gold"] = "Earn +$#1# for each ante at end of round",
-			["k_rise_pokerhand_gold"] = "Creates #1# Black Hole at end of round",
-			["k_rise_minus_ante_gold"] = "-#1# Ante, X0.5 blind size",
+		},
+		["achievement_names"] = {
+			ach_tsun_splash_fan = "Splash Fan",
+			ach_tsun_invest_team = "Investigation Team",
+			ach_tsun_weathermancer = "Weathermancer",
+			ach_tsun_min_wage = "Minimum Wage",
+			ach_tsun_idol = "Idol",
+			ach_tsun_galactic_punt = "Galactic Punt",
+		},
+		["achievement_descriptions"] = {
+			ach_tsun_splash_fan = "Have {C:blue}Splash{} in your {C:attention}Top 10 Jokers{}",
+			ach_tsun_invest_team = "Have all {C:attention}5 Vanilla {C:dark_edition}Legendary {C:blue}Splash {C:money}Fusions at the same time",
+			ach_tsun_weathermancer = "Have {C:dark_edition}Marie{}, {C:blue}Rainstorm{}, {C:red}Ash Joker{}, {C:attention}Weathering{} and {C:blue}Window Cleaner  at the same time",
+			ach_tsun_min_wage = "Leave a shop with {C:dark_edition}Yosuke{} while below {C:money}$100{} in {C:red}Debt",
+			ach_tsun_idol = "Win a round with {C:dark_edition}Rise{} and no other Jokers",
+			ach_tsun_galactic_punt = "Destroy 5 cards with {C:dark_edition}???",
 		},
 	},
 	["descriptions"] = {
@@ -493,9 +504,8 @@ return {
 			["goldrise_goldstake"] = {
 				["name"] = "Gold Stake",
 				["text"] = {
-					"Uses an {C:dark_edition}alternate{} set",
-					"of {C:dark_edition}Permanent Buffs",
-					"{C:inactive}(Not yet implemented!)"
+					"{C:dark_edition}Doubles{} effects of",
+					"all {C:dark_edition}Permanent Buffs",
 				},
 			},
 		},
@@ -541,8 +551,20 @@ return {
 				["name"] = "Ice Tray",
 				["text"] = {
 					"Every {C:attention}played card {}counts in scoring",
-					"{C:attention}Extra scored cards {}give {X:mult,C:white}X#1#{} Mult",
+					"This joker gives {X:mult,C:white}X#1#{} Mult for each",
+					"{C:red}unplayed card{} from {C:attention}play limit",
+					"{C:inactive,s:0.7}(ex. if you can play 5 cards, but you only play 3, X2 Mult)",
 					"{s:0.7}{C:inactive}(Joker Stencil + Splash)",
+				},
+			},
+			["j_tsun_deepsea_diver"] = {
+				["name"] = "Deepsea Diver",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"{C:green}#1# in #2#{} chance to {C:attention}upgrade{} level of played hand",
+					"Increase {C:green}numerator{} by {C:attention}1{} for each {C:attention}Extra Played Card{}",
+					"in current hand",
+					"{s:0.7}{C:inactive}(Space Joker + Splash)",
 				},
 			},
 			["j_tsun_banana_tree"] = {
@@ -918,6 +940,7 @@ return {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}Code by MathIsFun_{}",
 					"{s:0.7}{C:inactive}(Jolly Joker + Splash){}",
 				},
 			},
@@ -979,6 +1002,7 @@ return {
 					"Every {C:attention}played card {}counts in scoring",
 					"Each scored card with",
 					"{V:1}#1#{} suit gives {C:money}$#2#{}",
+					"{s:0.5}{C:inactive}(Suit changes every round){}",
 					"{s:0.7}{C:inactive}(To-Do List + Splash){}",
 				},
 			},
@@ -1010,6 +1034,7 @@ return {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}Base code by MathIsFun_{}",
 					"{s:0.7}{C:inactive}(Holy Water Gold Fusion){}",
 				},
 			},

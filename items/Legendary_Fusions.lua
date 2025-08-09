@@ -147,7 +147,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "x_mult", false, "j_tsun_tsunami_yosuke", 20)
 
-local rs_pokerhand
+RS_pokerhand = "High Card"
 SMODS.Joker {
 	key = "tsunami_rise",
 	rarity = "tsun_leg_fusion",
@@ -216,7 +216,7 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_psychic" or
 					G.GAME.blind.config.blind.key == "bl_final_bell" then
 					SMODS.change_discard_limit(card.ability.extra.interval)
-            		SMODS.change_play_limit(card.ability.extra.interval)
+					SMODS.change_play_limit(card.ability.extra.interval)
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 				elseif
 
@@ -331,7 +331,7 @@ SMODS.Joker {
 					elseif randeffect == 4 then
 						card.ability.extra.random = "Random Buff: "
 						SMODS.change_discard_limit(card.ability.extra.interval)
-            			SMODS.change_play_limit(card.ability.extra.interval)
+						SMODS.change_play_limit(card.ability.extra.interval)
 						card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_psychic", vars = { card.ability.extra.interval } }
 					elseif randeffect == 5 then
 						card.ability.extra.random = "Random Buff: "
@@ -418,7 +418,7 @@ SMODS.Joker {
 				}
 			end
 			if context.after then
-				rs_pokerhand = context.scoring_name
+				RS_pokerhand = context.scoring_name
 			end
 			if context.end_of_round and context.main_eval and card.ability.extra.planets > 0 then
 				for i = 1, (card.ability.extra.planets * card.ability.extra.interval) do
@@ -426,10 +426,10 @@ SMODS.Joker {
 						trigger = 'before',
 						delay = 0.0,
 						func = (function()
-							if rs_pokerhand then
+							if RS_pokerhand then
 								local _planet = 0
 								for k, v in pairs(G.P_CENTER_POOLS.Planet) do
-									if v.config.hand_type == rs_pokerhand then
+									if v.config.hand_type == RS_pokerhand then
 										_planet = v.key
 									end
 								end
@@ -452,6 +452,32 @@ SMODS.Joker {
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 20)
+
+---rise hooking a fusionjokers function
+local fuse_card_ref = Card.fuse_card
+function Card:fuse_card(...)
+	local ret = fuse_card_ref(self, ...)
+	local indexes = {}
+	for index, value in ipairs(G.jokers.cards) do
+		if value.config.center.key == "j_tsun_tsunami_rise" then
+			table.insert(indexes, index)
+		end
+	end
+	--finding leftmost rise out of indexes
+	local current_index = #G.jokers.cards
+	for index, value in ipairs(indexes) do
+		if value < current_index then
+			current_index = value
+		end
+	end
+	---transferring values from leftmost rise
+	if G.jokers.cards[current_index].config.center.key == "j_tsun_tsunami_rise" then
+		Tsunami_Rise_Transfer = G.jokers.cards[current_index].ability.extra
+	end
+	return ret
+end
+
+---Chie
 
 SMODS.Joker {
 	name = "Chie",

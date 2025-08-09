@@ -515,6 +515,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 7, y = 12 },
 	cost = 18,
 	config = { extra = { nines = 0, moneys = 2, odds = 8 } },
@@ -707,6 +708,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cavendish", nil, fals
 
 SMODS.Joker {
 	key = "ice_tray",
+	name = "Ice Tray",
 	rarity = "fusion",
 	cost = 16,
 	unlocked = true,
@@ -714,20 +716,17 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
-	config = { extra = { xmult = 1.5 } },
+	config = { extra = { xmult = 1 } },
 	atlas = "Tsunami",
 	pos = { x = 2, y = 5 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) then
-				return {
-					x_mult = card.ability.extra.xmult,
-					card = card
-				}
-			end
+		if context.joker_main then
+			return {
+				x_mult = math.min(1, card.ability.extra.xmult * (G.GAME.starting_params.play_limit - #G.play.cards))
+			}
 		end
 	end
 }
@@ -789,6 +788,39 @@ SMODS.Joker {
 }
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_seeing_double", nil, false, "j_tsun_reflection", 14)
+
+SMODS.Joker {
+	key = "deepsea_diver",
+	name = "Deepsea Diver",
+	blueprint_compat = true,
+	rarity = "fusion",
+	cost = 15,
+	pos = { x = 3, y = 5 },
+	atlas = "Tsunami",
+	config = { extra = { odds = 4, numerator_bonus = 0 } },
+	loc_vars = function(self, info_queue, card)
+		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'vremade_space')
+		return { vars = { numerator, denominator } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			card.ability.extra.numerator_bonus = 0
+			for index, value in ipairs(G.play.cards) do
+				if card_is_splashed(value) then
+					card.ability.extra.numerator_bonus = card.ability.extra.numerator_bonus + 1
+				end
+			end
+			if SMODS.pseudorandom_probability(card, 'see you space joker', 1 + card.ability.extra.numerator_bonus, card.ability.extra.odds) then
+				return {
+					level_up = true,
+					message = localize('k_level_up_ex')
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_space", nil, false, "j_tsun_deepsea_diver", 8)
 
 SMODS.Joker {
 	key = "vaporwave",
@@ -893,6 +925,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 5, y = 1 },
 	cost = 1,
 	config = { extra = 30, dollars = 1 },
@@ -958,6 +991,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 8, y = 6 },
 	cost = 14,
 	config = { chips = 75, handsize = 1 },
@@ -992,6 +1026,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 2, y = 15 },
 	cost = 12,
 	config = { extra = { x_mult = 2, reduction = 0.06 } },
@@ -1031,6 +1066,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 9, y = 6 },
 	cost = 14,
 	config = { extra = 2 },
@@ -1083,6 +1119,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 7, y = 15 },
 	cost = 19,
 	config = { extra = { xmult = 1.5, triggers = 1, plussuit = "Hearts", minussuit = "Spades" } },
