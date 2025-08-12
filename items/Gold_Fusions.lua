@@ -303,6 +303,7 @@ SMODS.Joker {
 		GMAllExtra = false
 	end,
 	calculate = function(self, card, context)
+		GY_IExist = false
 		---lazy updating values so they get reapplied when exiting and re-entering a run
 		if card.ability.extra.sticker >= 2 then
 			GMAllExtra = true
@@ -417,6 +418,8 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_marie", nil, false,
 	"j_tsun_gold_tsunami_marie", 50)
 
+
+GY_IExist = false
 SMODS.Joker {
 	name = "Yosuke",
 	key = "gold_tsunami_yosuke",
@@ -493,6 +496,9 @@ SMODS.Joker {
 		end
 		if card.ability.extra.sticker >= 6 then
 			change_shop_size(-1)
+		end
+		if not from_debuff and not G.CONTROLLER.locks.selling_card then
+			check_for_unlock { type = "tsun_dragontrial" }
 		end
 	end,
 	calculate = function(self, card, context)
@@ -755,7 +761,7 @@ SMODS.Joker {
 					end
 				end
 			end
-			if context.end_of_round and context.main_eval and card.ability.gold.sticker >= 4 then
+			if context.end_of_round and context.main_eval and context.beat_boss and card.ability.gold.sticker >= 4 then
 				G.jokers.cards[#G.jokers.cards]:set_edition({ negative = true }, true)
 			end
 			---Handling Wild Card retriggers for Rise's Purple Stake Effect

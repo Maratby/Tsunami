@@ -166,6 +166,49 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_loyalty_card", nil, false, "j_splash", nil, false, "j_tsun_vending_machine", 7)
 
 SMODS.Joker {
+	key = "waterfront_scenery",
+	name = "Waterfront Scenery",
+	atlas = "Tsunami",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = { x = 2, y = 13 },
+    pixel_size = { h = 95 / 1.2 },
+	cost = 16,
+	config = { extra = { xmult = 2, modifier = 0.5, tally = 0 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.xmult,card.ability.extra.modifier } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			card.ability.extra.tally = 0
+			for index, value in ipairs(G.play.cards) do
+				if card_is_splashed(value) then
+					card.ability.extra.tally = card.ability.extra.tally + 1
+				end
+			end
+		end
+        if context.individual and context.cardarea == G.play and context.other_card:is_face() then
+            local is_first_face = false
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_face() then
+                    is_first_face = context.scoring_hand[i] == context.other_card
+                    break
+                end
+            end
+            if is_first_face then
+                return {
+                    xmult = card.ability.extra.xmult + (card.ability.extra.tally * card.ability.extra.modifier)
+                }
+            end
+        end
+    end
+}
+
+FusionJokers.fusions:add_fusion("j_photograph", nil, false, "j_splash", nil, false, "j_tsun_waterfront_scenery", 14)
+
+SMODS.Joker {
 	key = "magical_waterfall",
 	name = "Magical Waterfall",
 	atlas = "Tsunami",

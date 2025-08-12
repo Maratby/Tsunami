@@ -147,6 +147,7 @@ function tsun_top_10(printall)
 		end
 		print("=======================")
 	end
+	return splash_in_top_10
 end
 
 ---function for merging tables, mostly used for Gold Rise. MOVES VALUES FROM TABLE1 TO TABLE2!!!!	
@@ -307,6 +308,8 @@ Splashkeytable = {
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
 	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
+
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -361,6 +364,7 @@ Splashvouchertable = {
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
 	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -402,6 +406,7 @@ Splashkeytable2 = {
 	"j_ride_the_bus",
 	"j_todo_list",
 	"j_space_joker",
+	"j_photograph",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -417,6 +422,9 @@ Exclusionlist = {
 	"j_tsun_reflection",
 	"j_tsun_tsunami_marie",
 	"j_tsun_tsunami_yosuke",
+	"j_tsun_tsunami_rise",
+	"j_tsun_tsunami_chie",
+	"j_tsun_tsunami_yu",
 }
 Fusionlist = {}
 
@@ -618,9 +626,19 @@ SMODS.Atlas {
 	px = 34,
 	py = 34,
 }
+
+SMODS.Atlas {
+	key = "tsun_achievements",
+	path = "Achievements.png",
+	px = 66,
+	py = 66,
+}
 ---A function for checking if cards were scored by Splash or not. Thanks Eremel
 function card_is_splashed(card)
 	local _, _, _, scoring_hand, _ = G.FUNCS.get_poker_hand_info(G.play.cards)
+	if card.debuff then
+		return false
+	end
 	for _, scored_card in ipairs(scoring_hand) do
 		if GMAllExtra == true then
 			return true
@@ -753,6 +771,7 @@ SMODS.load_file("items/Not_Jokers.lua")()
 
 if Tsunami_Config.LegendFusions then
 	SMODS.load_file("items/Legendary_Fusions.lua")()
+	SMODS.load_file("items/Achievements.lua")()
 end
 if Tsunami_Config.TsunamiXMod then
 	SMODS.load_file("items/Crossmod_Fusions.lua")()
@@ -796,9 +815,6 @@ end
 Tsunami.C = {
 	GOLD = { HEX("d8b162"), HEX("FFD700") },
 }
-
-
-
 
 ---Config UI
 

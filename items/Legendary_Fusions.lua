@@ -113,6 +113,11 @@ SMODS.Joker {
 			card.ability.x_mult = 1
 		end
 	end,
+	remove_from_deck = function(self,card, from_debuff)
+		if not from_debuff and not G.CONTROLLER.locks.selling_card then
+			check_for_unlock{type = "tsun_dragontrial"}
+		end
+	end,
 	calculate = function(self, card, context)
 		if context.before then
 			for index, value in ipairs(G.play.cards) do
@@ -457,24 +462,45 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, 
 local fuse_card_ref = Card.fuse_card
 function Card:fuse_card(...)
 	local ret = fuse_card_ref(self, ...)
-	local indexes = {}
-	for index, value in ipairs(G.jokers.cards) do
-		if value.config.center.key == "j_tsun_tsunami_rise" then
-			table.insert(indexes, index)
+	local rise_highlight = false
+	if #G.jokers.highlighted > 0 then
+		for index, value in ipairs(G.jokers.highlighted) do
+			if value.config.center.key == "j_tsun_tsunami_rise" then
+				rise_highlight = true
+			end
 		end
+	else
+		rise_highlight = false
 	end
-	--finding leftmost rise out of indexes
-	local current_index = #G.jokers.cards
-	for index, value in ipairs(indexes) do
-		if value < current_index then
-			current_index = value
+	if rise_highlight == false then
+		local indexes = {}
+		for index, value in ipairs(G.jokers.cards) do
+			if value.config.center.key == "j_tsun_tsunami_rise" then
+				table.insert(indexes, index)
+			end
 		end
+		--finding leftmost rise out of indexes
+		local current_index = #G.jokers.cards
+		for index, value in ipairs(indexes) do
+			if value < current_index then
+				current_index = value
+			end
+		end
+		---transferring values from leftmost rise
+		if G.jokers.cards[current_index].config.center.key == "j_tsun_tsunami_rise" then
+			Tsunami_Rise_Transfer = G.jokers.cards[current_index].ability.extra
+		end
+		return ret
+	elseif rise_highlight == true then
+		---Alternative code if a Rise is highlighted
+		for index, value in ipairs(G.jokers.highlighted) do
+			if value.config.center.key == "j_tsun_tsunami_rise" then
+				Tsunami_Rise_Transfer = value.ability.extra
+			end
+		end
+
+		return ret
 	end
-	---transferring values from leftmost rise
-	if G.jokers.cards[current_index].config.center.key == "j_tsun_tsunami_rise" then
-		Tsunami_Rise_Transfer = G.jokers.cards[current_index].ability.extra
-	end
-	return ret
 end
 
 ---Chie
