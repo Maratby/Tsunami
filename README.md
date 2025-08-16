@@ -1,6 +1,6 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
-Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers/tree/block-ingredience)
+Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers)
 The version linked here is Minty's fork, fixing the issues with Jokers not using bettercalc methods and enabling a config to block materials.
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
