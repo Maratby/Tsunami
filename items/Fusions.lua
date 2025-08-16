@@ -1565,15 +1565,12 @@ SMODS.Joker {
 			for index, value in ipairs(G.play.cards) do
 				value.cut = false
 				if value.config.center_key == "m_stone" then
-					value:set_ability(
-						G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-						false)
-					value:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'waterseal' }), true, false)
-					while value.config.center_key == "m_stone" do
-						value:set_ability(
-							G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-							false)
+					local enhancement = SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })
+					while enhancement == "m_stone" do
+						enhancement = SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })
 					end
+					value:set_ability(G.P_CENTERS[enhancement], nil, true)
+					value:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'waterseal' }), true, false)
 					value:juice_up()
 					value.cut = true
 				end
