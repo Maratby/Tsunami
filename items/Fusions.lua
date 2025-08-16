@@ -1487,12 +1487,12 @@ SMODS.Joker {
 				if value.config.center_key == "m_stone" then
 					value:set_ability(
 						G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-						false)
+						true)
 					value:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'waterseal' }), true, false)
 					while value.config.center_key == "m_stone" do
 						value:set_ability(
 							G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-							false)
+							true)
 					end
 					value:juice_up()
 					value.cut = true
