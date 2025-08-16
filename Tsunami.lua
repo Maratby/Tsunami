@@ -82,7 +82,82 @@ function create_splash_material(_edition, eternal)
 	return _card
 end
 
-function change_card(card_object, new_card_key)
+---thank you dilly the dillster from dillatro
+function tsun_top_10(printall)
+	local profile = G.PROFILES[G.SETTINGS.profile]
+	local usage_data = profile.joker_usage
+
+	-- Create sorted list of all jokers by usage count
+	local joker_counts = {}
+	for k, v in pairs(usage_data) do
+		local count = (type(v) == "table" and v.count) or 0
+		table.insert(joker_counts, { key = k, count = count })
+	end
+
+	-- Sort by count (highest first)
+	table.sort(joker_counts, function(a, b) return a.count > b.count end)
+
+	-- Get top 10
+	local top_10 = {}
+	for i = 1, math.min(10, #joker_counts) do
+		table.insert(top_10, joker_counts[i])
+	end
+	if printall then
+		print("=== TOP 10 JOKERS ===")
+		for i, joker_data in ipairs(top_10) do
+			print(i .. ". " .. joker_data.key .. " (" .. joker_data.count .. " uses)")
+		end
+		print("====================")
+	end
+
+	-- Check if j_splash is in top 10 AND find its overall position
+	local splash_in_top_10 = false
+	local splash_position = nil
+	local splash_overall_position = nil
+
+	-- Find j_splash's overall position in the full sorted list
+	for i, joker_data in ipairs(joker_counts) do
+		if joker_data.key == "j_splash" then
+			splash_overall_position = i
+			break
+		end
+	end
+
+	-- Check if it's in top 10
+	for i, joker_data in ipairs(top_10) do
+		if joker_data.key == "j_splash" then
+			splash_in_top_10 = true
+			splash_position = i
+			break
+		end
+	end
+	if printall then
+		print("=== J_SPLASH STATUS ===")
+		if splash_in_top_10 then
+			print("j_splash IS in top 10 at position: " .. splash_position)
+			print("Boolean splash_in_top_10 = TRUE")
+		else
+			if splash_overall_position then
+				print("j_splash is NOT in top 10")
+				print("j_splash overall position: " .. splash_overall_position .. " out of " .. #joker_counts)
+			else
+				print("j_splash was never used (not found in usage data)")
+			end
+			print("Boolean splash_in_top_10 = FALSE")
+		end
+		print("=======================")
+	end
+	return splash_in_top_10
+end
+
+---function for merging tables, mostly used for Gold Rise. MOVES VALUES FROM TABLE1 TO TABLE2!!!!	
+function tsun_table_merge(table1, table2)
+	for _, value in ipairs(table1) do
+		table.insert(table2, value)
+	end
+end
+
+function tsun_change_card(card_object, new_card_key)
 	local new_card_object = SMODS.create_card({
 		area = G.jokers,
 		key = new_card_key
@@ -158,7 +233,7 @@ SMODS.Joker:take_ownership("splash", {
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
 			SMODS.change_discard_limit(1)
-            SMODS.change_play_limit(1)
+			SMODS.change_play_limit(1)
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
@@ -167,7 +242,7 @@ SMODS.Joker:take_ownership("splash", {
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
 			SMODS.change_discard_limit(-1)
-            SMODS.change_play_limit(-1)
+			SMODS.change_play_limit(-1)
 			G.hand:unhighlight_all()
 		end
 	end,
@@ -189,6 +264,9 @@ SMODS.Joker:take_ownership("splash", {
 ---Adds a dummy function that does nothing if Talisman isn't loaded, lets me avoid having Talisman be a dependency
 ---and avoid crashes if Talisman is loaded
 to_big = to_big or function(num)
+	return num
+end
+to_number = to_number or function(num)
 	return num
 end
 
@@ -229,6 +307,9 @@ Splashkeytable = {
 	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
+	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
+
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -282,6 +363,8 @@ Splashvouchertable = {
 	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
+	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -322,11 +405,14 @@ Splashkeytable2 = {
 	"j_drivers_license",
 	"j_ride_the_bus",
 	"j_todo_list",
+	"j_space_joker",
+	"j_photograph",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
 Exclusionlist = {
 	"j_splash",
+	"j_evo_ripple",
 	"j_yorick",
 	"j_chicot",
 	"j_perkeo",
@@ -336,6 +422,9 @@ Exclusionlist = {
 	"j_tsun_reflection",
 	"j_tsun_tsunami_marie",
 	"j_tsun_tsunami_yosuke",
+	"j_tsun_tsunami_rise",
+	"j_tsun_tsunami_chie",
+	"j_tsun_tsunami_yu",
 }
 Fusionlist = {}
 
@@ -462,7 +551,6 @@ function auto_register(registry)
 	end
 end
 
-
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
 ---This method should now include modded suits
 function tsun_randsuit(a)
@@ -538,9 +626,19 @@ SMODS.Atlas {
 	px = 34,
 	py = 34,
 }
+
+SMODS.Atlas {
+	key = "tsun_achievements",
+	path = "Achievements.png",
+	px = 66,
+	py = 66,
+}
 ---A function for checking if cards were scored by Splash or not. Thanks Eremel
 function card_is_splashed(card)
 	local _, _, _, scoring_hand, _ = G.FUNCS.get_poker_hand_info(G.play.cards)
+	if card.debuff then
+		return false
+	end
 	for _, scored_card in ipairs(scoring_hand) do
 		if GMAllExtra == true then
 			return true
@@ -590,7 +688,7 @@ Gtsun_Cryptid_Stakelist = {
 	"azure",
 	"ascendant",
 
----Sometimes they have the cry_ prefix so I'm adding both to cover all bases
+	---Sometimes they have the cry_ prefix so I'm adding both to cover all bases
 	"cry_pink",
 	"cry_brown",
 	"cry_yellow",
@@ -644,6 +742,7 @@ function sticker_inquisition(the_center)
 	end
 	return rank
 end
+
 ---The inverse of the above function, converts stake numbers to keys
 function sticker_reverse(_number)
 	local rank = "none"
@@ -667,12 +766,12 @@ function sticker_reverse(_number)
 	return rank
 end
 
-
 SMODS.load_file("items/Fusions.lua")()
 SMODS.load_file("items/Not_Jokers.lua")()
 
 if Tsunami_Config.LegendFusions then
 	SMODS.load_file("items/Legendary_Fusions.lua")()
+	SMODS.load_file("items/Achievements.lua")()
 end
 if Tsunami_Config.TsunamiXMod then
 	SMODS.load_file("items/Crossmod_Fusions.lua")()
@@ -716,9 +815,6 @@ end
 Tsunami.C = {
 	GOLD = { HEX("d8b162"), HEX("FFD700") },
 }
-
-
-
 
 ---Config UI
 

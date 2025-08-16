@@ -33,11 +33,22 @@ return {
 
 			["k_rise_minus_vessel"] = "-#1# Ante, -#1# Ante to Win",
 			["k_rise_card_xmult"] = "Played cards give X#1# Mult",
-
-			["k_rise_card_xmult_gold"] = "All Jokers give X#1# Mult",
-			["k_rise_money_gold"] = "Earn +$#1# for each ante at end of round",
-			["k_rise_pokerhand_gold"] = "Creates #1# Black Hole at end of round",
-			["k_rise_minus_ante_gold"] = "-#1# Ante, X0.5 blind size",
+		},
+		["achievement_names"] = {
+			ach_tsun_splash_fan = "Splash Fan",
+			ach_tsun_invest_team = "Investigation Team",
+			ach_tsun_true_ending = "True Ending",
+			ach_tsun_min_wage = "Minimum Wage",
+			ach_tsun_solo_performance = "Solo Performance",
+			ach_tsun_dragon_trial = "[NOT YET IMPLEMENTED]",
+		},
+		["achievement_descriptions"] = {
+			ach_tsun_splash_fan = "Have Splash in your Top 10 Most Used Jokers",
+			ach_tsun_invest_team = "Have all 5 Vanilla Legendary Fusions at the same time",
+			ach_tsun_true_ending = "Win a run with Yu, Marie and no other Jokers above Common rarity",
+			ach_tsun_min_wage = "Leave a shop with Yosuke while below $100 in debt",
+			ach_tsun_solo_performance = "Win a round with Rise and no other Jokers",
+			ach_tsun_dragon_trial = "GET OUUUUT! GET OOOOUUUUTTT! GET OOUUUUUTTTTTTTTTTTTTTTTT!!!!!",
 		},
 	},
 	["descriptions"] = {
@@ -493,9 +504,8 @@ return {
 			["goldrise_goldstake"] = {
 				["name"] = "Gold Stake",
 				["text"] = {
-					"Uses an {C:dark_edition}alternate{} set",
-					"of {C:dark_edition}Permanent Buffs",
-					"{C:inactive}(Not yet implemented!)"
+					"{C:dark_edition}Doubles{} effects of",
+					"all {C:dark_edition}Permanent Buffs",
 				},
 			},
 		},
@@ -541,8 +551,20 @@ return {
 				["name"] = "Ice Tray",
 				["text"] = {
 					"Every {C:attention}played card {}counts in scoring",
-					"{C:attention}Extra scored cards {}give {X:mult,C:white}X#1#{} Mult",
+					"This joker gives {X:mult,C:white}X#1#{} Mult for each",
+					"{C:red}unplayed card{} from {C:attention}play limit",
+					"{C:inactive,s:0.7}(ex. if you can play 5 cards, but you only play 3, X2 Mult)",
 					"{s:0.7}{C:inactive}(Joker Stencil + Splash)",
+				},
+			},
+			["j_tsun_deepsea_diver"] = {
+				["name"] = "Deepsea Diver",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"{C:green}#1# in #2#{} chance to {C:attention}upgrade{} level of played hand",
+					"Increase {C:green}numerator{} by {C:attention}1{} for each {C:attention}Extra Played Card{}",
+					"in current hand",
+					"{s:0.7}{C:inactive}(Space Joker + Splash)",
 				},
 			},
 			["j_tsun_banana_tree"] = {
@@ -705,6 +727,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Played cards give {X:mult,C:white}X#1#{} Mult, except {V:2}#4#",
 					"{s:0.8}suit changes at end of round",
+					"{s:0.5}{C:inactive}Art by Creator.png{}",
 					"{s:0.7}{C:inactive}(Ancient Joker + Splash){}",
 				},
 			},
@@ -912,12 +935,23 @@ return {
 					"{s:0.7}{C:inactive}(Loyalty Card + Splash)",
 				},
 			},
+			["j_tsun_waterfront_scenery"] = {
+				["name"] = "Waterfront Scenery",
+				["text"] = {
+					"Every {C:attention}played card {}counts in scoring",
+					"First played {C:attention}Face Card{} gives {X:mult,C:white}X#1#{} Mult",
+					"plus {X:mult,C:white}X#2#{} Mult for each {C:attention}Extra Played Card",
+					"{s:0.5}{C:inactive}Art by Creator.png{}",
+					"{s:0.7}{C:inactive}(Loyalty Card + Splash)",
+				},
+			},
 			["j_tsun_holy_water"] = {
 				["name"] = "Holy Water",
 				["text"] = {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}Code by MathIsFun_{}",
 					"{s:0.7}{C:inactive}(Jolly Joker + Splash){}",
 				},
 			},
@@ -957,6 +991,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"{C:attention}Stone Cards{} gain a random {C:attention}Enhancement{} and {C:attention}Seal",
 					"{C:attention}Extra played cards{} become Stone Cards",
+					"{s:0.5}{C:inactive}Art by Creator.png{}",
 					"{s:0.7}{C:inactive}(first effect takes priority)",
 					"{s:0.7}{C:inactive}(Marble Joker + Splash){}",
 				},
@@ -979,6 +1014,7 @@ return {
 					"Every {C:attention}played card {}counts in scoring",
 					"Each scored card with",
 					"{V:1}#1#{} suit gives {C:money}$#2#{}",
+					"{s:0.5}{C:inactive}(Suit changes every round){}",
 					"{s:0.7}{C:inactive}(To-Do List + Splash){}",
 				},
 			},
@@ -1010,6 +1046,7 @@ return {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
 					"Additional cards can be {C:attention}selected{} to form {C:attention}pairs",
+					"{s:0.7}{C:inactive}Base code by MathIsFun_{}",
 					"{s:0.7}{C:inactive}(Holy Water Gold Fusion){}",
 				},
 			},
