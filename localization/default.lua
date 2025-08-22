@@ -942,7 +942,7 @@ return {
 					"First played {C:attention}Face Card{} gives {X:mult,C:white}X#1#{} Mult",
 					"plus {X:mult,C:white}X#2#{} Mult for each {C:attention}Extra Played Card",
 					"{s:0.5}{C:inactive}Art by Creator.png{}",
-					"{s:0.7}{C:inactive}(Loyalty Card + Splash)",
+					"{s:0.7}{C:inactive}(Photograph + Splash)",
 				},
 			},
 			["j_tsun_holy_water"] = {
