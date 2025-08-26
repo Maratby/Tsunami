@@ -529,16 +529,16 @@ function auto_register(registry)
 				card2 = FusionJokers.fusions[index].jokers[2].name
 				card1 = value2
 				_flag = true
-				carry_1 = FusionJokers.fusions[index].jokers[1].carry_stat
-				extra_1 = FusionJokers.fusions[index].jokers[1].extra_stat
+				carry_2 = FusionJokers.fusions[index].jokers[2].carry_stat
+				extra_2 = FusionJokers.fusions[index].jokers[2].extra_stat
 				_result = FusionJokers.fusions[index].result_joker
 				_cost = FusionJokers.fusions[index].cost + 3
 			elseif FusionJokers.fusions[index].jokers[2].name == "j_splash" then
 				card1 = FusionJokers.fusions[index].jokers[1].name
 				card2 = value2
 				_flag = true
-				carry_2 = FusionJokers.fusions[index].jokers[2].carry_stat
-				extra_2 = FusionJokers.fusions[index].jokers[2].extra_stat
+				carry_1 = FusionJokers.fusions[index].jokers[1].carry_stat
+				extra_1 = FusionJokers.fusions[index].jokers[1].extra_stat
 				_result = FusionJokers.fusions[index].result_joker
 				_cost = FusionJokers.fusions[index].cost + 3
 			else
