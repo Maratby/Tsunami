@@ -768,7 +768,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return {
-				x_mult = math.min(1, card.ability.extra.xmult * (G.GAME.starting_params.play_limit - #G.play.cards))
+				x_mult = math.max(1, card.ability.extra.xmult * (G.GAME.starting_params.play_limit - #G.play.cards))
 			}
 		end
 	end
