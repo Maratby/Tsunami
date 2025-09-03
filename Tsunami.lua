@@ -309,6 +309,7 @@ Splashkeytable = {
 	"j_tsun_wet_floor_sign",
 	"j_tsun_deepsea_diver",
 	"j_tsun_waterfront_scenery",
+	"j_tsun_asset_liquidation",
 
 
 	"j_tsun_tsunami_yu",
@@ -321,8 +322,11 @@ Splashkeytable = {
 	"j_tsun_gold_holy_water",
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
+	"j_tsun_gold_asset_liquidation",
+
 	"j_tsun_gold_tsunami_marie",
 	"j_tsun_gold_tsunami_yosuke",
+	"j_tsun_gold_tsunami_rise",
 }
 
 ---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
@@ -365,6 +369,7 @@ Splashvouchertable = {
 	"j_tsun_wet_floor_sign",
 	"j_tsun_deepsea_diver",
 	"j_tsun_waterfront_scenery",
+	"j_tsun_asset_liquidation",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -407,6 +412,7 @@ Splashkeytable2 = {
 	"j_todo_list",
 	"j_space_joker",
 	"j_photograph",
+	"j_burglar",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -418,8 +424,13 @@ Exclusionlist = {
 	"j_perkeo",
 	"j_triboulet",
 	"j_caino",
+
 	"j_tsun_splish_splash",
+	"j_tsun_holy_water",
 	"j_tsun_reflection",
+	"j_tsun_cryomancer",
+	"j_tsun_asset_liquidation",
+
 	"j_tsun_tsunami_marie",
 	"j_tsun_tsunami_yosuke",
 	"j_tsun_tsunami_rise",
@@ -777,9 +788,7 @@ if Tsunami_Config.TsunamiXMod then
 	SMODS.load_file("items/Crossmod_Fusions.lua")()
 end
 
-if Tsunami_Config.TsunEnhancers then
-	SMODS.load_file("items/Enhancers.lua")()
-end
+SMODS.load_file("items/Enhancers.lua")()
 
 
 ---This is defined here because I do not want it to include the Gold Fusions in the materials
@@ -824,27 +833,6 @@ Tsunami_Mod.config_tab = function()
 		config = { align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6 },
 		nodes = {
 			{ n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 }, nodes = {} },
-
-			{
-				n = G.UIT.R,
-				config = { align = "cl", padding = 0 },
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = { align = "cl", padding = 0.05 },
-						nodes = {
-							create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Tsunami_Config, ref_value = "TsunEnhancers" },
-						}
-					},
-					{
-						n = G.UIT.C,
-						config = { align = "c", padding = 0 },
-						nodes = {
-							{ n = G.UIT.T, config = { text = "Enhancements and Support", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
-						}
-					},
-				}
-			},
 
 			{
 				n = G.UIT.R,
@@ -945,7 +933,7 @@ Tsunami_Mod.config_tab = function()
 						n = G.UIT.C,
 						config = { align = "c", padding = 0 },
 						nodes = {
-							{ n = G.UIT.T, config = { text = "Round decimal +mult from Tsunami Jokers", scale = 0.3, colour = G.C.UI.TEXT_LIGHT } },
+							{ n = G.UIT.T, config = { text = "Round decimal values output from Tsunami Jokers", scale = 0.3, colour = G.C.UI.TEXT_LIGHT } },
 						}
 					},
 				}

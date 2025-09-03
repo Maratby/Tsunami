@@ -968,7 +968,8 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
-	atlas = "Tsunami",
+	---this is commented because i lost the original sprite for credit card and am too lazy to regain it
+	---atlas = "Tsunami",
 	pos = { x = 5, y = 1 },
 	cost = 1,
 	config = { extra = 30, dollars = 1 },
@@ -996,6 +997,50 @@ SMODS.Joker {
 
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_credit_card", nil, false, "j_tsun_money_laundering", 1)
 
+SMODS.Joker {
+	key = "asset_liquidation",
+	name = "Asset Liquidation",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	atlas = "Tsunami",
+	pos = { x = 1, y = 10 },
+	cost = -10,
+	config = { triggers = 5, triggersmax = 5, storage = 0 },
+	ability_name = "mooney_laundering",
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.triggers, card.ability.triggersmax } }
+	end,
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			ease_hands_played(3)
+			ease_discard(-G.GAME.round_resets.discards)
+		end
+		if context.money_altered and context.amount < 0 and card.ability.triggers > 0 then
+			card:juice_up()
+			local tempdollar = context.amount / -2
+			if Tsunami_Config.TsunRounding then
+				tempdollar = math.floor(tempdollar + 0.5)
+			else
+				tempdollar = math.floor(tempdollar)
+			end
+			card.ability.triggers = card.ability.triggers - 1
+			---storing saved amount
+			card.ability.storage = card.ability.storage + tempdollar
+			ease_dollars(tempdollar)
+		end
+		if context.end_of_round and context.beat_boss and context.main_eval then
+			card.ability.triggers = 5
+			return {
+				card = card,
+				message = localize('k_reset')
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_burglar", nil, false, "j_tsun_asset_liquidation", 10)
 
 SMODS.Joker {
 	key = "scuba",

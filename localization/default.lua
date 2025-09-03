@@ -711,6 +711,16 @@ return {
 					"{s:0.7}{C:inactive}(Credit Card + Splash){}",
 				},
 			},
+			["j_tsun_asset_liquidation"] = {
+				["name"] = "Asset Liquidation",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Gain {C:blue}+3{} Hands and lose all {C:red}Discards{} when blind is selected",
+					"Gain back half of lost {C:money}money{} when {C:money}money{} decreases",
+					"up to {C:attention}#2#{}{C:inactive}[#1#]{} times per Ante",
+					"{s:0.7}{C:inactive}(Burglar + Splash){}",
+				},
+			},
 			["j_tsun_beach_ball"] = {
 				["name"] = "Beach Ball",
 				["text"] = {
@@ -771,6 +781,17 @@ return {
 					"{C:attention}Extra scored cards{} count as {C:attention}2 cards{} for this effect",
 					"{C:tsun_gold4}Retriggers count the card again for this effect",
 					"{s:0.7}{C:inactive}(Reflection Gold Fusion){}",
+				},
+			},
+			["j_tsun_gold_asset_liquidation"] = {
+				["name"] = "Asset Liquidation",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Gain {C:blue}+3{} Hands and lose all {C:red}Discards{} when blind is selected",
+					"Gain back half of lost {C:money}money{} when {C:money}money{} decreases",
+					"up to {C:attention}#2#{}{C:inactive}[#1#]{} times per Ante",
+					"{C:tsun_gold4}Gain an additional Hand for each $10{C:inactive}[#3#]{C:tsun_gold4} saved by this Joker",
+					"{s:0.7}{C:inactive}(Burglar + Splash){}",
 				},
 			},
 			["j_tsun_surfboard"] = {
@@ -942,7 +963,7 @@ return {
 					"First played {C:attention}Face Card{} gives {X:mult,C:white}X#1#{} Mult",
 					"plus {X:mult,C:white}X#2#{} Mult for each {C:attention}Extra Played Card",
 					"{s:0.5}{C:inactive}Art by Creator.png{}",
-					"{s:0.7}{C:inactive}(Loyalty Card + Splash)",
+					"{s:0.7}{C:inactive}(Photograph + Splash)",
 				},
 			},
 			["j_tsun_holy_water"] = {

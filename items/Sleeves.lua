@@ -313,6 +313,7 @@ CardSleeves.Sleeve {
                 ease_discard(self.config.discards)
                 G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.config.hands
                 ease_hands_played(self.config.hands)
+                G.hand:change_size(2)
 				return true
 			end
 		}))

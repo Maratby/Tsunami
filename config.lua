@@ -1,6 +1,4 @@
 return {
-    ---Enhancements and Support
-    TsunEnhancers = true,
     ---Crossmod Content
     TsunamiXMod = true,
     ---Gold Fusions
@@ -9,6 +7,6 @@ return {
     LegendFusions = true,
     ---Polymorph's handsize reduction increases by -1 for each consecutive use in a run, like Ectoplasm
     PolyHandScale = false,
-    ---Round Joker +Mult Values on output
+    ---Round Joker Values on output
     TsunRounding = false,
 }
