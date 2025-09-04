@@ -554,11 +554,11 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		---New probability stuff
 		if context.mod_probability and not context.blueprint then
-			if card.ability.extra.sticker <= 4 then
+			if card.ability.extra.sticker >= 4 then
 				return {
 					numerator = (context.numerator + 1) * 2
 				}
-			elseif card.ability.extra.sticker <= 3 then
+			elseif card.ability.extra.sticker >= 3 then
 				return {
 					numerator = context.numerator + 1
 				}
