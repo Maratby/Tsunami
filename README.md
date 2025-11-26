@@ -1,7 +1,7 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
 Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers)
-The version linked here is Minty's fork, as previous forks have not been maintained due to FusionJokers' original
+The version linked here is Minty's fork, as previous forks have not been maintained due to FusionJokers' original dev being trapped in a naturally formed bedrock hole at the bottom of the world
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
