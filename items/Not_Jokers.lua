@@ -131,7 +131,6 @@ SMODS.Consumable {
 	end,
 }
 
-
 SMODS.Back {
 	key = "splashdeck",
 	pos = { x = 0, y = 0 },

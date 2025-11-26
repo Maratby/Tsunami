@@ -11,6 +11,7 @@ SMODS.Rarity {
 	end,
 }
 
+
 SMODS.Joker {
 	key = "gold_splish_splash",
 	rarity = "tsun_gold_fusion",
@@ -227,7 +228,7 @@ SMODS.Joker {
 			if Tsunami_Config.TsunRounding then
 				temphands = math.floor(temphands)
 			end
-			ease_hands_played(math.max(3,temphands))
+			ease_hands_played(math.max(3, temphands))
 			ease_discard(-G.GAME.round_resets.discards)
 		end
 		if context.money_altered and context.amount < 0 and card.ability.triggers > 0 then
@@ -253,7 +254,8 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_asset_liquidation", "storage", false, "j_tsun_gold_asset_liquidation", 20)
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_asset_liquidation", "storage", false,
+	"j_tsun_gold_asset_liquidation", 20)
 
 --- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
 GMinfolist = {
@@ -286,6 +288,17 @@ GR_infolist = {
 	"goldrise_orangestake",
 	"goldrise_goldstake"
 }
+
+GC_infolist = {
+	"goldchie_whitestake",
+	"goldchie_redstake",
+	"goldchie_greenstake",
+	"goldchie_blackstake",
+	"goldchie_bluestake",
+	"goldchie_purplestake",
+	"goldchie_orangestake",
+	"goldchie_goldstake"
+}
 ---Sent to card_is_splashed for extra scored card calculation in Gold Marie's Red Stake effect.
 GMAllExtra = false
 ---Sent to the Aeon Tarot Card to activate double-splash spawning.
@@ -294,7 +307,7 @@ AeonDoubleSplash = false
 SMODS.Joker {
 	name = "Marie",
 	key = "gold_tsunami_marie",
-	rarity = "tsun_gold_fusion",
+	rarity = "tsun_gold_legendary",
 	cost = 50,
 	unlocked = true,
 	discovered = false,
@@ -473,7 +486,7 @@ GY_IExist = false
 SMODS.Joker {
 	name = "Yosuke",
 	key = "gold_tsunami_yosuke",
-	rarity = "tsun_gold_fusion",
+	rarity = "tsun_gold_legendary",
 	cost = 50,
 	unlocked = true,
 	discovered = false,
@@ -652,7 +665,7 @@ FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_yosuke",
 RS_pokerhand = "High Card"
 SMODS.Joker {
 	key = "gold_tsunami_rise",
-	rarity = "tsun_gold_fusion",
+	rarity = "tsun_gold_legendary",
 	cost = 50,
 	unlocked = true,
 	discovered = true,
@@ -1065,3 +1078,217 @@ SMODS.Joker {
 FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_rise", nil, false,
 	"j_tsun_gold_tsunami_rise",
 	50)
+
+
+
+---chie gold
+
+SMODS.Joker {
+	name = "Chie",
+	key = "gold_tsunami_chie",
+	rarity = "tsun_gold_legendary",
+	cost = 50,
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	eternal_compat = false,
+	perishable_compat = false,
+	no_aeq = true,
+	config = { extra = {
+		copies = 2,
+		odds = 3,
+		odds_gold = 100,
+		sticker = 0,
+		stickerkey = "none",
+	} },
+	atlas = "TsunamiGoldLegendary",
+	pos = { x = 4, y = 0 },
+	soul_pos = { x = 4, y = 1 },
+	loc_vars = function(self, info_queue, card)
+		local new_numerator2, new_denominator2 = SMODS.get_probability_vars(card, 1, card.ability.extra.odds_gold,
+			'tsun_chie')
+		for i = 1, 8 do
+			info_queue[#info_queue + 1] = {
+				key = GC_infolist[i],
+				set = 'Other',
+				vars = { new_numerator2, new_denominator2 }
+			}
+		end
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'tsun_chie')
+		return { vars = { card.ability.extra.copies, new_numerator, new_denominator, card.ability.extra.sticker, card.ability.extra.stickerkey } }
+	end,
+	set_ability = function(self, card, initial, delay_sprites)
+		card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_yosuke)
+		card.ability.extra.stickerkey = get_joker_win_sticker(G.P_CENTERS.j_tsun_tsunami_yosuke)
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		if card.ability.extra.sticker >= 4 and not from_debuff then
+			card:set_edition({ negative = true })
+			card.ability.eternal = true
+		end
+		if card.ability.extra.sticker >= 5 and not from_debuff then
+			G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
+			card.ability.extra.copies = card.ability.extra.copies + 1
+		end
+		if card.ability.extra.sticker >= 7 and not from_debuff then
+			G.hand:change_size(1)
+			G.P_CENTERS.c_chariot.config.max_highlighted = G.P_CENTERS.c_chariot.config.max_highlighted + 1
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		if card.ability.extra.sticker >= 5 and not from_debuff then
+			G.consumeables.config.card_limit = G.consumeables.config.card_limit - 1
+		end
+		if card.ability.extra.sticker >= 7 and not from_debuff then
+			G.hand:change_size(-1)
+			G.P_CENTERS.c_chariot.config.max_highlighted = math.max(G.P_CENTERS.c_chariot.config.max_highlighted - 1, 1)
+		end
+	end,
+	calculate = function(self, card, context)
+		if context.repetition and (context.cardarea == G.play or context.cardarea == G.hand) then
+			if context.other_card.config.center == G.P_CENTERS.m_steel then
+				return {
+					repetitions = 1
+				}
+			end
+		end
+		if context.end_of_round and context.main_eval and context.beat_boss and card.ability.extra.sticker >= 1 then
+			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				G.E_MANAGER:add_event(Event({
+					trigger = 'before',
+					delay = 0.0,
+					func = (function()
+						SMODS.add_card({ area = G.consumeables, key = "c_chariot" })
+						G.GAME.consumeable_buffer = 0
+						return true
+					end)
+				}))
+			end
+			if card.ability.extra.sticker >= 4 and #G.consumeables.cards >= 1 and (G.consumeables.cards[1].edition == nil or G.consumeables.cards[1].edition.key ~= "e_negative") and card.ability.extra.sticker >= 4 then
+				G.E_MANAGER:add_event(Event({
+					blockable = true,
+					blocking = true,
+					func = (function()
+						G.consumeables.cards[1]:set_edition({ negative = true }, nil)
+						card:juice_up()
+						return true
+					end)
+				}))
+			end
+		end
+
+		if context.ending_shop then
+			---Using the code from Incantation's take_ownership patch for Perkeo if Incantation is loaded
+			for i = 1, card.ability.extra.copies do
+				if G.consumeables.cards[1] then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							local card_to_copy
+							if card.ability.extra.sticker >= 2 then
+								card_to_copy = G.consumeables.cards[1]
+							else
+								card_to_copy, _ = pseudorandom_element(G.consumeables.cards, 'ez')
+							end
+							local copied_card = copy_card(card_to_copy)
+							copied_card:set_edition("e_negative", true)
+							copied_card:add_to_deck()
+							G.consumeables:emplace(copied_card)
+							return true
+						end
+					}))
+					card_eval_status_text(context.blueprint_card or card, 'extra', nil, nil, nil,
+						{ message = localize('k_duplicated_ex') })
+				end
+			end
+			return { calculated = true }
+		end
+		if context.end_of_round and context.main_eval and not context.game_over then
+			if SMODS.pseudorandom_probability(card, 'god-s_hand', 1, card.ability.extra.odds, 'tsun_chie') and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				G.E_MANAGER:add_event(Event({
+					blockable = true,
+					blocking = true,
+					func = (function()
+						local s_card
+						if SMODS.pseudorandom_probability(card, 'god-s_hand', 1, card.ability.extra.odds_gold, 'tsun_chie') and card.ability.extra.sticker >= 3 then
+							s_card = create_card(nil, G.consumeables, nil, nil, nil, nil, 'c_soul', 'sup')
+						else
+							s_card = create_card('Spectral', G.consumeables, nil, nil, nil, nil, nil, 'spec')
+						end
+						s_card:add_to_deck()
+						G.consumeables:emplace(s_card)
+						G.GAME.consumeable_buffer = 0
+						return true
+					end)
+				}))
+			elseif #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				G.E_MANAGER:add_event(Event({
+					trigger = 'before',
+					delay = 0.0,
+					func = (function()
+						local t_card = create_card("Tarot", G.consumeables, nil, nil, nil, nil, nil, 'chie')
+						t_card:add_to_deck()
+						G.consumeables:emplace(t_card)
+						G.GAME.consumeable_buffer = 0
+						return true
+					end)
+				}))
+			end
+		end
+		if context.end_of_round and context.main_eval and context.beat_boss and card.ability.extra.sticker >= 8 then
+			if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+				G.E_MANAGER:add_event(Event({
+					trigger = 'before',
+					delay = 0.0,
+					func = (function()
+						SMODS.add_card({ area = G.consumeables, key = "c_tsun_galactic_punt" })
+						G.GAME.consumeable_buffer = 0
+						return true
+					end)
+				}))
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_chie", nil, false, "j_tsun_gold_tsunami_chie", 50)
+
+
+SMODS.Consumable {
+	key = 'galactic_punt',
+	set = 'Spectral',
+	atlas = "TsunamiTarot",
+	no_collection = true,
+	hidden = true,
+	pos = { x = 1, y = 1 },
+	config = { max_highlighted = 500 },
+	set_card_type_badge = function(self, card, badges)
+		badges[1] = create_badge(localize('k_chie_followup'), G.C.EDITION, G.C.WHITE, 1.2)
+	end,
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.max_highlighted } }
+	end,
+	use = function(self, card, area, copier)
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.4,
+			func = function()
+				play_sound('tarot1')
+				card:juice_up(0.3, 0.5)
+				return true
+			end
+		}))
+		G.E_MANAGER:add_event(Event({
+			trigger = 'after',
+			delay = 0.2,
+			func = function()
+				SMODS.destroy_cards(G.hand.highlighted)
+				return true
+			end
+		}))
+		delay(0.3)
+	end,
+}

@@ -7,6 +7,7 @@ return {
 
 			["k_tsun_leg_fusion"] = "Legendary Fusion",
 			["k_tsun_gold_fusion"] = "Gold Fusion",
+			["k_tsun_gold_legendary"] = "Gold Legendary Fusion",
 
 			["k_mariesave"] = "Saved By Gold Marie",
 			["k_yu_cut"] = "Cut!",
@@ -16,6 +17,7 @@ return {
 			["k_rise_failed"] = "Failed to give a Buff, or Buff had no valid targets",
 			["k_rise_final_heart"] = "Double all buffs from this card",
 			["k_rise_final_acorn"] = "Creates a Negative copy of a random owned Joker (Rise excluded)",
+			["k_chie_followup"] = "Follow-Up Attack",
 		},
 		["v_dictionary"] = {
 			["k_rise_hand"] = "+#1# Hand",
@@ -156,7 +158,7 @@ return {
 				["name"] = "Splash Sleeve | Abandoned Deck",
 				["text"] = {
 					"Start run with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue}Splash",
-                    "and no {C:attention}2s{} or {C:attention}3s{} in your deck",
+					"and no {C:attention}2s{} or {C:attention}3s{} in your deck",
 				},
 			},
 			["sleeve_tsun_splash_alt_checkered"] = {
@@ -245,7 +247,7 @@ return {
 				["text"] = {
 					"You can choose {C:attention}1{} additional card",
 					"from {C:spectral}Spectral{} Packs",
-                    "Start with {C:spectral,T:c_polymorph}Polymorph{}",
+					"Start with {C:spectral,T:c_polymorph}Polymorph{}",
 				},
 			},
 			["sleeve_tsun_splash_alt_sdm_dna"] = {
@@ -508,6 +510,74 @@ return {
 					"all {C:dark_edition}Permanent Buffs",
 				},
 			},
+
+			["goldchie_whitestake"] = {
+				["name"] = "White Stake",
+				["text"] = {
+					"Creates {C:tarot}The Chariot{}",
+					"at {C:attention}end of round",
+					"{C:inactive}(must have room)"
+				},
+			},
+			["goldchie_redstake"] = {
+				["name"] = "Red Stake",
+				["text"] = {
+					"Always copies",
+					"{C:attention}leftmost{} consumable",
+
+				},
+			},
+			["goldchie_greenstake"] = {
+				["name"] = "Green Stake",
+				["text"] = {
+					"{C:green}#1# in #2#{} chance to",
+					"create {C:dark_edition}The Soul{}",
+					"when creating a {C:Spectral}Spectral Card",
+				},
+			},
+			["goldchie_blackstake"] = {
+				["name"] = "Black Stake",
+				["text"] = {
+					"Turns leftmost consumable",
+					"{C:dark_edition}Negative{} after each",
+					"{C:attention}Boss Blind",
+					"This joker becomes",
+					"{C:dark_edition}Negative{} and {C:attention}Eternal{}",
+					"when fused",
+				},
+			},
+			["goldchie_bluestake"] = {
+				["name"] = "Blue Stake",
+				["text"] = {
+					"+{C:attention}1{} Consumable Slot",
+					"creates {C:attention}1{} more card",
+					"at end of round",
+				},
+			},
+			["goldchie_purplestake"] = {
+				["name"] = "Purple Stake",
+				["text"] = {
+					"{C:attention}Retrigger{} all",
+					"played or held",
+					"{C:attention}Steel Cards{}",
+				},
+			},
+			["goldchie_orangestake"] = {
+				["name"] = "Orange Stake",
+				["text"] = {
+					"+{C:attention}1{} Hand Size",
+					"{C:tarot}The Chariot",
+					"can select {C:attention}1",
+					"additional card",
+				},
+			},
+			["goldchie_goldstake"] = {
+				["name"] = "Gold Stake",
+				["text"] = {
+					"{C:dark_edition}Galactic Punt",
+				},
+			},
+
 		},
 		["Joker"] = {
 			["j_tsun_vaporwave"] = {
@@ -542,9 +612,10 @@ return {
 				["name"] = "Ride the Sub",
 				["text"] = {
 					"{C:mult}+#2#{} Mult per consecutive hand",
-                    "played without an",
-                    "{C:attention}Extra Scored Card{}",
-                    "{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)"
+					"played without an",
+					"{C:attention}Extra Scored Card{}",
+					"{C:inactive}(Currently {C:mult}+#1#{C:inactive} Mult)",
+					"{s:0.7}{C:inactive}(Ride the Bus + Splash){}",
 				},
 			},
 			["j_tsun_ice_tray"] = {
@@ -617,43 +688,77 @@ return {
 				},
 			},
 			["j_tsun_gold_tsunami_marie"] = {
-				["name"] = "{C:tsun_gold1}M{C:tsun_gold2}a{C:tsun_gold3}r{C:tsun_gold4}i{C:tsun_gold5}e",
+				["name"] = "{C:tsun_gradient_gold}Marie",
 				["text"] = {
-					"Every {C:attention}played card{} counts in scoring",
-					"{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
-					"{C:tsun_gold4}Grants additional effects",
-					"{C:tsun_gold4}based on {C:blue}Splash's{}{C:tsun_gold4} Stake Sticker",
-					"{C:blue}Splash's {C:tsun_gold4}Stake Sticker: {C:attention}#2# {C:inactive}(#3#/8)",
-					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
-					"{s:0.5}{C:inactive}(Marie Gold Fusion)",
+					{
+						"Every {C:attention}played card{} counts in scoring",
+						"{C:blue}Splash {C:attention}Fusions{} and {C:blue}Splash {}give {X:mult,C:white}X#1#{} Mult",
+					},
+					{
+						"{C:tsun_gold4}Grants additional effects",
+						"{C:tsun_gold4}based on {C:blue}Splash's{}{C:tsun_gold4} Stake Sticker",
+						"{C:blue}Splash's {C:tsun_gold4}Stake Sticker: {C:attention}#2# {C:inactive}(#3#/8)",
+						"{C:inactive}{s:0.7}Applies previous Stake effects",
+						"{s:0.5}{C:inactive}(Marie Gold Fusion)",
+					},
 				},
 			},
 			["j_tsun_gold_tsunami_yosuke"] = {
-				["name"] = "{C:tsun_gold5}Y{C:tsun_gold1}o{C:tsun_gold4}s{C:tsun_gold2}u{C:tsun_gold4}k{C:tsun_gold5}e",
+				["name"] = "{C:tsun_gradient_gold}Yosuke",
 				["text"] = {
-					"Every {C:attention}played card{} counts in scoring",
-					"{C:attention}Gains {X:mult,C:white}X#4#{C:mult} Mult{} for every {C:attention}#3#{C:inactive} [#2#]{C:attention} Extra played cards",
-					"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
-					"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
-					"{C:tsun_gold4}Grants additional effects based on",
-					"{C:dark_edition}Chie's{}{C:tsun_gold4} Stake Sticker",
-					"{C:dark_edition}Chie's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
-					"{C:inactive}{s:0.7}(Applies previous Stake effects)",
-					"{s:0.5}{C:inactive}(Yosuke Gold Fusion)",
+					{
+						"Every {C:attention}played card{} counts in scoring",
+						"{C:attention}Gains {X:mult,C:white}X#4#{C:mult} Mult{} for every {C:attention}#3#{C:inactive} [#2#]{C:attention} Extra played cards",
+						"{C:attention}Multiply{} counted {C:attention}Extra played cards{} by {C:red}remaining Discards",
+						"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
+					},
+					{
+						"{C:tsun_gold4}Grants additional effects based on",
+						"{C:dark_edition}Chie's{}{C:tsun_gold4} Stake Sticker",
+						"{C:dark_edition}Chie's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
+						"{C:inactive}{s:0.7}Applies previous Stake effects",
+						"{s:0.5}{C:inactive}(Yosuke Gold Fusion)",
+					},
 				},
 			},
 			["j_tsun_gold_tsunami_rise"] = {
-				["name"] = "{C:tsun_gold3}R{C:tsun_gold1}i{C:tsun_gold4}s{C:tsun_gold5}e",
+				["name"] = "{C:tsun_gradient_gold}Rise",
 				["text"] = {
-					"Every {C:attention}played card{} counts in scoring",
-					"Disables effect of every {C:attention}Boss Blind",
-					"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
-					"{C:tsun_gold4}Grants additional effects based on",
-					"{C:dark_edition}Yu's{}{C:tsun_gold4} Stake Sticker",
-					"{C:dark_edition}Yu's {C:tsun_gold4}Stake Sticker: {C:attention}#3# {C:inactive}(#4#/8)",
-					"Last Buff: {C:dark_edition}#2##1#",
-					"{s:0.5}{C:inactive}Modded Blinds give random buffs from other blinds",
-					"{s:0.7}{C:inactive}(Rise Gold Fusion)",
+					{
+						"Every {C:attention}played card{} counts in scoring",
+						"Disables effect of every {C:attention}Boss Blind",
+						"Grants {C:dark_edition}permanent buffs{} when disabling a {C:attention}Boss Blind",
+					},
+					{
+						"{C:tsun_gold4}Grants additional effects based on",
+						"{C:dark_edition}Yu's{}{C:tsun_gold4} Stake Sticker",
+						"{C:dark_edition}Yu's {C:tsun_gold4}Stake Sticker: {C:attention}#3# {C:inactive}(#4#/8)",
+						"Last Buff: {C:dark_edition}#2##1#",
+						"{s:0.5}{C:inactive}Modded Blinds give random buffs from other blinds",
+						"{C:inactive}{s:0.7}Applies previous Stake effects",
+						"{s:0.7}{C:inactive}(Rise Gold Fusion)",
+					},
+				},
+			},
+			["j_tsun_gold_tsunami_chie"] = {
+				["name"] = "{C:tsun_gradient_gold}Chie",
+				["text"] = {
+					{
+						"Every {C:attention}played card{} counts in scoring",
+						"Creates {C:dark_edition}Negative{} copies of",
+						"{C:attention}#1#{} random {C:attention}consumable{} cards",
+						"in your possession when you leave the shop",
+						"{C:green}#2# in #3#{} chance to create a {C:attention}random {C:blue}Spectral Card{}",
+						"at end of round, otherwise create a random {C:purple}Tarot Card{}",
+						"{C:inactive}(must have room)",
+					},
+					{
+						"{C:tsun_gold4}Grants additional effects based on",
+						"{C:dark_edition}Yosuke's{}{C:tsun_gold4} Stake Sticker",
+						"{C:dark_edition}Yosuke's {C:tsun_gold4}Stake Sticker: {C:attention}#5# {C:inactive}(#4#/8)",
+						"{C:inactive}{s:0.7}Applies previous Stake effects",
+						"{s:0.7}{C:inactive}(Chie Gold Fusion)",
+					},
 				},
 			},
 			["j_tsun_reflection"] = {
@@ -772,8 +877,7 @@ return {
 				},
 			},
 			["j_tsun_gold_reflection"] = {
-				["name"] =
-				"{C:tsun_gold1}R{C:tsun_gold2}e{C:tsun_gold3}f{C:tsun_gold4}l{C:tsun_gold5}e{C:tsun_gold4}c{C:tsun_gold3}t{C:tsun_gold2}i{C:tsun_gold5}o{C:tsun_gold4}n",
+				["name"] = "{C:tsun_gradient_gold}Reflection",
 				["text"] = {
 					"Every {C:attention}played card {}counts in {C:tsun_gold}scoring",
 					"Gives {X:mult,C:white}X#1#{} Mult for each instance of a {C:blue}Clubs{} Suit",
@@ -784,7 +888,7 @@ return {
 				},
 			},
 			["j_tsun_gold_asset_liquidation"] = {
-				["name"] = "Asset Liquidation",
+				["name"] = "{C:tsun_gradient_gold}Asset Liquidation",
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"Gain {C:blue}+3{} Hands and lose all {C:red}Discards{} when blind is selected",
@@ -824,7 +928,7 @@ return {
 				},
 			},
 			["j_tsun_gold_cryomancer"] = {
-				["name"] = "{C:tsun_gold1}C{C:tsun_gold2}r{C:tsun_gold3}y{C:tsun_gold4}o{C:tsun_gold5}m{C:tsun_gold4}a{C:tsun_gold3}n{C:tsun_gold2}c{C:tsun_gold1}e{C:tsun_gold5}r",
+				["name"] = "{C:tsun_gradient_gold}Cryomancer",
 				["text"] = {
 					"When blind is selected, creates a {C:tarot}Tarot Card{}",
 					"{C:inactive}(must have room){}",
@@ -919,6 +1023,9 @@ return {
 					"{s:0.7}{C:inactive}(Perkeo + Splash)",
 				},
 			},
+
+
+
 			["j_tsun_splish_splash"] = {
 				["name"] = "Splish Splash",
 				["text"] = {
@@ -939,8 +1046,7 @@ return {
 				},
 			},
 			["j_tsun_gold_splish_splash"] = {
-				["name"] =
-				"{C:tsun_gold1}S{C:tsun_gold2}p{C:tsun_gold3}l{C:tsun_gold4}i{C:tsun_gold5}s{C:tsun_gold4}h {C:tsun_gold3}S{C:tsun_gold2}p{C:tsun_gold1}l{C:tsun_gold5}a{C:tsun_gold3}s{C:tsun_gold4}h{",
+				["name"] = "{C:tsun_gradient_gold}Splish Splash",
 				["text"] = {
 					"When blind is selected, creates a {C:dark_edition}Negative{} {C:blue}Splash",
 					"{s:0.7}{C:inactive}(Splish Splash Gold Fusion)",
@@ -1062,7 +1168,7 @@ return {
 			},
 
 			["j_tsun_gold_holy_water"] = {
-				["name"] = "{C:tsun_gold1}H{C:tsun_gold2}o{C:tsun_gold3}l{C:tsun_gold4}y {C:tsun_gold5}W{C:tsun_gold4}a{C:tsun_gold3}t{C:tsun_gold2}e{C:tsun_gold1}r",
+				["name"] = "{C:tsun_gradient_gold}Holy Water",
 				["text"] = {
 					"Every {C:attention}played card {}counts in scoring",
 					"Gives {C:red}+#1#{} Mult if played hand contains a {C:attention}Pair",
@@ -1085,7 +1191,7 @@ return {
 				["name"] = "Flood",
 				["text"] = {
 					"Enhances up to {C:attention}#1#{} selected",
-                    "cards into {C:blue}Waterproof Cards"
+					"cards into {C:blue}Waterproof Cards"
 				},
 			},
 		},
@@ -1112,6 +1218,12 @@ return {
 					"joker that can {C:attention}fuse{} with {C:blue}Splash",
 					"{C:attention}-#1# Hand Size",
 					"{C:inactive}(Must have room)",
+				},
+			},
+			["c_tsun_galactic_punt"] = {
+				["name"] = "Galactic Punt",
+				["text"] = {
+					"{C:red}Destroys{} all selected cards"
 				},
 			},
 		},

@@ -68,3 +68,8 @@ if Tsun_has_Morefluff then
     }
     FusionJokers.fusions:add_fusion("j_mf_philosophical", nil, false, "j_splash", nil, false, "j_tsun_waterfall_loop", 10)
 end
+
+---insert picture of obama giving himself a medal
+if Jokebox then
+    FusionJokers.fusions:add_fusion("j_jkbx_marie", nil, false, "j_splash", nil, false, "j_tsun_tsunami_marie", 10)
+end

@@ -543,7 +543,7 @@ SMODS.Joker {
 			end
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra } },
-				Xmult_mod = watermult
+				Xmult = watermult
 			}
 		end
 	end
@@ -626,7 +626,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return {
-				mult_mod = card.ability.extra.mult,
+				mult = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
@@ -708,7 +708,7 @@ SMODS.Joker {
 		if context.joker_main then
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } },
-				Xmult_mod = card.ability.extra.xmult,
+				Xmult = card.ability.extra.xmult,
 				card = card,
 			}
 		end
@@ -823,7 +823,7 @@ SMODS.Joker {
 			-- set the xmult appropriately
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra ^ number_of_pairs } },
-				Xmult_mod = card.ability.extra ^ number_of_pairs,
+				Xmult = card.ability.extra ^ number_of_pairs,
 				card = card,
 			}
 		end
@@ -884,7 +884,7 @@ SMODS.Joker {
 		if context.joker_main then
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
-				xmult_mod = card.ability.extra.x_mult,
+				xmult = card.ability.extra.x_mult,
 				card = card,
 			}
 		elseif context.skip_blind then
@@ -1138,7 +1138,7 @@ SMODS.Joker {
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
 				colour = G.C.RED,
-				xmult_mod = card.ability.extra.x_mult,
+				xmult = card.ability.extra.x_mult,
 				card = card,
 			}
 		end
@@ -1460,7 +1460,7 @@ SMODS.Joker {
 			end
 		end
 		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) and context.other_card.ability.name == "Steel Card" then
+			if card_is_splashed(context.other_card) and context.other_card.config.center == G.P_CENTERS.m_steel then
 				return {
 					x_mult = 1 + (card.ability.extra.steelmult * handsteeltally),
 				}
@@ -1537,7 +1537,7 @@ SMODS.Joker {
 		if context.joker_main and card.ability.extra.mult > 0 then
 			return {
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } },
-				mult_mod = card.ability.extra.mult
+				mult = card.ability.extra.mult
 			}
 		end
 	end
@@ -1580,8 +1580,8 @@ SMODS.Joker {
 		end
 		if context.joker_main then
 			return {
-				chip_mod = card.ability.extra.chips,
-				mult_mod = card.ability.extra.mult,
+				chips = card.ability.extra.chips,
+				mult = card.ability.extra.mult,
 				card = card
 			}
 		end

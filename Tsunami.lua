@@ -157,25 +157,24 @@ function tsun_table_merge(table1, table2)
 	end
 end
 
-function tsun_change_card(card_object, new_card_key)
-	local new_card_object = SMODS.create_card({
-		area = G.jokers,
-		key = new_card_key
-	})
-
-	if card_object.edition then
-		new_card_object:set_edition(card_object.edition)
+function Tsunami.change_card(card_object, new_card_key, transfer_ability, extra)
+	local old_ability = 0
+	if transfer_ability then
+		if extra then
+			old_ability = card_object.ability.extra[transfer_ability]
+		else
+			old_ability = card_object.ability[transfer_ability]
+		end
 	end
-	if card_object.ability.eternal == true then
-		new_card_object.ability.eternal = true
-	elseif card_object.ability.perishable == true then
-		new_card_object.ability.perishable = true
-	elseif card_object.ability.rental == true then
-		new_card_object.ability.rental = true
+	card_object:set_ability(G.P_CENTERS[new_card_key])
+	if transfer_ability then
+		if extra then
+			card_object.ability.extra[transfer_ability] = old_ability
+		else
+			card_object.ability[transfer_ability] = old_ability
+		end
 	end
-	new_card_object:add_to_deck()
-	G.jokers:emplace(new_card_object)
-	return new_card_object
+	card_object:juice_up()
 end
 
 ---I can't use the CardSleeves method for this outside of a Sleeve. But I need to.
@@ -327,6 +326,8 @@ Splashkeytable = {
 	"j_tsun_gold_tsunami_marie",
 	"j_tsun_gold_tsunami_yosuke",
 	"j_tsun_gold_tsunami_rise",
+	"j_tsun_gold_tsunami_chie",
+	"j_tsun_gold_tsunami_yu",
 }
 
 ---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
@@ -410,7 +411,7 @@ Splashkeytable2 = {
 	"j_drivers_license",
 	"j_ride_the_bus",
 	"j_todo_list",
-	"j_space_joker",
+	"j_space",
 	"j_photograph",
 	"j_burglar",
 }
@@ -804,13 +805,14 @@ end
 ---making a custom animated gold color because I wanted one
 ---holy fucking shit this is difficult and its pissing me off
 ---okay i gave up on making the color animated i'll just make 5 colors
+
+
+
 local tsunlc = loc_colour
 function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
 		tsunlc()
 	end
-	---G.ARGS.LOC_COLOURS.tsun_gold = { HEX("FFD700"), HEX("d8b162")}
-	---G.ARGS.LOC_COLOURS.tsun_gold = { 1, 1, 1, 1 }
 	G.ARGS.LOC_COLOURS.tsun_gold1 = HEX("FFD700")
 	G.ARGS.LOC_COLOURS.tsun_gold2 = HEX("f6e3c3")
 	G.ARGS.LOC_COLOURS.tsun_gold3 = HEX("edd5a9")
@@ -821,8 +823,13 @@ function loc_colour(_c, _default)
 	return tsunlc(_c, _default)
 end
 
-Tsunami.C = {
-	GOLD = { HEX("d8b162"), HEX("FFD700") },
+SMODS.Gradient {
+	key = "tsun_gradient_gold",
+	colours = {
+		HEX("d8b162"),
+		HEX("edd5a9"),
+	},
+	cycle = 10
 }
 
 ---Config UI
