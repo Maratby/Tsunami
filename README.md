@@ -1,7 +1,7 @@
 # Tsunami | Fusing every vanilla joker with Splash
 
 Requires Fusion Jokers mod (https://github.com/wingedcatgirl/Fusion-Jokers)
-The version linked here is Minty's fork, fixing the issues with Jokers not using bettercalc methods and enabling a config to block materials.
+The version linked here is Minty's fork, as previous forks have not been maintained due to FusionJokers' original
 
 I am going to fuse every vanilla Joker with Splash... Eventually.
 
@@ -16,11 +16,8 @@ Cross-Mod Fusions available! I'll be working on more of these later, right now t
 
 Cross-Mod Fusions can be disabled in the Mod Config menu.
 
-Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects! Currently, four fusions have Gold variants:
-- Splish Splash
-- Reflection
-- Cryomancer
-- Marie
+Also introducing Gold Fusions! Fuse a second Splash with a Splash fusion Joker at a high price to power up its effects!
+- i forgot the names of them all.
 
 More to come with time.
 
