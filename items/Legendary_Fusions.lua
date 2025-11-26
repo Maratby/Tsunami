@@ -18,8 +18,10 @@ SMODS.Joker {
 		return { vars = { card.ability.triggers, card.ability.count, card.ability.countmax } }
 	end,
 	add_to_deck = function(self, card, from_debuff)
-		card.ability.triggers = card.ability.caino_xmult
-		card.ability.caino_xmult = 0
+		if not from_debuff then
+			card.ability.triggers = card.ability.caino_xmult
+			card.ability.caino_xmult = 0
+		end
 	end,
 	calculate = function(self, card, context)
 		if context.destroying_card then
