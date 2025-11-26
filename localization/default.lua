@@ -515,7 +515,7 @@ return {
 				["name"] = "White Stake",
 				["text"] = {
 					"Creates {C:tarot}The Chariot{}",
-					"at {C:attention}end of round",
+					"after each {C:attention}Boss Blind{}",
 					"{C:inactive}(must have room)"
 				},
 			},
