@@ -895,7 +895,7 @@ return {
 					"Gain back half of lost {C:money}money{} when {C:money}money{} decreases",
 					"up to {C:attention}#2#{}{C:inactive}[#1#]{} times per Ante",
 					"{C:tsun_gold4}Gain an additional Hand for each $10{C:inactive}[#3#]{C:tsun_gold4} saved by this Joker",
-					"{s:0.7}{C:inactive}(Burglar + Splash){}",
+					"{s:0.7}{C:inactive}(Asset Liquidation Gold Fusion){}",
 				},
 			},
 			["j_tsun_surfboard"] = {

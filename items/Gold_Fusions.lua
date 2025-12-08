@@ -1091,7 +1091,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
-	eternal_compat = false,
+	eternal_compat = true,
 	perishable_compat = false,
 	no_aeq = true,
 	config = { extra = {
@@ -1124,7 +1124,7 @@ SMODS.Joker {
 	add_to_deck = function(self, card, from_debuff)
 		if card.ability.extra.sticker >= 4 and not from_debuff then
 			card:set_edition({ negative = true })
-			card.ability.eternal = true
+			card:set_eternal(true)
 		end
 		if card.ability.extra.sticker >= 5 and not from_debuff then
 			G.consumeables.config.card_limit = G.consumeables.config.card_limit + 1
@@ -1285,7 +1285,9 @@ SMODS.Consumable {
 			trigger = 'after',
 			delay = 0.2,
 			func = function()
-				SMODS.destroy_cards(G.hand.highlighted)
+				for index, value in pairs(G.hand.highlighted) do
+					value:start_dissolve()
+				end
 				return true
 			end
 		}))
