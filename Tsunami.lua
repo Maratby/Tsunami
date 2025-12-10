@@ -801,13 +801,6 @@ if Tsunami_Config.TsunamiLevel2 then
 end
 
 
-
----making a custom animated gold color because I wanted one
----holy fucking shit this is difficult and its pissing me off
----okay i gave up on making the color animated i'll just make 5 colors
-
-
-
 local tsunlc = loc_colour
 function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
@@ -950,6 +943,7 @@ Tsunami_Mod.config_tab = function()
 	}
 end
 
+---some code was being pedantic about being loaded last so it goes in there now
 SMODS.load_file("items/end_of_code.lua")()
 ----------------------------------------------
 ------------MOD CODE END----------------------

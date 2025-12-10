@@ -515,7 +515,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
-	eternal_compat = false,
+	eternal_compat = true,
 	perishable_compat = false,
 	no_aeq = true,
 	config = { extra = { copies = 2, odds = 3 } },
