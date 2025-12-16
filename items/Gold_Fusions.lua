@@ -38,8 +38,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_tsun_splish_splash", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_splish_splash" },
+    { name = "j_splash" },
   }, cost = 15, result_joker = "j_tsun_gold_splish_splash"
 }
 
@@ -100,8 +100,8 @@ SMODS.Joker {
 }
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_tsun_reflection", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_reflection" },
+    { name = "j_splash" },
   }, cost = 20, result_joker = "j_tsun_gold_reflection"
 }
 
@@ -188,8 +188,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_tsun_cryomancer", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_cryomancer" },
+    { name = "j_splash" },
   }, cost = 14, result_joker = "j_tsun_gold_cryomancer"
 }
 
@@ -219,8 +219,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = 'j_tsun_holy_water', carry_stat = nil },
-    { name = 'j_splash', carry_stat = nil },
+    { name = 'j_tsun_holy_water' },
+    { name = 'j_splash' },
   }, cost = 10, result_joker = 'j_tsun_gold_holy_water'
 }
 
@@ -274,7 +274,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_tsun_asset_liquidation", carry_stat = "storage" },
   }, cost = 20, result_joker = "j_tsun_gold_asset_liquidation"
 }
@@ -502,8 +502,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_tsun_tsunami_marie", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_tsun_tsunami_marie" },
   }, cost = 50, result_joker = "j_tsun_gold_tsunami_marie"
 }
 
@@ -682,7 +682,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_tsun_tsunami_yosuke", carry_stat = "x_mult" },
   }, cost = 50, result_joker = "j_tsun_gold_tsunami_yosuke"
 }
@@ -1286,8 +1286,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_tsun_tsunami_chie", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_tsun_tsunami_chie" },
   }, cost = 50, result_joker = "j_tsun_gold_tsunami_chie"
 }
 

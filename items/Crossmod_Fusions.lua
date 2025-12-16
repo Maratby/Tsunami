@@ -38,8 +38,8 @@ if Tsun_has_Morefluff then
     }
     FusionJokers.fusions:register_fusion{
       jokers = {
-        { name = "j_mf_basepaul_card", carry_stat = nil },
-        { name = "j_splash", carry_stat = nil },
+        { name = "j_mf_basepaul_card" },
+        { name = "j_splash" },
       }, cost = 12, result_joker = "j_tsun_style_marieter" 
     }
 
@@ -73,8 +73,8 @@ if Tsun_has_Morefluff then
     }
     FusionJokers.fusions:register_fusion{
       jokers = {
-        { name = "j_mf_philosophical", carry_stat = nil },
-        { name = "j_splash", carry_stat = nil },
+        { name = "j_mf_philosophical" },
+        { name = "j_splash" },
       }, cost = 10, result_joker = "j_tsun_waterfall_loop" 
     }
 end
@@ -83,8 +83,8 @@ end
 if Jokebox then
     FusionJokers.fusions:register_fusion{
       jokers = {
-        { name = "j_jkbx_marie", carry_stat = nil },
-        { name = "j_splash", carry_stat = nil },
+        { name = "j_jkbx_marie" },
+        { name = "j_splash" },
       }, cost = 10, result_joker = "j_tsun_tsunami_marie" 
     }
 end

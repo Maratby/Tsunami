@@ -27,8 +27,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_riff_raff", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_riff_raff" },
+    { name = "j_splash" },
   }, cost = 6, result_joker = "j_tsun_splish_splash" 
 }
 
@@ -60,8 +60,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_half", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_half" },
+    { name = "j_splash" },
   }, cost = 8, result_joker = "j_tsun_soaked_joker" 
 }
 
@@ -112,8 +112,8 @@ end
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = 'j_splash', carry_stat = nil },
-    { name = 'j_jolly', carry_stat = nil },
+    { name = 'j_splash' },
+    { name = 'j_jolly' },
   }, cost = 8, result_joker = 'j_tsun_holy_water' 
 }
 
@@ -145,8 +145,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_misprint", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_misprint" },
+    { name = "j_splash" },
   }, cost = 8, result_joker = "j_tsun_oil_spill" 
 }
 
@@ -185,8 +185,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_loyalty_card", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_loyalty_card" },
+    { name = "j_splash" },
   }, cost = 7, result_joker = "j_tsun_vending_machine" 
 }
 
@@ -233,8 +233,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_photograph", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_photograph" },
+    { name = "j_splash" },
   }, cost = 14, result_joker = "j_tsun_waterfront_scenery" 
 }
 
@@ -277,8 +277,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = 'j_splash', carry_stat = nil },
-    { name = 'j_mystic_summit', carry_stat = nil },
+    { name = 'j_splash' },
+    { name = 'j_mystic_summit' },
   }, cost = 11, result_joker = 'j_tsun_magical_waterfall' 
 }
 
@@ -321,8 +321,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_scholar", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_scholar" },
+    { name = "j_splash" },
   }, cost = 11, result_joker = "j_tsun_smart_water" 
 }
 
@@ -368,7 +368,7 @@ SMODS.Joker {
 FusionJokers.fusions:register_fusion{
   jokers = {
     { name = "j_ride_the_bus", carry_stat = "mult" },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
   }, cost = 8, result_joker = "j_tsun_ride_the_sub" 
 }
 
@@ -409,8 +409,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_hiker", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_hiker" },
   }, cost = 10, result_joker = "j_tsun_raft" 
 }
 
@@ -447,8 +447,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_8_ball", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_8_ball" },
   }, cost = 8, result_joker = "j_tsun_beach_ball" 
 }
 
@@ -495,8 +495,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_fibonacci", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_fibonacci" },
   }, cost = 13, result_joker = "j_tsun_dihydrogen_monoxide" 
 }
 
@@ -546,8 +546,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_shoot_the_moon", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_shoot_the_moon" },
   }, cost = 13, result_joker = "j_tsun_lunar_tides" 
 }
 
@@ -615,8 +615,8 @@ SMODS.Joker {
 }
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_flower_pot", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_flower_pot" },
   }, cost = 10, result_joker = "j_tsun_watering_can" 
 }
 
@@ -679,8 +679,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_cloud_9", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_cloud_9" },
   }, cost = 9, result_joker = "j_tsun_rainstorm" 
 }
 
@@ -755,8 +755,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_gros_michel", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_gros_michel" },
   }, cost = 5, result_joker = "j_tsun_banana_tree" 
 }
 
@@ -829,8 +829,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_cavendish", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_cavendish" },
   }, cost = 15, result_joker = "j_tsun_banana_plantation" 
 }
 
@@ -861,8 +861,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_stencil", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_stencil" },
   }, cost = 13, result_joker = "j_tsun_ice_tray" 
 }
 
@@ -922,8 +922,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_seeing_double", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_seeing_double" },
   }, cost = 14, result_joker = "j_tsun_reflection" 
 }
 
@@ -960,8 +960,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_space", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_space" },
   }, cost = 8, result_joker = "j_tsun_deepsea_diver" 
 }
 
@@ -1019,7 +1019,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_throwback", carry_stat = "xmult" },
   }, cost = 12, result_joker = "j_tsun_vaporwave" 
 }
@@ -1066,8 +1066,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_sock_and_buskin", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_sock_and_buskin" },
   }, cost = 12, result_joker = "j_tsun_webbed_feet" 
 }
 
@@ -1107,8 +1107,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_credit_card", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_credit_card" },
   }, cost = 1, result_joker = "j_tsun_money_laundering" 
 }
 
@@ -1157,8 +1157,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_burglar", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_burglar" },
   }, cost = 10, result_joker = "j_tsun_asset_liquidation" 
 }
 
@@ -1192,8 +1192,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_midas_mask", carry_stat = nil },
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_midas_mask" },
+    { name = "j_splash" },
   }, cost = 11, result_joker = "j_tsun_scuba" 
 }
 
@@ -1232,8 +1232,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_stuntman", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_stuntman" },
   }, cost = 12, result_joker = "j_tsun_escape_artist" 
 }
 
@@ -1277,8 +1277,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_ramen", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_ramen" },
   }, cost = 11, result_joker = "j_tsun_soup" 
 }
 
@@ -1334,8 +1334,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_hanging_chad", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_hanging_chad" },
   }, cost = 10, result_joker = "j_tsun_fractured_floodgate" 
 }
 
@@ -1378,8 +1378,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_ancient", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_ancient" },
   }, cost = 14, result_joker = "j_tsun_youth" 
 }
 
@@ -1443,8 +1443,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_cartomancer", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_cartomancer" },
   }, cost = 15, result_joker = "j_tsun_cryomancer" 
 }
 
@@ -1534,8 +1534,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_hack", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_hack" },
   }, cost = 11, result_joker = "j_tsun_toaster" 
 }
 
@@ -1578,8 +1578,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_blackboard", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_blackboard" },
   }, cost = 12, result_joker = "j_tsun_surfboard" 
 }
 
@@ -1646,8 +1646,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_steel_joker", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_steel_joker" },
   }, cost = 11, result_joker = "j_tsun_thermos" 
 }
 
@@ -1710,7 +1710,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_trousers", carry_stat = "mult" },
   }, cost = 12, result_joker = "j_tsun_swimming_trunks" 
 }
@@ -1760,8 +1760,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_stone", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_stone" },
   }, cost = 10, result_joker = "j_tsun_abrasion" 
 }
 
@@ -1811,8 +1811,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_marble", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_marble" },
   }, cost = 12, result_joker = "j_tsun_waterjet" 
 }
 
@@ -1864,8 +1864,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_oops", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_oops" },
   }, cost = 14, result_joker = "j_tsun_g_ship" 
 }
 
@@ -1903,8 +1903,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_todo_list", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_todo_list" },
   }, cost = 15, result_joker = "j_tsun_wet_floor_sign" 
 }
 
@@ -1961,7 +1961,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_drivers_license", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_drivers_license" },
   }, cost = 16, result_joker = "j_tsun_hygiene_card" 
 }

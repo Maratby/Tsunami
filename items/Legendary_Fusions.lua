@@ -52,7 +52,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_caino", carry_stat = "caino_xmult" },
   }, cost = 20, result_joker = "j_tsun_tsunami_yu" 
 }
@@ -96,8 +96,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_triboulet", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_triboulet" },
   }, cost = 20, result_joker = "j_tsun_tsunami_marie" 
 }
 
@@ -164,7 +164,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
+    { name = "j_splash" },
     { name = "j_yorick", carry_stat = "x_mult" },
   }, cost = 20, result_joker = "j_tsun_tsunami_yosuke" 
 }
@@ -475,8 +475,8 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_chicot", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_chicot" },
   }, cost = 20, result_joker = "j_tsun_tsunami_rise" 
 }
 
@@ -613,7 +613,7 @@ SMODS.Joker {
 
 FusionJokers.fusions:register_fusion{
   jokers = {
-    { name = "j_splash", carry_stat = nil },
-    { name = "j_perkeo", carry_stat = nil },
+    { name = "j_splash" },
+    { name = "j_perkeo" },
   }, cost = 20, result_joker = "j_tsun_tsunami_chie" 
 }
