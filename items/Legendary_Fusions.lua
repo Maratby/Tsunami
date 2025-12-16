@@ -50,7 +50,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_caino", "caino_xmult", false, "j_tsun_tsunami_yu", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_caino", carry_stat = "caino_xmult" },
+  }, cost = 20, result_joker = "j_tsun_tsunami_yu" 
+}
 
 SMODS.Joker {
 	key = "tsunami_marie",
@@ -89,7 +94,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_triboulet", nil, false, "j_tsun_tsunami_marie", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_triboulet", carry_stat = nil },
+  }, cost = 20, result_joker = "j_tsun_tsunami_marie" 
+}
 
 SMODS.Joker {
 	key = "tsunami_yosuke",
@@ -152,7 +162,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_yorick", "x_mult", false, "j_tsun_tsunami_yosuke", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_yorick", carry_stat = "x_mult" },
+  }, cost = 20, result_joker = "j_tsun_tsunami_yosuke" 
+}
 
 RS_pokerhand = "High Card"
 SMODS.Joker {
@@ -458,7 +473,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_chicot", nil, false, "j_tsun_tsunami_rise", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_chicot", carry_stat = nil },
+  }, cost = 20, result_joker = "j_tsun_tsunami_rise" 
+}
 
 ---rise hooking a fusionjokers function
 local fuse_card_ref = Card.fuse_card
@@ -591,4 +611,9 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_perkeo", nil, false, "j_tsun_tsunami_chie", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_perkeo", carry_stat = nil },
+  }, cost = 20, result_joker = "j_tsun_tsunami_chie" 
+}

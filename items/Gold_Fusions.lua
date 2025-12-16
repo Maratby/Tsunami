@@ -94,7 +94,12 @@ SMODS.Joker {
 		end
 	end
 }
-FusionJokers.fusions:add_fusion("j_tsun_reflection", nil, false, "j_splash", nil, false, "j_tsun_gold_reflection", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_tsun_reflection", carry_stat = nil },
+    { name = "j_splash", carry_stat = nil },
+  }, cost = 20, result_joker = "j_tsun_gold_reflection" 
+}
 
 SMODS.Joker {
 	key = "gold_cryomancer",
@@ -204,7 +209,12 @@ SMODS.Joker {
 	end,
 }
 
-FusionJokers.fusions:add_fusion('j_tsun_holy_water', nil, nil, 'j_splash', nil, nil, 'j_tsun_gold_holy_water', 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = 'j_tsun_holy_water', carry_stat = nil },
+    { name = 'j_splash', carry_stat = nil },
+  }, cost = 10, result_joker = 'j_tsun_gold_holy_water' 
+}
 
 
 SMODS.Joker {
@@ -1254,7 +1264,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_chie", nil, false, "j_tsun_gold_tsunami_chie", 50)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_tsunami_chie", carry_stat = nil },
+  }, cost = 50, result_joker = "j_tsun_gold_tsunami_chie" 
+}
 
 
 SMODS.Consumable {

@@ -36,7 +36,12 @@ if Tsun_has_Morefluff then
             end
         end
     }
-    FusionJokers.fusions:add_fusion("j_mf_basepaul_card", nil, false, "j_splash", nil, false, "j_tsun_style_marieter", 12)
+    FusionJokers.fusions:register_fusion{
+      jokers = {
+        { name = "j_mf_basepaul_card", carry_stat = nil },
+        { name = "j_splash", carry_stat = nil },
+      }, cost = 12, result_joker = "j_tsun_style_marieter" 
+    }
 
     SMODS.Joker {
         name = "Waterfall Loop",
@@ -66,10 +71,20 @@ if Tsun_has_Morefluff then
             G.hand:unhighlight_all()
         end
     }
-    FusionJokers.fusions:add_fusion("j_mf_philosophical", nil, false, "j_splash", nil, false, "j_tsun_waterfall_loop", 10)
+    FusionJokers.fusions:register_fusion{
+      jokers = {
+        { name = "j_mf_philosophical", carry_stat = nil },
+        { name = "j_splash", carry_stat = nil },
+      }, cost = 10, result_joker = "j_tsun_waterfall_loop" 
+    }
 end
 
 ---insert picture of obama giving himself a medal
 if Jokebox then
-    FusionJokers.fusions:add_fusion("j_jkbx_marie", nil, false, "j_splash", nil, false, "j_tsun_tsunami_marie", 10)
+    FusionJokers.fusions:register_fusion{
+      jokers = {
+        { name = "j_jkbx_marie", carry_stat = nil },
+        { name = "j_splash", carry_stat = nil },
+      }, cost = 10, result_joker = "j_tsun_tsunami_marie" 
+    }
 end
