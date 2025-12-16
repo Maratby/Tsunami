@@ -36,8 +36,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_tsun_splish_splash", nil, false, "j_splash", nil, false,
-	"j_tsun_gold_splish_splash", 15)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_tsun_splish_splash", carry_stat = nil },
+    { name = "j_splash", carry_stat = nil },
+  }, cost = 15, result_joker = "j_tsun_gold_splish_splash" 
+}
 
 SMODS.Joker {
 	key = "gold_reflection",
@@ -182,8 +186,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_tsun_cryomancer", nil, false, "j_splash", nil, false,
-	"j_tsun_gold_cryomancer", 14)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_tsun_cryomancer", carry_stat = nil },
+    { name = "j_splash", carry_stat = nil },
+  }, cost = 14, result_joker = "j_tsun_gold_cryomancer" 
+}
 
 SMODS.Joker {
 	key = 'gold_holy_water',
@@ -264,8 +272,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_asset_liquidation", "storage", false,
-	"j_tsun_gold_asset_liquidation", 20)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_asset_liquidation", carry_stat = "storage" },
+  }, cost = 20, result_joker = "j_tsun_gold_asset_liquidation" 
+}
 
 --- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
 GMinfolist = {
@@ -488,8 +500,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_marie", nil, false,
-	"j_tsun_gold_tsunami_marie", 50)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_tsunami_marie", carry_stat = nil },
+  }, cost = 50, result_joker = "j_tsun_gold_tsunami_marie" 
+}
 
 
 GY_IExist = false
@@ -664,8 +680,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_yosuke", "x_mult", true,
-	"j_tsun_gold_tsunami_yosuke", 50)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash", carry_stat = nil },
+    { name = "j_tsun_tsunami_yosuke", carry_stat = "x_mult" },
+  }, cost = 50, result_joker = "j_tsun_gold_tsunami_yosuke" 
+}
 
 
 
