@@ -25,7 +25,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_riff_raff", nil, false, "j_splash", nil, false, "j_tsun_splish_splash", 6)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_riff_raff" },
+    { name = "j_splash" },
+  }, cost = 6, result_joker = "j_tsun_splish_splash" 
+}
 
 SMODS.Joker {
 	key = "soaked_joker",
@@ -53,7 +58,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_half" },
+    { name = "j_splash" },
+  }, cost = 8, result_joker = "j_tsun_soaked_joker" 
+}
 
 SMODS.Joker {
 	key = 'holy_water',
@@ -100,7 +110,12 @@ function CardArea:add_to_highlighted(card, silent)
 	athr(self, card, silent)
 end
 
-FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_jolly', nil, nil, 'j_tsun_holy_water', 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = 'j_splash' },
+    { name = 'j_jolly' },
+  }, cost = 8, result_joker = 'j_tsun_holy_water' 
+}
 
 SMODS.Joker {
 	key = "oil_spill",
@@ -128,7 +143,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_misprint", nil, false, "j_splash", nil, false, "j_tsun_oil_spill", 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_misprint" },
+    { name = "j_splash" },
+  }, cost = 8, result_joker = "j_tsun_oil_spill" 
+}
 
 SMODS.Joker {
 	key = "vending_machine",
@@ -163,7 +183,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_loyalty_card", nil, false, "j_splash", nil, false, "j_tsun_vending_machine", 7)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_loyalty_card" },
+    { name = "j_splash" },
+  }, cost = 7, result_joker = "j_tsun_vending_machine" 
+}
 
 SMODS.Joker {
 	key = "waterfront_scenery",
@@ -206,7 +231,12 @@ SMODS.Joker {
     end
 }
 
-FusionJokers.fusions:add_fusion("j_photograph", nil, false, "j_splash", nil, false, "j_tsun_waterfront_scenery", 14)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_photograph" },
+    { name = "j_splash" },
+  }, cost = 14, result_joker = "j_tsun_waterfront_scenery" 
+}
 
 SMODS.Joker {
 	key = "magical_waterfall",
@@ -245,7 +275,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_mystic_summit', nil, nil, 'j_tsun_magical_waterfall', 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = 'j_splash' },
+    { name = 'j_mystic_summit' },
+  }, cost = 11, result_joker = 'j_tsun_magical_waterfall' 
+}
 
 SMODS.Joker {
 	key = "smart_water",
@@ -284,7 +319,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_scholar" },
+    { name = "j_splash" },
+  }, cost = 11, result_joker = "j_tsun_smart_water" 
+}
 
 local rb_resetflag
 SMODS.Joker {
@@ -325,7 +365,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_ride_the_bus", "mult", false, "j_splash", nil, false, "j_tsun_ride_the_sub", 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_ride_the_bus", carry_stat = "mult" },
+    { name = "j_splash" },
+  }, cost = 8, result_joker = "j_tsun_ride_the_sub" 
+}
 
 SMODS.Joker {
 	key = "raft",
@@ -362,7 +407,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hiker", nil, false, "j_tsun_raft", 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_hiker" },
+  }, cost = 10, result_joker = "j_tsun_raft" 
+}
 
 SMODS.Joker {
 	name = "Beach Ball",
@@ -395,7 +445,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_8_ball", nil, false, "j_tsun_beach_ball", 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_8_ball" },
+  }, cost = 8, result_joker = "j_tsun_beach_ball" 
+}
 
 SMODS.Joker {
 	key = "dihydrogen_monoxide",
@@ -438,7 +493,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_fibonacci", nil, false, "j_tsun_dihydrogen_monoxide", 13)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_fibonacci" },
+  }, cost = 13, result_joker = "j_tsun_dihydrogen_monoxide" 
+}
 
 SMODS.Joker {
 	key = "lunar_tides",
@@ -484,7 +544,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_shoot_the_moon", nil, false, "j_tsun_lunar_tides", 13)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_shoot_the_moon" },
+  }, cost = 13, result_joker = "j_tsun_lunar_tides" 
+}
 
 SMODS.Joker {
 	key = "watering_can",
@@ -548,7 +613,12 @@ SMODS.Joker {
 		end
 	end
 }
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_flower_pot", nil, false, "j_tsun_watering_can", 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_flower_pot" },
+  }, cost = 10, result_joker = "j_tsun_watering_can" 
+}
 
 
 SMODS.Joker {
@@ -607,7 +677,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cloud_9", nil, false, "j_tsun_rainstorm", 9)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_cloud_9" },
+  }, cost = 9, result_joker = "j_tsun_rainstorm" 
+}
 
 
 SMODS.Joker {
@@ -678,7 +753,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_gros_michel", nil, false, "j_tsun_banana_tree", 5)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_gros_michel" },
+  }, cost = 5, result_joker = "j_tsun_banana_tree" 
+}
 
 SMODS.Joker {
 	key = "banana_plantation",
@@ -747,7 +827,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cavendish", nil, false, "j_tsun_banana_plantation", 15)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_cavendish" },
+  }, cost = 15, result_joker = "j_tsun_banana_plantation" 
+}
 
 SMODS.Joker {
 	key = "ice_tray",
@@ -774,7 +859,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_stencil" },
+  }, cost = 13, result_joker = "j_tsun_ice_tray" 
+}
 
 SMODS.Joker {
 	key = "reflection",
@@ -830,7 +920,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_seeing_double", nil, false, "j_tsun_reflection", 14)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_seeing_double" },
+  }, cost = 14, result_joker = "j_tsun_reflection" 
+}
 
 SMODS.Joker {
 	key = "deepsea_diver",
@@ -863,7 +958,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_space", nil, false, "j_tsun_deepsea_diver", 8)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_space" },
+  }, cost = 8, result_joker = "j_tsun_deepsea_diver" 
+}
 
 SMODS.Joker {
 	key = "vaporwave",
@@ -917,7 +1017,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_throwback", "xmult", false, "j_tsun_vaporwave", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_throwback", carry_stat = "xmult" },
+  }, cost = 12, result_joker = "j_tsun_vaporwave" 
+}
 
 
 SMODS.Joker {
@@ -959,7 +1064,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil, false, "j_tsun_webbed_feet", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_sock_and_buskin" },
+  }, cost = 12, result_joker = "j_tsun_webbed_feet" 
+}
 
 SMODS.Joker {
 	key = "money_laundering",
@@ -995,7 +1105,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_credit_card", nil, false, "j_tsun_money_laundering", 1)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_credit_card" },
+  }, cost = 1, result_joker = "j_tsun_money_laundering" 
+}
 
 SMODS.Joker {
 	key = "asset_liquidation",
@@ -1040,7 +1155,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_burglar", nil, false, "j_tsun_asset_liquidation", 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_burglar" },
+  }, cost = 10, result_joker = "j_tsun_asset_liquidation" 
+}
 
 SMODS.Joker {
 	key = "scuba",
@@ -1070,7 +1190,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_midas_mask", nil, false, "j_splash", nil, false, "j_tsun_scuba", 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_midas_mask" },
+    { name = "j_splash" },
+  }, cost = 11, result_joker = "j_tsun_scuba" 
+}
 
 SMODS.Joker {
 	key = "escape_artist",
@@ -1105,7 +1230,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stuntman", nil, false, "j_tsun_escape_artist", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_stuntman" },
+  }, cost = 12, result_joker = "j_tsun_escape_artist" 
+}
 
 SMODS.Joker {
 	key = "soup",
@@ -1145,7 +1275,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ramen", nil, false, "j_tsun_soup", 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_ramen" },
+  }, cost = 11, result_joker = "j_tsun_soup" 
+}
 
 SMODS.Joker {
 	key = "fractured_floodgate",
@@ -1197,7 +1332,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_hanging_chad" },
+  }, cost = 10, result_joker = "j_tsun_fractured_floodgate" 
+}
 
 
 SMODS.Joker {
@@ -1236,7 +1376,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ancient", nil, false, "j_tsun_youth", 14)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_ancient" },
+  }, cost = 14, result_joker = "j_tsun_youth" 
+}
 
 SMODS.Joker {
 	name = "Cryomancer",
@@ -1296,7 +1441,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 15)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_cartomancer" },
+  }, cost = 15, result_joker = "j_tsun_cryomancer" 
+}
 
 SMODS.Joker {
 	name = "Toaster",
@@ -1382,7 +1532,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hack", nil, false, "j_tsun_toaster", 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_hack" },
+  }, cost = 11, result_joker = "j_tsun_toaster" 
+}
 
 SMODS.Joker {
 	name = "Surfboard",
@@ -1421,7 +1576,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_blackboard", nil, false, "j_tsun_surfboard", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_blackboard" },
+  }, cost = 12, result_joker = "j_tsun_surfboard" 
+}
 
 local handsteeltally = 0
 SMODS.Joker {
@@ -1484,7 +1644,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_steel_joker", nil, false, "j_tsun_thermos", 11)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_steel_joker" },
+  }, cost = 11, result_joker = "j_tsun_thermos" 
+}
 
 SMODS.Joker {
 	name = "Swimming Trunks",
@@ -1543,7 +1708,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_trousers", "mult", false, "j_tsun_swimming_trunks", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_trousers", carry_stat = "mult" },
+  }, cost = 12, result_joker = "j_tsun_swimming_trunks" 
+}
 
 SMODS.Joker {
 	name = "Abrasion",
@@ -1588,7 +1758,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stone", nil, false, "j_tsun_abrasion", 10)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_stone" },
+  }, cost = 10, result_joker = "j_tsun_abrasion" 
+}
 
 SMODS.Joker {
 	name = "Waterjet Cutter",
@@ -1634,7 +1809,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_marble", nil, false, "j_tsun_waterjet", 12)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_marble" },
+  }, cost = 12, result_joker = "j_tsun_waterjet" 
+}
 
 SMODS.Joker {
 	name = "Gambling Ship",
@@ -1682,7 +1862,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 14)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_oops" },
+  }, cost = 14, result_joker = "j_tsun_g_ship" 
+}
 
 SMODS.Joker {
 	name = "Wet Floor Sign",
@@ -1716,7 +1901,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_todo_list", nil, false, "j_tsun_wet_floor_sign", 15)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_todo_list" },
+  }, cost = 15, result_joker = "j_tsun_wet_floor_sign" 
+}
 
 SMODS.Joker {
 	key = "hygiene_card",
@@ -1769,4 +1959,9 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygiene_card", 16)
+FusionJokers.fusions:register_fusion{
+  jokers = {
+    { name = "j_splash" },
+    { name = "j_drivers_license" },
+  }, cost = 16, result_joker = "j_tsun_hygiene_card" 
+}

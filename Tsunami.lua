@@ -526,38 +526,19 @@ TsunamiAutoRegister = {
 }
 function auto_register(registry)
 	for index2, value2 in pairs(registry) do
-		local card1 = "j_splash"
-		local card2 = "j_splash"
-		local carry_1 = nil
-		local carry_2 = nil
-		local extra_1 = false
-		local extra_2 = false
 		local _flag = false
-		---placeholder values in case something goes wrong
-		local _result = "j_splash"
-		local _cost = 8
 		for index, value in ipairs(FusionJokers.fusions) do
-			if FusionJokers.fusions[index].jokers[1].name == "j_splash" then
-				card2 = FusionJokers.fusions[index].jokers[2].name
-				card1 = value2
-				_flag = true
-				carry_2 = FusionJokers.fusions[index].jokers[2].carry_stat
-				extra_2 = FusionJokers.fusions[index].jokers[2].extra_stat
-				_result = FusionJokers.fusions[index].result_joker
-				_cost = FusionJokers.fusions[index].cost + 3
-			elseif FusionJokers.fusions[index].jokers[2].name == "j_splash" then
-				card1 = FusionJokers.fusions[index].jokers[1].name
-				card2 = value2
-				_flag = true
-				carry_1 = FusionJokers.fusions[index].jokers[1].carry_stat
-				extra_1 = FusionJokers.fusions[index].jokers[1].extra_stat
-				_result = FusionJokers.fusions[index].result_joker
-				_cost = FusionJokers.fusions[index].cost + 3
-			else
-				_flag = false
+			local recipe = copy_table(value)
+
+			for jokerindex, joker in ipairs(value.jokers) do
+				if joker.name == "j_splash" then
+					recipe.jokers[jokerindex].name = value2
+					_flag = true
+				end
 			end
+			
 			if _flag then
-				FusionJokers.fusions:add_fusion(card1, carry_1, extra_1, card2, carry_2, extra_2, _result, _cost)
+				FusionJokers.fusions:register_fusion(recipe)
 			end
 		end
 	end
