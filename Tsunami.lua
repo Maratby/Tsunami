@@ -526,8 +526,8 @@ TsunamiAutoRegister = {
 }
 function auto_register(registry)
 	for index2, value2 in pairs(registry) do
-		local _flag = false
 		for index, value in ipairs(FusionJokers.fusions) do
+			local _flag = false
 			local recipe = copy_table(value)
 
 			for jokerindex, joker in ipairs(value.jokers) do
