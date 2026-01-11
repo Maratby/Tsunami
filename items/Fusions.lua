@@ -21,15 +21,17 @@ SMODS.Joker {
 			local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
 			splishcard:add_to_deck()
 			G.jokers:emplace(splishcard)
+			card_eval_status_text(card, 'extra', nil, nil, nil,
+				{ message = localize('k_add_splash_tm'), colour = G.C.BLUE })
 		end
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_riff_raff" },
-    { name = "j_splash" },
-  }, cost = 6, result_joker = "j_tsun_splish_splash" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_riff_raff" },
+		{ name = "j_splash" },
+	}, cost = 6, result_joker = "j_tsun_splish_splash"
 }
 
 SMODS.Joker {
@@ -58,11 +60,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_half" },
-    { name = "j_splash" },
-  }, cost = 8, result_joker = "j_tsun_soaked_joker" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_half" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_soaked_joker"
 }
 
 SMODS.Joker {
@@ -110,11 +112,11 @@ function CardArea:add_to_highlighted(card, silent)
 	athr(self, card, silent)
 end
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = 'j_splash' },
-    { name = 'j_jolly' },
-  }, cost = 8, result_joker = 'j_tsun_holy_water' 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = 'j_splash' },
+		{ name = 'j_jolly' },
+	}, cost = 8, result_joker = 'j_tsun_holy_water'
 }
 
 SMODS.Joker {
@@ -143,11 +145,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_misprint" },
-    { name = "j_splash" },
-  }, cost = 8, result_joker = "j_tsun_oil_spill" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_misprint" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_oil_spill"
 }
 
 SMODS.Joker {
@@ -183,11 +185,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_loyalty_card" },
-    { name = "j_splash" },
-  }, cost = 7, result_joker = "j_tsun_vending_machine" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_loyalty_card" },
+		{ name = "j_splash" },
+	}, cost = 7, result_joker = "j_tsun_vending_machine"
 }
 
 SMODS.Joker {
@@ -199,11 +201,11 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	pos = { x = 2, y = 13 },
-    pixel_size = { h = 95 / 1.2 },
+	pixel_size = { h = 95 / 1.2 },
 	cost = 16,
 	config = { extra = { xmult = 2, modifier = 0.5, tally = 0 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult,card.ability.extra.modifier } }
+		return { vars = { card.ability.extra.xmult, card.ability.extra.modifier } }
 	end,
 	calculate = function(self, card, context)
 		if context.before then
@@ -214,28 +216,28 @@ SMODS.Joker {
 				end
 			end
 		end
-        if context.individual and context.cardarea == G.play and context.other_card:is_face() then
-            local is_first_face = false
-            for i = 1, #context.scoring_hand do
-                if context.scoring_hand[i]:is_face() then
-                    is_first_face = context.scoring_hand[i] == context.other_card
-                    break
-                end
-            end
-            if is_first_face then
-                return {
-                    xmult = card.ability.extra.xmult + (card.ability.extra.tally * card.ability.extra.modifier)
-                }
-            end
-        end
-    end
+		if context.individual and context.cardarea == G.play and context.other_card:is_face() then
+			local is_first_face = false
+			for i = 1, #context.scoring_hand do
+				if context.scoring_hand[i]:is_face() then
+					is_first_face = context.scoring_hand[i] == context.other_card
+					break
+				end
+			end
+			if is_first_face then
+				return {
+					xmult = card.ability.extra.xmult + (card.ability.extra.tally * card.ability.extra.modifier)
+				}
+			end
+		end
+	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_photograph" },
-    { name = "j_splash" },
-  }, cost = 14, result_joker = "j_tsun_waterfront_scenery" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_photograph" },
+		{ name = "j_splash" },
+	}, cost = 14, result_joker = "j_tsun_waterfront_scenery"
 }
 
 SMODS.Joker {
@@ -275,11 +277,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = 'j_splash' },
-    { name = 'j_mystic_summit' },
-  }, cost = 11, result_joker = 'j_tsun_magical_waterfall' 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = 'j_splash' },
+		{ name = 'j_mystic_summit' },
+	}, cost = 11, result_joker = 'j_tsun_magical_waterfall'
 }
 
 SMODS.Joker {
@@ -319,11 +321,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_scholar" },
-    { name = "j_splash" },
-  }, cost = 11, result_joker = "j_tsun_smart_water" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_scholar" },
+		{ name = "j_splash" },
+	}, cost = 11, result_joker = "j_tsun_smart_water"
 }
 
 local rb_resetflag
@@ -365,11 +367,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_ride_the_bus", carry_stat = "mult" },
-    { name = "j_splash" },
-  }, cost = 8, result_joker = "j_tsun_ride_the_sub" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_ride_the_bus", carry_stat = "mult" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_ride_the_sub"
 }
 
 SMODS.Joker {
@@ -407,11 +409,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_hiker" },
-  }, cost = 10, result_joker = "j_tsun_raft" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hiker" },
+	}, cost = 10, result_joker = "j_tsun_raft"
 }
 
 SMODS.Joker {
@@ -445,11 +447,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_8_ball" },
-  }, cost = 8, result_joker = "j_tsun_beach_ball" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_8_ball" },
+	}, cost = 8, result_joker = "j_tsun_beach_ball"
 }
 
 SMODS.Joker {
@@ -493,11 +495,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_fibonacci" },
-  }, cost = 13, result_joker = "j_tsun_dihydrogen_monoxide" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_fibonacci" },
+	}, cost = 13, result_joker = "j_tsun_dihydrogen_monoxide"
 }
 
 SMODS.Joker {
@@ -544,11 +546,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_shoot_the_moon" },
-  }, cost = 13, result_joker = "j_tsun_lunar_tides" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_shoot_the_moon" },
+	}, cost = 13, result_joker = "j_tsun_lunar_tides"
 }
 
 SMODS.Joker {
@@ -613,11 +615,11 @@ SMODS.Joker {
 		end
 	end
 }
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_flower_pot" },
-  }, cost = 10, result_joker = "j_tsun_watering_can" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_flower_pot" },
+	}, cost = 10, result_joker = "j_tsun_watering_can"
 }
 
 
@@ -677,11 +679,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_cloud_9" },
-  }, cost = 9, result_joker = "j_tsun_rainstorm" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cloud_9" },
+	}, cost = 9, result_joker = "j_tsun_rainstorm"
 }
 
 
@@ -753,11 +755,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_gros_michel" },
-  }, cost = 5, result_joker = "j_tsun_banana_tree" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_gros_michel" },
+	}, cost = 5, result_joker = "j_tsun_banana_tree"
 }
 
 SMODS.Joker {
@@ -827,11 +829,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_cavendish" },
-  }, cost = 15, result_joker = "j_tsun_banana_plantation" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cavendish" },
+	}, cost = 15, result_joker = "j_tsun_banana_plantation"
 }
 
 SMODS.Joker {
@@ -859,11 +861,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_stencil" },
-  }, cost = 13, result_joker = "j_tsun_ice_tray" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stencil" },
+	}, cost = 13, result_joker = "j_tsun_ice_tray"
 }
 
 SMODS.Joker {
@@ -920,11 +922,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_seeing_double" },
-  }, cost = 14, result_joker = "j_tsun_reflection" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_seeing_double" },
+	}, cost = 14, result_joker = "j_tsun_reflection"
 }
 
 SMODS.Joker {
@@ -958,11 +960,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_space" },
-  }, cost = 8, result_joker = "j_tsun_deepsea_diver" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_space" },
+	}, cost = 8, result_joker = "j_tsun_deepsea_diver"
 }
 
 SMODS.Joker {
@@ -1013,15 +1015,16 @@ SMODS.Joker {
 		end
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
+		G.GAME.skips = G.GAME.skips or 0
 		card.ability.extra.x_mult = 1 + G.GAME.skips * 0.25
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_throwback", carry_stat = "xmult" },
-  }, cost = 12, result_joker = "j_tsun_vaporwave" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_throwback", carry_stat = "xmult" },
+	}, cost = 12, result_joker = "j_tsun_vaporwave"
 }
 
 
@@ -1064,11 +1067,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_sock_and_buskin" },
-  }, cost = 12, result_joker = "j_tsun_webbed_feet" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_sock_and_buskin" },
+	}, cost = 12, result_joker = "j_tsun_webbed_feet"
 }
 
 SMODS.Joker {
@@ -1105,11 +1108,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_credit_card" },
-  }, cost = 1, result_joker = "j_tsun_money_laundering" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_credit_card" },
+	}, cost = 1, result_joker = "j_tsun_money_laundering"
 }
 
 SMODS.Joker {
@@ -1155,11 +1158,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_burglar" },
-  }, cost = 10, result_joker = "j_tsun_asset_liquidation" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_burglar" },
+	}, cost = 10, result_joker = "j_tsun_asset_liquidation"
 }
 
 SMODS.Joker {
@@ -1190,11 +1193,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_midas_mask" },
-    { name = "j_splash" },
-  }, cost = 11, result_joker = "j_tsun_scuba" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_midas_mask" },
+		{ name = "j_splash" },
+	}, cost = 11, result_joker = "j_tsun_scuba"
 }
 
 SMODS.Joker {
@@ -1230,11 +1233,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_stuntman" },
-  }, cost = 12, result_joker = "j_tsun_escape_artist" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stuntman" },
+	}, cost = 12, result_joker = "j_tsun_escape_artist"
 }
 
 SMODS.Joker {
@@ -1275,11 +1278,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_ramen" },
-  }, cost = 11, result_joker = "j_tsun_soup" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_ramen" },
+	}, cost = 11, result_joker = "j_tsun_soup"
 }
 
 SMODS.Joker {
@@ -1332,11 +1335,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_hanging_chad" },
-  }, cost = 10, result_joker = "j_tsun_fractured_floodgate" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hanging_chad" },
+	}, cost = 10, result_joker = "j_tsun_fractured_floodgate"
 }
 
 
@@ -1376,11 +1379,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_ancient" },
-  }, cost = 14, result_joker = "j_tsun_youth" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_ancient" },
+	}, cost = 14, result_joker = "j_tsun_youth"
 }
 
 SMODS.Joker {
@@ -1441,11 +1444,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_cartomancer" },
-  }, cost = 15, result_joker = "j_tsun_cryomancer" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cartomancer" },
+	}, cost = 15, result_joker = "j_tsun_cryomancer"
 }
 
 SMODS.Joker {
@@ -1532,11 +1535,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_hack" },
-  }, cost = 11, result_joker = "j_tsun_toaster" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hack" },
+	}, cost = 11, result_joker = "j_tsun_toaster"
 }
 
 SMODS.Joker {
@@ -1576,11 +1579,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_blackboard" },
-  }, cost = 12, result_joker = "j_tsun_surfboard" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_blackboard" },
+	}, cost = 12, result_joker = "j_tsun_surfboard"
 }
 
 local handsteeltally = 0
@@ -1644,11 +1647,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_steel_joker" },
-  }, cost = 11, result_joker = "j_tsun_thermos" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_steel_joker" },
+	}, cost = 11, result_joker = "j_tsun_thermos"
 }
 
 SMODS.Joker {
@@ -1708,11 +1711,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_trousers", carry_stat = "mult" },
-  }, cost = 12, result_joker = "j_tsun_swimming_trunks" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_trousers", carry_stat = "mult" },
+	}, cost = 12, result_joker = "j_tsun_swimming_trunks"
 }
 
 SMODS.Joker {
@@ -1758,11 +1761,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_stone" },
-  }, cost = 10, result_joker = "j_tsun_abrasion" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stone" },
+	}, cost = 10, result_joker = "j_tsun_abrasion"
 }
 
 SMODS.Joker {
@@ -1809,11 +1812,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_marble" },
-  }, cost = 12, result_joker = "j_tsun_waterjet" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_marble" },
+	}, cost = 12, result_joker = "j_tsun_waterjet"
 }
 
 SMODS.Joker {
@@ -1862,11 +1865,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_oops" },
-  }, cost = 14, result_joker = "j_tsun_g_ship" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_oops" },
+	}, cost = 14, result_joker = "j_tsun_g_ship"
 }
 
 SMODS.Joker {
@@ -1901,11 +1904,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_todo_list" },
-  }, cost = 15, result_joker = "j_tsun_wet_floor_sign" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_todo_list" },
+	}, cost = 15, result_joker = "j_tsun_wet_floor_sign"
 }
 
 SMODS.Joker {
@@ -1959,9 +1962,105 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_drivers_license" },
-  }, cost = 16, result_joker = "j_tsun_hygiene_card" 
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_drivers_license" },
+	}, cost = 16, result_joker = "j_tsun_hygiene_card"
+}
+
+SMODS.Joker {
+	name = "Card Shark",
+	key = 'card_shark',
+	rarity = "fusion",
+	discovered = true,
+	atlas = 'Tsunami',
+	cost = 20,
+	blueprint_compat = true,
+	pos = { x = 6, y = 11 },
+	config = { xmult = 4, dollars = 1 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.xmult, card.ability.dollars } }
+	end,
+	calculate = function(self, card, context)
+		if context.joker_main and G.GAME.hands[context.scoring_name] and G.GAME.hands[context.scoring_name].played_this_round > 1 then
+			return {
+				xmult = card.ability.xmult
+			}
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card.ability.cardshark_tsunami == true then
+				return {
+					dollars = card.ability.dollars
+				}
+			end
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_card_sharp" },
+	}, cost = 14, result_joker = "j_tsun_card_shark"
+}
+
+---hook for card shark's effect
+-- cards are set to played this ante before I can check them otherwise - this hook is needed to beat the vanilla code to the punch
+
+local G_FUNCS_play_cards_from_highlighted_ref = G.FUNCS.play_cards_from_highlighted
+G.FUNCS.play_cards_from_highlighted = function(e)
+	for i = 1, #G.hand.highlighted do
+		G.hand.highlighted[i].ability.cardshark_tsunami = not (not G.hand.highlighted[i].ability.played_this_ante)
+	end
+	local ret = G_FUNCS_play_cards_from_highlighted_ref(e)
+	return ret
+end
+
+SMODS.Joker {
+	key = "lighthouse",
+	blueprint_compat = true,
+	perishable_compat = false,
+	rarity = 3,
+	cost = 8,
+	atlas = 'Tsunami',
+	pos = { x = 9, y = 12 },
+	config = { extra = { Xmult_gain = 0.25, x_mult = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.x_mult } }
+	end,
+	calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+			local reset = false
+			local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+			for handname, values in pairs(G.GAME.hands) do
+				if handname ~= context.scoring_name and values.played >= play_more_than and SMODS.is_poker_hand_visible(handname) then
+					reset = true
+					break
+				end
+			end
+			if reset then
+				if card.ability.extra.x_mult > 1 then
+					card.ability.extra.x_mult = 1
+					return {
+						message = localize('k_reset')
+					}
+				end
+			else
+				card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.Xmult_gain
+			end
+		end
+		if context.joker_main then
+			return {
+				xmult = card.ability.extra.x_mult
+			}
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_obelisk", carry_stat = "x_mult" },
+	}, cost = 9, result_joker = "j_tsun_lighthouse"
 }

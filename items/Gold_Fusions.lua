@@ -15,7 +15,7 @@ SMODS.Rarity {
 SMODS.Joker {
 	key = "gold_splish_splash",
 	rarity = "tsun_gold_fusion",
-	cost = 15,
+	cost = 30,
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -30,23 +30,27 @@ SMODS.Joker {
 		if context.setting_blind then
 			local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
 			splishcard:add_to_deck()
-			splishcard:set_edition({ negative = true })
+			if context.blind.boss then
+				splishcard:set_edition({ negative = true })
+			end
 			G.jokers:emplace(splishcard)
+			card_eval_status_text(card, 'extra', nil, nil, nil,
+				{ message = localize('k_add_splash_tm'), colour = G.C.BLUE })
 		end
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_tsun_splish_splash" },
-    { name = "j_splash" },
-  }, cost = 15, result_joker = "j_tsun_gold_splish_splash"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_tsun_splish_splash" },
+		{ name = "j_splash" },
+	}, cost = 20, result_joker = "j_tsun_gold_splish_splash"
 }
 
 SMODS.Joker {
 	key = "gold_reflection",
 	rarity = "tsun_gold_fusion",
-	cost = 30,
+	cost = 50,
 	config = { extra = 1.3, clubs = 0, nonclubs = 0, mult_from_clubs = 1 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra } }
@@ -98,17 +102,17 @@ SMODS.Joker {
 		end
 	end
 }
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_tsun_reflection" },
-    { name = "j_splash" },
-  }, cost = 20, result_joker = "j_tsun_gold_reflection"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_tsun_reflection" },
+		{ name = "j_splash" },
+	}, cost = 30, result_joker = "j_tsun_gold_reflection"
 }
 
 SMODS.Joker {
 	key = "gold_cryomancer",
 	rarity = "tsun_gold_fusion",
-	cost = 15,
+	cost = 30,
 	config = { extra = 1 },
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.j_splash
@@ -186,11 +190,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_tsun_cryomancer" },
-    { name = "j_splash" },
-  }, cost = 14, result_joker = "j_tsun_gold_cryomancer"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_tsun_cryomancer" },
+		{ name = "j_splash" },
+	}, cost = 20, result_joker = "j_tsun_gold_cryomancer"
 }
 
 SMODS.Joker {
@@ -217,11 +221,11 @@ SMODS.Joker {
 	end,
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = 'j_tsun_holy_water' },
-    { name = 'j_splash' },
-  }, cost = 10, result_joker = 'j_tsun_gold_holy_water'
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = 'j_tsun_holy_water' },
+		{ name = 'j_splash' },
+	}, cost = 15, result_joker = 'j_tsun_gold_holy_water'
 }
 
 
@@ -234,7 +238,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	atlas = "Tsunami",
 	pos = { x = 5, y = 17 },
-	cost = -10,
+	cost = -20,
 	config = { triggers = 5, triggersmax = 5, storage = 0 },
 	ability_name = "mooney_laundering",
 	loc_vars = function(self, info_queue, card)
@@ -272,14 +276,20 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_tsun_asset_liquidation", carry_stat = "storage" },
-  }, cost = 20, result_joker = "j_tsun_gold_asset_liquidation"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_tsun_asset_liquidation", carry_stat = "storage" },
+	}, cost = 26, result_joker = "j_tsun_gold_asset_liquidation"
 }
 
 --- Mostly an addition for the high-scoring massively overpowered Balatro Enjoyers.
+
+
+
+
+
+---lists used for info_queue entries
 GMinfolist = {
 	"goldmarie_whitestake",
 	"goldmarie_redstake",
@@ -330,7 +340,7 @@ SMODS.Joker {
 	name = "Marie",
 	key = "gold_tsunami_marie",
 	rarity = "tsun_gold_legendary",
-	cost = 50,
+	cost = 100,
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = false,
@@ -345,9 +355,7 @@ SMODS.Joker {
 		stickerkey = "none, you suck",
 		sticker = 0,
 		retriggers = 1,
-		tally = 0,
-		basegoldxmult = 1.5,
-		goldxmult = 1.5,
+		goldxmult = 2,
 	} },
 	atlas = "TsunamiGoldLegendary",
 	pos = { x = 1, y = 0 },
@@ -443,15 +451,7 @@ SMODS.Joker {
 				end
 			end
 			if context.individual and context.cardarea == G.play and card.ability.extra.sticker >= 8 then
-				card.ability.extra.tally = 0
-				card.ability.extra.goldxmult = card.ability.extra.basegoldxmult
-				for index, value in ipairs(G.jokers.cards) do
-					if value.config.center.key == "j_splash" or (value.config.center.mod and value.config.center.mod.id == "Tsunami") then
-						card.ability.extra.tally = card.ability.extra.tally + 1
-					end
-				end
-				card.ability.extra.goldxmult = card.ability.extra.basegoldxmult ^ card.ability.extra.tally
-				if card.ability.extra.tally > 0 and card_is_splashed(context.other_card) then
+				if card_is_splashed(context.other_card) then
 					return {
 						x_mult = card.ability.extra.goldxmult,
 						card = context.other_card
@@ -500,11 +500,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_tsun_tsunami_marie" },
-  }, cost = 50, result_joker = "j_tsun_gold_tsunami_marie"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_tsun_tsunami_marie" },
+	}, cost = 120, result_joker = "j_tsun_gold_tsunami_marie"
 }
 
 
@@ -513,7 +513,7 @@ SMODS.Joker {
 	name = "Yosuke",
 	key = "gold_tsunami_yosuke",
 	rarity = "tsun_gold_legendary",
-	cost = 50,
+	cost = 100,
 	unlocked = true,
 	discovered = false,
 	blueprint_compat = false,
@@ -525,6 +525,7 @@ SMODS.Joker {
 		count = 0,
 		countmax = 20,
 		gain = 1,
+		gold_bankrupt_at = 100,
 		---Probcount value no longer needed due to new probability changes
 		sticker = 0,
 		stickerkey = "none",
@@ -539,7 +540,7 @@ SMODS.Joker {
 				set = 'Other',
 			}
 		end
-		return { vars = { card.ability.extra.x_mult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain, card.ability.extra.sticker, card.ability.extra.stickerkey } }
+		return { vars = { card.ability.extra.x_mult, card.ability.extra.count, card.ability.extra.countmax, card.ability.extra.gain, card.ability.extra.sticker, card.ability.extra.stickerkey, card.ability.extra.gold_bankrupt_at } }
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
 		card.ability.extra.sticker = sticker_inquisition(G.P_CENTERS.j_tsun_tsunami_chie)
@@ -550,6 +551,8 @@ SMODS.Joker {
 		end
 	end,
 	add_to_deck = function(self, card, from_debuff)
+		G.GAME.bankrupt_at = G.GAME.bankrupt_at - card.ability.extra.gold_bankrupt_at
+
 		if card.ability.extra.x_mult == 1 and card.ability.x_mult then
 			card.ability.extra.x_mult = card.ability.x_mult
 			card.ability.x_mult = 1
@@ -580,6 +583,8 @@ SMODS.Joker {
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
+		G.GAME.bankrupt_at = G.GAME.bankrupt_at + card.ability.extra.gold_bankrupt_at
+
 		if card.ability.extra.sticker >= 5 then
 			G.GAME.modifiers.extra_boosters = math.max(G.GAME.modifiers.extra_boosters - 1, 0)
 		end
@@ -680,11 +685,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_tsun_tsunami_yosuke", carry_stat = "x_mult" },
-  }, cost = 50, result_joker = "j_tsun_gold_tsunami_yosuke"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_tsun_tsunami_yosuke", carry_stat = "x_mult" },
+	}, cost = 100, result_joker = "j_tsun_gold_tsunami_yosuke"
 }
 
 
@@ -696,7 +701,7 @@ RS_pokerhand = "High Card"
 SMODS.Joker {
 	key = "gold_tsunami_rise",
 	rarity = "tsun_gold_legendary",
-	cost = 50,
+	cost = 100,
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = false,
@@ -775,32 +780,11 @@ SMODS.Joker {
 		end
 	end,
 	calculate = function(self, card, context)
-		if context.end_of_round and context.main_eval and card.ability.extra.planets > 0 then
-			for i = 1, (card.ability.extra.planets * card.ability.extra.interval) do
-				G.E_MANAGER:add_event(Event({
-					trigger = 'before',
-					delay = 0.0,
-					func = (function()
-						if RS_pokerhand then
-							local _planet = 0
-							for k, v in pairs(G.P_CENTER_POOLS.Planet) do
-								if v.config.hand_type == RS_pokerhand then
-									_planet = v.key
-								end
-							end
-							local card2 = create_card(card_type, G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
-							card2:add_to_deck()
-							card2:set_edition({ negative = true }, nil)
-							G.consumeables:emplace(card2)
-							G.GAME.consumeable_buffer = 0
-						end
-						return true
-					end)
-				}))
-				card:juice_up()
-				card_eval_status_text(card, 'extra', nil, nil, nil,
-					{ message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet })
-			end
+		if context.before and card.ability.extra.planets > 0 then
+			return {
+				level_up = card.ability.extra.planets,
+				message = localize('k_level_up_ex')
+			}
 		end
 
 		if context.end_of_round and context.beat_boss then
@@ -938,7 +922,7 @@ SMODS.Joker {
 					G.GAME.blind.config.blind.key == "bl_mouth" or
 					G.GAME.blind.config.blind.key == "bl_eye" or
 					G.GAME.blind.config.blind.key == "bl_arm" then
-					card.ability.extra.planets = (card.ability.extra.planets or 0) + 1
+					card.ability.extra.planets = (card.ability.extra.planets or 0) + card.ability.extra.interval
 					card.ability.extra.last_buff = localize { type = "variable", key = "k_rise_pokerhand", vars = { card.ability.extra.interval } }
 				elseif
 					G.GAME.blind.config.blind.key == "bl_head" then
@@ -1105,9 +1089,13 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_tsun_tsunami_rise", nil, false,
-	"j_tsun_gold_tsunami_rise",
-	50)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash",            merge_stat = nil },
+		{ name = "j_tsun_tsunami_rise", merge_stat = nil }
+	},
+	result_joker = "j_tsun_gold_tsunami_rise", cost = 90
+}
 
 
 
@@ -1117,7 +1105,7 @@ SMODS.Joker {
 	name = "Chie",
 	key = "gold_tsunami_chie",
 	rarity = "tsun_gold_legendary",
-	cost = 50,
+	cost = 100,
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
@@ -1284,11 +1272,11 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:register_fusion{
-  jokers = {
-    { name = "j_splash" },
-    { name = "j_tsun_tsunami_chie" },
-  }, cost = 50, result_joker = "j_tsun_gold_tsunami_chie"
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_tsun_tsunami_chie" },
+	}, cost = 100, result_joker = "j_tsun_gold_tsunami_chie"
 }
 
 
@@ -1296,6 +1284,7 @@ SMODS.Consumable {
 	key = 'galactic_punt',
 	set = 'Spectral',
 	atlas = "TsunamiTarot",
+	cost = 0,
 	no_collection = true,
 	hidden = true,
 	pos = { x = 1, y = 1 },
@@ -1321,7 +1310,7 @@ SMODS.Consumable {
 			delay = 0.2,
 			func = function()
 				for index, value in pairs(G.hand.highlighted) do
-					value:start_dissolve()
+					SMODS.destroy_cards(value, nil, nil, true)
 				end
 				return true
 			end
