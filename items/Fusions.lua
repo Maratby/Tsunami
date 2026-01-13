@@ -2019,9 +2019,10 @@ end
 
 SMODS.Joker {
 	key = "lighthouse",
+	discovered = true,
 	blueprint_compat = true,
 	perishable_compat = false,
-	rarity = 3,
+	rarity = "fusion",
 	cost = 8,
 	atlas = 'Tsunami',
 	pos = { x = 9, y = 12 },

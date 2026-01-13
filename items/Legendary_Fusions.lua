@@ -19,7 +19,7 @@ SMODS.Joker {
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		if not from_debuff then
-			card.ability.triggers = card.ability.extra.caino_xmult
+			card.ability.triggers = card.ability.extra.caino_xmult or 1
 			card.ability.extra.caino_xmult = nil
 		end
 	end,
