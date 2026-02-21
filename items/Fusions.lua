@@ -653,10 +653,10 @@ SMODS.Joker {
 		for k, v in pairs(G.playing_cards) do
 			if v:get_id() == 9 then
 				bonus = bonus + card.ability.extra.moneys
-				print("found a nine")
+				--print("found a nine")
 			end
 		end
-		print(tostring(bonus))
+		--print(tostring(bonus))
 		if bonus > 0 then return bonus end
 	end,
 	calculate = function(self, card, context)
