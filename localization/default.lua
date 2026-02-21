@@ -4,6 +4,7 @@ return {
 			["k_probability_tm"] = "Lucky!",
 			["k_enhance_tm"] = "Enhanced!",
 			["k_change_tm"] = "Change!",
+			["k_add_splash_tm"] = "+Splash",
 
 			["k_tsun_leg_fusion"] = "Legendary Fusion",
 			["k_tsun_gold_fusion"] = "Gold Fusion",
@@ -25,7 +26,7 @@ return {
 			["k_rise_discard"] = "+#1# Discard",
 			["k_rise_money"] = "Earn +$#1# for each Ante when Boss Blind is defeated",
 			["k_rise_minus_ante"] = "-#1# Ante",
-			["k_rise_pokerhand"] = "Creates #1# Negative Planet Card of last played poker hand at end of round",
+			["k_rise_pokerhand"] = "Level up played poker hand #1# times before each hand",
 			["k_rise_pokerhand2"] = "Level Up most played Poker Hand #1# time(s)",
 			["k_rise_psychic"] = "+#1# Card Selection Limit",
 			["k_rise_retrigger_h"] = "Retrigger Hearts #1# additional time",
@@ -370,10 +371,7 @@ return {
 				["name"] = "Gold Stake",
 				["text"] = {
 					"{C:attention}Extra scored cards{}",
-					"give {X:mult,C:white}X1.5{} Mult",
-					"for each {C:blue}Splash",
-					"or {C:blue}Splash {C:yellow}Fusion{}",
-					"{C:inactive+}{s:0.7}(multiplicative)",
+					"give {X:mult,C:white}X2{} Mult",
 				},
 			},
 
@@ -713,6 +711,7 @@ return {
 						"{C:inactive}Currently {X:mult,C:white}X#1#{C:inactive} Mult",
 					},
 					{
+						"{C:tsun_gold4}You can go -$#7# in debt",
 						"{C:tsun_gold4}Grants additional effects based on",
 						"{C:dark_edition}Chie's{}{C:tsun_gold4} Stake Sticker",
 						"{C:dark_edition}Chie's {C:tsun_gold4}Stake Sticker: {C:attention}#6# {C:inactive}(#5#/8)",
@@ -895,7 +894,7 @@ return {
 					"Gain back half of lost {C:money}money{} when {C:money}money{} decreases",
 					"up to {C:attention}#2#{}{C:inactive}[#1#]{} times per Ante",
 					"{C:tsun_gold4}Gain an additional Hand for each $10{C:inactive}[#3#]{C:tsun_gold4} saved by this Joker",
-					"{s:0.7}{C:inactive}(Burglar + Splash){}",
+					"{s:0.7}{C:inactive}(Asset Liquidation Gold Fusion){}",
 				},
 			},
 			["j_tsun_surfboard"] = {
@@ -959,7 +958,30 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Retrigger {C:attention}first{} played card {C:attention}#1#{} times",
 					"Retrigger {C:attention}first extra{} played card {C:attention}#1#{} times",
+					"{s:0.65}{C:inactive}Art by Minus_Underscore{}",
 					"{s:0.7}{C:inactive}(Hanging Chad + Splash){}",
+				},
+			},
+			["j_tsun_card_shark"] = {
+				["name"] = "Card Shark",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Gives {X:mult,C:white}X#1#{} Mult{} if played {C:attention}poker hand",
+					"has previously been played this round",
+					"Cards played previously this {C:attention}ante{} give {C:money}$#2#",
+					"{s:0.65}{C:inactive}Art by Minus_Underscore{}",
+					"{s:0.7}{C:inactive}(Card Sharp + Splash){}",
+				},
+			},
+			["j_tsun_lighthouse"] = {
+				["name"] = "Lighthouse",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"This Joker gains {X:mult,C:white} X#1# {} Mult per {C:attention}consecutive{} hand played",
+					"while playing your most played {C:attention}poker hand",
+					"{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)",
+					"{s:0.65}{C:inactive}Art by Minus_Underscore{}",
+					"{s:0.7}{C:inactive}(Obelisk + Splash){}",
 				},
 			},
 			["j_tsun_scuba"] = {
@@ -968,6 +990,7 @@ return {
 					"Every {C:attention}played card{} counts in scoring",
 					"Played {C:attention}Face Cards{} copy the {C:attention}Enhancement{} of",
 					"the {C:attention}first{} played card",
+					"{s:0.65}{C:inactive}Art by Minus_Underscore{}",
 					"{s:0.7}{C:inactive}(Midas Mask + Splash){}",
 				},
 			},
@@ -976,7 +999,7 @@ return {
 				["text"] = {
 					"Every {C:attention}played card{} counts in scoring",
 					"{C:attention}Extra scored Face Cards{} are {C:red}destroyed",
-					"{C:attention}Retrigger all played cards{} once for {C:attention}every #3#{C:inactive} [#2#]{C:attention} cards{} {C:red}destroyed",
+					"{C:attention}Retrigger all played cards{} once for {C:attention}every #3#{C:inactive} [#2#]{C:attention} Face Cards{} {C:red}destroyed",
 					"{C:inactive}Currently #1# Retriggers",
 					"{s:0.7}{C:inactive}(Canio + Splash)",
 				},
@@ -1048,7 +1071,8 @@ return {
 			["j_tsun_gold_splish_splash"] = {
 				["name"] = "{C:tsun_gradient_gold}Splish Splash",
 				["text"] = {
-					"When blind is selected, creates a {C:dark_edition}Negative{} {C:blue}Splash",
+					"When blind is selected, creates {C:blue}Splash {C:inactive}(don't need room){}",
+					"{C:tsun_gold4}creates a {C:dark_edition}Negative{C:blue} Splash{C:tsun_gold4} when selecting a Boss Blind",
 					"{s:0.7}{C:inactive}(Splish Splash Gold Fusion)",
 				},
 			},

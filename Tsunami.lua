@@ -309,6 +309,8 @@ Splashkeytable = {
 	"j_tsun_deepsea_diver",
 	"j_tsun_waterfront_scenery",
 	"j_tsun_asset_liquidation",
+	"j_tsun_card_shark",
+	"j_tsun_lighthouse",
 
 
 	"j_tsun_tsunami_yu",
@@ -371,6 +373,8 @@ Splashvouchertable = {
 	"j_tsun_deepsea_diver",
 	"j_tsun_waterfront_scenery",
 	"j_tsun_asset_liquidation",
+	"j_tsun_card_shark",
+	"j_tsun_lighthouse",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -414,6 +418,8 @@ Splashkeytable2 = {
 	"j_space",
 	"j_photograph",
 	"j_burglar",
+	"j_card_sharp",
+	"j_obelisk",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
@@ -524,6 +530,7 @@ end
 TsunamiAutoRegister = {
 	"j_evo_ripple",
 }
+
 function auto_register(registry)
 	for index2, value2 in pairs(registry) do
 		for index, value in ipairs(FusionJokers.fusions) do
@@ -536,7 +543,7 @@ function auto_register(registry)
 					_flag = true
 				end
 			end
-			
+
 			if _flag then
 				FusionJokers.fusions:register_fusion(recipe)
 			end
@@ -782,13 +789,6 @@ if Tsunami_Config.TsunamiLevel2 then
 end
 
 
-
----making a custom animated gold color because I wanted one
----holy fucking shit this is difficult and its pissing me off
----okay i gave up on making the color animated i'll just make 5 colors
-
-
-
 local tsunlc = loc_colour
 function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
@@ -931,6 +931,7 @@ Tsunami_Mod.config_tab = function()
 	}
 end
 
+---some code was being pedantic about being loaded last so it goes in there now
 SMODS.load_file("items/end_of_code.lua")()
 ----------------------------------------------
 ------------MOD CODE END----------------------
