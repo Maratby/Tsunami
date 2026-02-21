@@ -647,7 +647,14 @@ SMODS.Joker {
 	end,
 	calc_dollar_bonus = function(self, card)
 		---thanks examplejokers examplemod, saved my life
-		local bonus = card.ability.extra.nines
+		local bonus = 0
+		for k, v in pairs(G.playing_cards) do
+			if v:get_id() == 9 then
+				bonus = bonus + card.ability.extra.moneys
+				print("found a nine")
+			end
+		end
+		print(tostring(bonus))
 		if bonus > 0 then return bonus end
 	end,
 	calculate = function(self, card, context)
