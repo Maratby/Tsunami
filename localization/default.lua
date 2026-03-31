@@ -952,6 +952,18 @@ return {
 					"{s:0.7}{C:inactive}(Steel Joker + Splash){}",
 				},
 			},
+
+			["j_tsun_king_neptune"] = {
+				["name"] = "King Neptune",
+				["text"] = {
+					"Every {C:attention}played card{} counts in scoring",
+					"Each {C:attention}King{} held in hand gives {X:mult,C:white} X#1# {} Mult",
+					"Each played {C:money}Gold Card{} grants",
+					"{C:attention}+1{} Hand Size until end of round",
+					"{s:0.7}{C:inactive}(Baron + Splash){}",
+				},
+			},
+
 			["j_tsun_fractured_floodgate"] = {
 				["name"] = "Fractured Floodgate",
 				["text"] = {

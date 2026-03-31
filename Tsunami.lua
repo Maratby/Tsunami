@@ -311,6 +311,7 @@ Splashkeytable = {
 	"j_tsun_asset_liquidation",
 	"j_tsun_card_shark",
 	"j_tsun_lighthouse",
+	"j_tsun_king_neptune",
 
 
 	"j_tsun_tsunami_yu",
@@ -375,6 +376,7 @@ Splashvouchertable = {
 	"j_tsun_asset_liquidation",
 	"j_tsun_card_shark",
 	"j_tsun_lighthouse",
+	"j_tsun_king_neptune",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -420,6 +422,7 @@ Splashkeytable2 = {
 	"j_burglar",
 	"j_card_sharp",
 	"j_obelisk",
+	"j_baron",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral

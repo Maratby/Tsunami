@@ -1662,6 +1662,74 @@ FusionJokers.fusions:register_fusion {
 }
 
 SMODS.Joker {
+	key = "king_neptune",
+	name = "King Neptune",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	atlas = "Tsunami",
+	pos = { x = 6, y = 12 },
+	cost = 20,
+	config = { extra = { xmult = 2, handsize = 0 } },
+	ability_name = "King Neptune",
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+		return { vars = { card.ability.extra.xmult} }
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		G.hand:change_size(card.ability.extra.handsize)
+		---idk if this below 1 check will ever hit, but I should leave it in in case it causes issues somehow.
+		if G.hand.config.card_limit <= 0 then
+			G.hand.config.card_limit = 1
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.hand:change_size(-card.ability.extra.handsize)
+		if G.hand.config.card_limit <= 0 then
+			G.hand.config.card_limit = 1
+		end
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			for index, value in ipairs(G.play.cards) do
+				if value.config.center == G.P_CENTERS.m_gold then
+					card.ability.extra.handsize = card.ability.extra.handsize + 1
+					G.hand:change_size(1)
+				end
+			end
+		end
+		if context.individual and context.cardarea == G.hand and not context.end_of_round and context.other_card:get_id() == 13 then
+			if context.other_card.debuff then
+				return {
+					message = localize('k_debuffed'),
+					colour = G.C.RED
+				}
+			else
+				return {
+					x_mult = card.ability.extra.xmult
+				}
+			end
+		end
+
+		if context.end_of_round then
+			G.hand:change_size(-card.ability.extra.handsize)
+			if G.hand.config.card_limit <= 0 then
+				G.hand.config.card_limit = 1
+			end
+			card.ability.extra.handsize = 0
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_baron" },
+	}, cost = 16, result_joker = "j_tsun_king_neptune"
+}
+
+SMODS.Joker {
 	name = "Swimming Trunks",
 	key = 'swimming_trunks',
 	rarity = "fusion",
