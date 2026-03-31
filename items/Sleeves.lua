@@ -140,7 +140,8 @@ CardSleeves.Sleeve {
                     G.GAME.interest_cap = 0
                 end
                 if self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_tsun_floatiedeck" then
-                    G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
+                    SMODS.change_discard_limit(1)
+                    SMODS.change_play_limit(1)
                 end
                 if self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_bazaar" then
                     tsun_create_items(2)
@@ -312,6 +313,7 @@ CardSleeves.Sleeve {
                 ease_discard(self.config.discards)
                 G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.config.hands
                 ease_hands_played(self.config.hands)
+                G.hand:change_size(2)
 				return true
 			end
 		}))

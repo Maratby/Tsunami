@@ -21,11 +21,18 @@ SMODS.Joker {
 			local splishcard = create_card("Joker", G.jokers, nil, nil, nil, nil, "j_splash")
 			splishcard:add_to_deck()
 			G.jokers:emplace(splishcard)
+			card_eval_status_text(card, 'extra', nil, nil, nil,
+				{ message = localize('k_add_splash_tm'), colour = G.C.BLUE })
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_riff_raff", nil, false, "j_splash", nil, false, "j_tsun_splish_splash", 6)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_riff_raff" },
+		{ name = "j_splash" },
+	}, cost = 6, result_joker = "j_tsun_splish_splash"
+}
 
 SMODS.Joker {
 	key = "soaked_joker",
@@ -53,7 +60,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_half", nil, false, "j_splash", nil, false, "j_tsun_soaked_joker", 8)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_half" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_soaked_joker"
+}
 
 SMODS.Joker {
 	key = 'holy_water',
@@ -100,7 +112,12 @@ function CardArea:add_to_highlighted(card, silent)
 	athr(self, card, silent)
 end
 
-FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_jolly', nil, nil, 'j_tsun_holy_water', 8)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = 'j_splash' },
+		{ name = 'j_jolly' },
+	}, cost = 8, result_joker = 'j_tsun_holy_water'
+}
 
 SMODS.Joker {
 	key = "oil_spill",
@@ -128,7 +145,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_misprint", nil, false, "j_splash", nil, false, "j_tsun_oil_spill", 8)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_misprint" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_oil_spill"
+}
 
 SMODS.Joker {
 	key = "vending_machine",
@@ -143,13 +165,15 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 4, y = 2 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult, card.ability.extra.fails, G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
+			'tsun_vending_machine')
+		return { vars = { card.ability.extra.xmult, card.ability.extra.fails, new_numerator, new_denominator } }
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if card_is_splashed(context.other_card) then
 				card.ability.extra.fails = card.ability.extra.fails + 1
-				if card.ability.extra.fails >= card.ability.extra.xmult or pseudorandom('THUNDERCROSSSPLITATTACK') < G.GAME.probabilities.normal / card.ability.extra.odds then
+				if card.ability.extra.fails >= card.ability.extra.xmult or SMODS.pseudorandom_probability(card, 'monseiur', 1, card.ability.extra.odds, 'tsun_vending_machine') then
 					card.ability.extra.fails = 0
 					return {
 						x_mult = card.ability.extra.xmult,
@@ -161,7 +185,60 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_loyalty_card", nil, false, "j_splash", nil, false, "j_tsun_vending_machine", 7)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_loyalty_card" },
+		{ name = "j_splash" },
+	}, cost = 7, result_joker = "j_tsun_vending_machine"
+}
+
+SMODS.Joker {
+	key = "waterfront_scenery",
+	name = "Waterfront Scenery",
+	atlas = "Tsunami",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	pos = { x = 2, y = 13 },
+	pixel_size = { h = 95 / 1.2 },
+	cost = 16,
+	config = { extra = { xmult = 2, modifier = 0.5, tally = 0 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.xmult, card.ability.extra.modifier } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			card.ability.extra.tally = 0
+			for index, value in ipairs(G.play.cards) do
+				if card_is_splashed(value) then
+					card.ability.extra.tally = card.ability.extra.tally + 1
+				end
+			end
+		end
+		if context.individual and context.cardarea == G.play and context.other_card:is_face() then
+			local is_first_face = false
+			for i = 1, #context.scoring_hand do
+				if context.scoring_hand[i]:is_face() then
+					is_first_face = context.scoring_hand[i] == context.other_card
+					break
+				end
+			end
+			if is_first_face then
+				return {
+					xmult = card.ability.extra.xmult + (card.ability.extra.tally * card.ability.extra.modifier)
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_photograph" },
+		{ name = "j_splash" },
+	}, cost = 14, result_joker = "j_tsun_waterfront_scenery"
+}
 
 SMODS.Joker {
 	key = "magical_waterfall",
@@ -200,7 +277,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion('j_splash', nil, nil, 'j_mystic_summit', nil, nil, 'j_tsun_magical_waterfall', 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = 'j_splash' },
+		{ name = 'j_mystic_summit' },
+	}, cost = 11, result_joker = 'j_tsun_magical_waterfall'
+}
 
 SMODS.Joker {
 	key = "smart_water",
@@ -239,7 +321,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_scholar", nil, false, "j_splash", nil, false, "j_tsun_smart_water", 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_scholar" },
+		{ name = "j_splash" },
+	}, cost = 11, result_joker = "j_tsun_smart_water"
+}
 
 local rb_resetflag
 SMODS.Joker {
@@ -280,7 +367,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_ride_the_bus", "mult", false, "j_splash", nil, false, "j_tsun_ride_the_sub", 8)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_ride_the_bus", carry_stat = "mult" },
+		{ name = "j_splash" },
+	}, cost = 8, result_joker = "j_tsun_ride_the_sub"
+}
 
 SMODS.Joker {
 	key = "raft",
@@ -317,13 +409,19 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hiker", nil, false, "j_tsun_raft", 10)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hiker" },
+	}, cost = 10, result_joker = "j_tsun_raft"
+}
 
 SMODS.Joker {
 	name = "Beach Ball",
 	config = { extra = { odds = 3 } },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'identifier')
+		return { vars = { new_numerator, new_denominator } }
 	end,
 	rarity = "fusion",
 	cost = 17,
@@ -338,7 +436,7 @@ SMODS.Joker {
 	ability_name = "Beach Ball",
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and pseudorandom('ballpenisball') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if card_is_splashed(context.other_card) and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit and SMODS.pseudorandom_probability(card, 'penile', 1, card.ability.extra.odds, 'tsun_beach_ball') then
 				G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
 				local tarotcards = create_card('Tarot', G.consumeables, nil, nil, nil, nil, nil, 'tar')
 				tarotcards:add_to_deck()
@@ -349,7 +447,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_8_ball", nil, false, "j_tsun_beach_ball", 8)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_8_ball" },
+	}, cost = 8, result_joker = "j_tsun_beach_ball"
+}
 
 SMODS.Joker {
 	key = "dihydrogen_monoxide",
@@ -392,7 +495,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_fibonacci", nil, false, "j_tsun_dihydrogen_monoxide", 13)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_fibonacci" },
+	}, cost = 13, result_joker = "j_tsun_dihydrogen_monoxide"
+}
 
 SMODS.Joker {
 	key = "lunar_tides",
@@ -438,7 +546,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_shoot_the_moon", nil, false, "j_tsun_lunar_tides", 13)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_shoot_the_moon" },
+	}, cost = 13, result_joker = "j_tsun_lunar_tides"
+}
 
 SMODS.Joker {
 	key = "watering_can",
@@ -497,12 +610,17 @@ SMODS.Joker {
 			end
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra } },
-				Xmult_mod = watermult
+				Xmult = watermult
 			}
 		end
 	end
 }
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_flower_pot", nil, false, "j_tsun_watering_can", 10)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_flower_pot" },
+	}, cost = 10, result_joker = "j_tsun_watering_can"
+}
 
 
 SMODS.Joker {
@@ -512,12 +630,14 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 7, y = 12 },
 	cost = 18,
 	config = { extra = { nines = 0, moneys = 2, odds = 8 } },
 	ability_name = "Rainstorm",
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.nines, card.ability.extra.moneys, G.GAME.probabilities.normal or 1, card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'identifier')
+		return { vars = { card.ability.extra.nines, card.ability.extra.moneys, new_numerator, new_denominator } }
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
 		card.ability.extra.nines = 0
@@ -529,7 +649,14 @@ SMODS.Joker {
 	end,
 	calc_dollar_bonus = function(self, card)
 		---thanks examplejokers examplemod, saved my life
-		local bonus = card.ability.extra.nines
+		local bonus = 0
+		for k, v in pairs(G.playing_cards) do
+			if v:get_id() == 9 then
+				bonus = bonus + card.ability.extra.moneys
+				--print("found a nine")
+			end
+		end
+		--print(tostring(bonus))
 		if bonus > 0 then return bonus end
 	end,
 	calculate = function(self, card, context)
@@ -543,7 +670,7 @@ SMODS.Joker {
 		end
 		if context.after then
 			for index, card2 in ipairs(context.full_hand) do
-				if card_is_splashed(card2) and pseudorandom("I can do this too you know!") < G.GAME.probabilities.normal / card.ability.extra.odds then
+				if card_is_splashed(card2) and SMODS.pseudorandom_probability(card, 'super', 1, card.ability.extra.odds, 'tsun_rainstorm') then
 					G.E_MANAGER:add_event(Event({
 						blockable = true,
 						blocking = true,
@@ -559,7 +686,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cloud_9", nil, false, "j_tsun_rainstorm", 9)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cloud_9" },
+	}, cost = 9, result_joker = "j_tsun_rainstorm"
+}
 
 
 SMODS.Joker {
@@ -578,7 +710,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.joker_main then
 			return {
-				mult_mod = card.ability.extra.mult,
+				mult = card.ability.extra.mult,
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } }
 			}
 		end
@@ -630,7 +762,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_gros_michel", nil, false, "j_tsun_banana_tree", 5)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_gros_michel" },
+	}, cost = 5, result_joker = "j_tsun_banana_tree"
+}
 
 SMODS.Joker {
 	key = "banana_plantation",
@@ -645,7 +782,9 @@ SMODS.Joker {
 	atlas = "Tsunami",
 	pos = { x = 5, y = 11 },
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
+			'tsun_plantation')
+		return { vars = { card.ability.extra.xmult, card.ability.extra.increase, new_numerator, new_denominator } }
 	end,
 	calculate = function(self, card, context)
 		if context.before then
@@ -658,12 +797,12 @@ SMODS.Joker {
 		if context.joker_main then
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } },
-				Xmult_mod = card.ability.extra.xmult,
+				Xmult = card.ability.extra.xmult,
 				card = card,
 			}
 		end
 		if context.end_of_round and context.main_eval and not context.game_over and not context.repetition and not context.blueprint then
-			if pseudorandom('Splash') < G.GAME.probabilities.normal / card.ability.extra.odds then
+			if SMODS.pseudorandom_probability(card, 'get-the-banana-kris', 1, card.ability.extra.odds, 'tsun_plantation') then
 				G.E_MANAGER:add_event(Event({
 					func = function()
 						play_sound('tarot1')
@@ -697,10 +836,16 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cavendish", nil, false, "j_tsun_banana_plantation", 15)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cavendish" },
+	}, cost = 15, result_joker = "j_tsun_banana_plantation"
+}
 
 SMODS.Joker {
 	key = "ice_tray",
+	name = "Ice Tray",
 	rarity = "fusion",
 	cost = 16,
 	unlocked = true,
@@ -708,25 +853,27 @@ SMODS.Joker {
 	blueprint_compat = true,
 	eternal_compat = true,
 	perishable_compat = true,
-	config = { extra = { xmult = 1.5 } },
+	config = { extra = { xmult = 1 } },
 	atlas = "Tsunami",
 	pos = { x = 2, y = 5 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
 	end,
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) then
-				return {
-					x_mult = card.ability.extra.xmult,
-					card = card
-				}
-			end
+		if context.joker_main then
+			return {
+				x_mult = math.max(1, card.ability.extra.xmult * (G.GAME.starting_params.play_limit - #G.play.cards))
+			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stencil", nil, false, "j_tsun_ice_tray", 13)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stencil" },
+	}, cost = 13, result_joker = "j_tsun_ice_tray"
+}
 
 SMODS.Joker {
 	key = "reflection",
@@ -775,14 +922,57 @@ SMODS.Joker {
 			-- set the xmult appropriately
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra ^ number_of_pairs } },
-				Xmult_mod = card.ability.extra ^ number_of_pairs,
+				Xmult = card.ability.extra ^ number_of_pairs,
 				card = card,
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_seeing_double", nil, false, "j_tsun_reflection", 14)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_seeing_double" },
+	}, cost = 14, result_joker = "j_tsun_reflection"
+}
+
+SMODS.Joker {
+	key = "deepsea_diver",
+	name = "Deepsea Diver",
+	blueprint_compat = true,
+	rarity = "fusion",
+	cost = 15,
+	pos = { x = 3, y = 5 },
+	atlas = "Tsunami",
+	config = { extra = { odds = 4, numerator_bonus = 0 } },
+	loc_vars = function(self, info_queue, card)
+		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'vremade_space')
+		return { vars = { numerator, denominator } }
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			card.ability.extra.numerator_bonus = 0
+			for index, value in ipairs(G.play.cards) do
+				if card_is_splashed(value) then
+					card.ability.extra.numerator_bonus = card.ability.extra.numerator_bonus + 1
+				end
+			end
+			if SMODS.pseudorandom_probability(card, 'see you space joker', 1 + card.ability.extra.numerator_bonus, card.ability.extra.odds) then
+				return {
+					level_up = true,
+					message = localize('k_level_up_ex')
+				}
+			end
+		end
+	end
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_space" },
+	}, cost = 8, result_joker = "j_tsun_deepsea_diver"
+}
 
 SMODS.Joker {
 	key = "vaporwave",
@@ -803,7 +993,7 @@ SMODS.Joker {
 		if context.joker_main then
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
-				xmult_mod = card.ability.extra.x_mult,
+				xmult = card.ability.extra.x_mult,
 				card = card,
 			}
 		elseif context.skip_blind then
@@ -832,11 +1022,17 @@ SMODS.Joker {
 		end
 	end,
 	set_ability = function(self, card, initial, delay_sprites)
+		G.GAME.skips = G.GAME.skips or 0
 		card.ability.extra.x_mult = 1 + G.GAME.skips * 0.25
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_throwback", "xmult", false, "j_tsun_vaporwave", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_throwback", carry_stat = "xmult" },
+	}, cost = 12, result_joker = "j_tsun_vaporwave"
+}
 
 
 SMODS.Joker {
@@ -878,7 +1074,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_sock_and_buskin", nil, false, "j_tsun_webbed_feet", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_sock_and_buskin" },
+	}, cost = 12, result_joker = "j_tsun_webbed_feet"
+}
 
 SMODS.Joker {
 	key = "money_laundering",
@@ -887,6 +1088,8 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	---this is commented because i lost the original sprite for credit card and am too lazy to regain it
+	---atlas = "Tsunami",
 	pos = { x = 5, y = 1 },
 	cost = 1,
 	config = { extra = 30, dollars = 1 },
@@ -912,8 +1115,62 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_credit_card", nil, false, "j_tsun_money_laundering", 1)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_credit_card" },
+	}, cost = 1, result_joker = "j_tsun_money_laundering"
+}
 
+SMODS.Joker {
+	key = "asset_liquidation",
+	name = "Asset Liquidation",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	atlas = "Tsunami",
+	pos = { x = 1, y = 10 },
+	cost = -10,
+	config = { triggers = 5, triggersmax = 5, storage = 0 },
+	ability_name = "mooney_laundering",
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.triggers, card.ability.triggersmax } }
+	end,
+	calculate = function(self, card, context)
+		if context.setting_blind then
+			ease_hands_played(3)
+			ease_discard(-G.GAME.round_resets.discards)
+		end
+		if context.money_altered and context.amount < 0 and card.ability.triggers > 0 then
+			card:juice_up()
+			local tempdollar = context.amount / -2
+			if Tsunami_Config.TsunRounding then
+				tempdollar = math.floor(tempdollar + 0.5)
+			else
+				tempdollar = math.floor(tempdollar)
+			end
+			card.ability.triggers = card.ability.triggers - 1
+			---storing saved amount
+			card.ability.storage = card.ability.storage + tempdollar
+			ease_dollars(tempdollar)
+		end
+		if context.end_of_round and context.beat_boss and context.main_eval then
+			card.ability.triggers = 5
+			return {
+				card = card,
+				message = localize('k_reset')
+			}
+		end
+	end
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_burglar" },
+	}, cost = 10, result_joker = "j_tsun_asset_liquidation"
+}
 
 SMODS.Joker {
 	key = "scuba",
@@ -943,7 +1200,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_midas_mask", nil, false, "j_splash", nil, false, "j_tsun_scuba", 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_midas_mask" },
+		{ name = "j_splash" },
+	}, cost = 11, result_joker = "j_tsun_scuba"
+}
 
 SMODS.Joker {
 	key = "escape_artist",
@@ -952,6 +1214,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 8, y = 6 },
 	cost = 14,
 	config = { chips = 75, handsize = 1 },
@@ -977,7 +1240,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stuntman", nil, false, "j_tsun_escape_artist", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stuntman" },
+	}, cost = 12, result_joker = "j_tsun_escape_artist"
+}
 
 SMODS.Joker {
 	key = "soup",
@@ -986,6 +1254,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 2, y = 15 },
 	cost = 12,
 	config = { extra = { x_mult = 2, reduction = 0.06 } },
@@ -1009,14 +1278,19 @@ SMODS.Joker {
 			return {
 				message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.x_mult } },
 				colour = G.C.RED,
-				xmult_mod = card.ability.extra.x_mult,
+				xmult = card.ability.extra.x_mult,
 				card = card,
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ramen", nil, false, "j_tsun_soup", 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_ramen" },
+	}, cost = 11, result_joker = "j_tsun_soup"
+}
 
 SMODS.Joker {
 	key = "fractured_floodgate",
@@ -1025,6 +1299,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 9, y = 6 },
 	cost = 14,
 	config = { extra = 2 },
@@ -1067,7 +1342,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hanging_chad", nil, false, "j_tsun_fractured_floodgate", 10)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hanging_chad" },
+	}, cost = 10, result_joker = "j_tsun_fractured_floodgate"
+}
 
 
 SMODS.Joker {
@@ -1077,6 +1357,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	blueprint_compat = true,
+	atlas = "Tsunami",
 	pos = { x = 7, y = 15 },
 	cost = 19,
 	config = { extra = { xmult = 1.5, triggers = 1, plussuit = "Hearts", minussuit = "Spades" } },
@@ -1105,7 +1386,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_ancient", nil, false, "j_tsun_youth", 14)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_ancient" },
+	}, cost = 14, result_joker = "j_tsun_youth"
+}
 
 SMODS.Joker {
 	name = "Cryomancer",
@@ -1165,7 +1451,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_cartomancer", nil, false, "j_tsun_cryomancer", 15)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_cartomancer" },
+	}, cost = 15, result_joker = "j_tsun_cryomancer"
+}
 
 SMODS.Joker {
 	name = "Toaster",
@@ -1251,7 +1542,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_hack", nil, false, "j_tsun_toaster", 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_hack" },
+	}, cost = 11, result_joker = "j_tsun_toaster"
+}
 
 SMODS.Joker {
 	name = "Surfboard",
@@ -1290,7 +1586,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_blackboard", nil, false, "j_tsun_surfboard", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_blackboard" },
+	}, cost = 12, result_joker = "j_tsun_surfboard"
+}
 
 local handsteeltally = 0
 SMODS.Joker {
@@ -1329,7 +1630,7 @@ SMODS.Joker {
 			end
 		end
 		if context.individual and context.cardarea == G.play then
-			if card_is_splashed(context.other_card) and context.other_card.ability.name == "Steel Card" then
+			if card_is_splashed(context.other_card) and context.other_card.config.center == G.P_CENTERS.m_steel then
 				return {
 					x_mult = 1 + (card.ability.extra.steelmult * handsteeltally),
 				}
@@ -1353,7 +1654,80 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_steel_joker", nil, false, "j_tsun_thermos", 11)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_steel_joker" },
+	}, cost = 11, result_joker = "j_tsun_thermos"
+}
+
+SMODS.Joker {
+	key = "king_neptune",
+	name = "King Neptune",
+	rarity = "fusion",
+	unlocked = true,
+	discovered = true,
+	blueprint_compat = true,
+	atlas = "Tsunami",
+	pos = { x = 6, y = 12 },
+	cost = 20,
+	config = { extra = { xmult = 2, handsize = 0 } },
+	ability_name = "King Neptune",
+	loc_vars = function(self, info_queue, card)
+		info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
+		return { vars = { card.ability.extra.xmult} }
+	end,
+	add_to_deck = function(self, card, from_debuff)
+		G.hand:change_size(card.ability.extra.handsize)
+		---idk if this below 1 check will ever hit, but I should leave it in in case it causes issues somehow.
+		if G.hand.config.card_limit <= 0 then
+			G.hand.config.card_limit = 1
+		end
+	end,
+	remove_from_deck = function(self, card, from_debuff)
+		G.hand:change_size(-card.ability.extra.handsize)
+		if G.hand.config.card_limit <= 0 then
+			G.hand.config.card_limit = 1
+		end
+	end,
+	calculate = function(self, card, context)
+		if context.before then
+			for index, value in ipairs(G.play.cards) do
+				if value.config.center == G.P_CENTERS.m_gold then
+					card.ability.extra.handsize = card.ability.extra.handsize + 1
+					G.hand:change_size(1)
+				end
+			end
+		end
+		if context.individual and context.cardarea == G.hand and not context.end_of_round and context.other_card:get_id() == 13 then
+			if context.other_card.debuff then
+				return {
+					message = localize('k_debuffed'),
+					colour = G.C.RED
+				}
+			else
+				return {
+					x_mult = card.ability.extra.xmult
+				}
+			end
+		end
+
+		if context.end_of_round then
+			G.hand:change_size(-card.ability.extra.handsize)
+			if G.hand.config.card_limit <= 0 then
+				G.hand.config.card_limit = 1
+			end
+			card.ability.extra.handsize = 0
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_baron" },
+	}, cost = 16, result_joker = "j_tsun_king_neptune"
+}
 
 SMODS.Joker {
 	name = "Swimming Trunks",
@@ -1406,13 +1780,18 @@ SMODS.Joker {
 		if context.joker_main and card.ability.extra.mult > 0 then
 			return {
 				message = localize { type = 'variable', key = 'a_mult', vars = { card.ability.extra.mult } },
-				mult_mod = card.ability.extra.mult
+				mult = card.ability.extra.mult
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_trousers", "mult", false, "j_tsun_swimming_trunks", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_trousers", carry_stat = "mult" },
+	}, cost = 12, result_joker = "j_tsun_swimming_trunks"
+}
 
 SMODS.Joker {
 	name = "Abrasion",
@@ -1449,15 +1828,20 @@ SMODS.Joker {
 		end
 		if context.joker_main then
 			return {
-				chip_mod = card.ability.extra.chips,
-				mult_mod = card.ability.extra.mult,
+				chips = card.ability.extra.chips,
+				mult = card.ability.extra.mult,
 				card = card
 			}
 		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_stone", nil, false, "j_tsun_abrasion", 10)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_stone" },
+	}, cost = 10, result_joker = "j_tsun_abrasion"
+}
 
 SMODS.Joker {
 	name = "Waterjet Cutter",
@@ -1479,15 +1863,12 @@ SMODS.Joker {
 			for index, value in ipairs(G.play.cards) do
 				value.cut = false
 				if value.config.center_key == "m_stone" then
-					value:set_ability(
-						G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-						false)
-					value:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'waterseal' }), true, false)
-					while value.config.center_key == "m_stone" do
-						value:set_ability(
-							G.P_CENTERS[SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })], true,
-							false)
+					local enhancement = SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })
+					while enhancement == "m_stone" do
+						enhancement = SMODS.poll_enhancement({ guaranteed = true, type_key = 'waterenhance' })
 					end
+					value:set_ability(G.P_CENTERS[enhancement], nil, true)
+					value:set_seal(SMODS.poll_seal({ guaranteed = true, type_key = 'waterseal' }), true, false)
 					value:juice_up()
 					value.cut = true
 				end
@@ -1506,7 +1887,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_marble", nil, false, "j_tsun_waterjet", 12)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_marble" },
+	}, cost = 12, result_joker = "j_tsun_waterjet"
+}
 
 SMODS.Joker {
 	name = "Gambling Ship",
@@ -1519,20 +1905,7 @@ SMODS.Joker {
 	perishable_compat = false,
 	pos = { x = 5, y = 6 },
 	---if you know you know
-	config = { extra = { GET_TO_USE_THESE = true, quip = "TRY AND DODGE THIS!" } },
-	loc_vars = function(self, info_queue, card)
-		return { vars = { G.GAME.probabilities.normal or 1 } }
-	end,
-	add_to_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.GAME.probabilities) do
-			G.GAME.probabilities[k] = v * 2
-		end
-	end,
-	remove_from_deck = function(self, card, from_debuff)
-		for k, v in pairs(G.GAME.probabilities) do
-			G.GAME.probabilities[k] = v / 2
-		end
-	end,
+	config = { chancecount = 2, extra = { GET_TO_USE_THESE = true, quip = "TRY AND DODGE THIS!" } },
 	calculate = function(self, card, context)
 		if context.before then
 			local hit = false
@@ -1543,9 +1916,7 @@ SMODS.Joker {
 						G.play.cards[index + 1]:get_id() == 7 then
 						hit = true
 						if pseudorandom('GAMBLECORE') < 1 / 7 then
-							for k, v in pairs(G.GAME.probabilities) do
-								G.GAME.probabilities[k] = v * 2
-							end
+							card.ability.chancecount = card.ability.chancecount * 2
 							play_sound("tsun_probability_tm", 1, 1)
 							return {
 								message = localize("k_probability_tm"),
@@ -1561,10 +1932,20 @@ SMODS.Joker {
 				end
 			end
 		end
+		if context.mod_probability and not context.blueprint then
+			return {
+				numerator = context.numerator * card.ability.chancecount
+			}
+		end
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_oops", nil, false, "j_tsun_g_ship", 14)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_oops" },
+	}, cost = 14, result_joker = "j_tsun_g_ship"
+}
 
 SMODS.Joker {
 	name = "Wet Floor Sign",
@@ -1598,7 +1979,12 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_todo_list", nil, false, "j_tsun_wet_floor_sign", 15)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_todo_list" },
+	}, cost = 15, result_joker = "j_tsun_wet_floor_sign"
+}
 
 SMODS.Joker {
 	key = "hygiene_card",
@@ -1651,4 +2037,106 @@ SMODS.Joker {
 	end
 }
 
-FusionJokers.fusions:add_fusion("j_splash", nil, false, "j_drivers_license", nil, false, "j_tsun_hygiene_card", 16)
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_drivers_license" },
+	}, cost = 16, result_joker = "j_tsun_hygiene_card"
+}
+
+SMODS.Joker {
+	name = "Card Shark",
+	key = 'card_shark',
+	rarity = "fusion",
+	discovered = true,
+	atlas = 'Tsunami',
+	cost = 20,
+	blueprint_compat = true,
+	pos = { x = 6, y = 11 },
+	config = { xmult = 4, dollars = 1 },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.xmult, card.ability.dollars } }
+	end,
+	calculate = function(self, card, context)
+		if context.joker_main and G.GAME.hands[context.scoring_name] and G.GAME.hands[context.scoring_name].played_this_round > 1 then
+			return {
+				xmult = card.ability.xmult
+			}
+		end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card.ability.cardshark_tsunami == true then
+				return {
+					dollars = card.ability.dollars
+				}
+			end
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_card_sharp" },
+	}, cost = 14, result_joker = "j_tsun_card_shark"
+}
+
+---hook for card shark's effect
+-- cards are set to played this ante before I can check them otherwise - this hook is needed to beat the vanilla code to the punch
+
+local G_FUNCS_play_cards_from_highlighted_ref = G.FUNCS.play_cards_from_highlighted
+G.FUNCS.play_cards_from_highlighted = function(e)
+	for i = 1, #G.hand.highlighted do
+		G.hand.highlighted[i].ability.cardshark_tsunami = not (not G.hand.highlighted[i].ability.played_this_ante)
+	end
+	local ret = G_FUNCS_play_cards_from_highlighted_ref(e)
+	return ret
+end
+
+SMODS.Joker {
+	key = "lighthouse",
+	discovered = true,
+	blueprint_compat = true,
+	perishable_compat = false,
+	rarity = "fusion",
+	cost = 8,
+	atlas = 'Tsunami',
+	pos = { x = 9, y = 12 },
+	config = { extra = { Xmult_gain = 0.25, x_mult = 1 } },
+	loc_vars = function(self, info_queue, card)
+		return { vars = { card.ability.extra.Xmult_gain, card.ability.extra.x_mult } }
+	end,
+	calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+			local reset = false
+			local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+			for handname, values in pairs(G.GAME.hands) do
+				if handname ~= context.scoring_name and values.played >= play_more_than and SMODS.is_poker_hand_visible(handname) then
+					reset = true
+					break
+				end
+			end
+			if reset then
+				if card.ability.extra.x_mult > 1 then
+					card.ability.extra.x_mult = 1
+					return {
+						message = localize('k_reset')
+					}
+				end
+			else
+				card.ability.extra.x_mult = card.ability.extra.x_mult + card.ability.extra.Xmult_gain
+			end
+		end
+		if context.joker_main then
+			return {
+				xmult = card.ability.extra.x_mult
+			}
+		end
+	end,
+}
+
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_obelisk", carry_stat = "x_mult" },
+	}, cost = 9, result_joker = "j_tsun_lighthouse"
+}

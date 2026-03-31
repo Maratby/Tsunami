@@ -22,7 +22,7 @@ end
 
 ---It's a surprise tool that'll help Chie later
 ---Overflow is a newgen replacement for Incantation - I will support both just in case.
-if next(SMODS.find_mod("Incantation")) or next(SMODS.find_mod("Overflow")) then
+if next(SMODS.find_mod("Incantation")) or Overflow then
 	Tsun_has_Incantation = true
 else
 	Tsun_has_Incantation = false
@@ -82,25 +82,99 @@ function create_splash_material(_edition, eternal)
 	return _card
 end
 
-function change_card(card_object, new_card_key)
-	local new_card_object = SMODS.create_card({
-		area = G.jokers,
-		key = new_card_key
-	})
+---thank you dilly the dillster from dillatro
+function tsun_top_10(printall)
+	local profile = G.PROFILES[G.SETTINGS.profile]
+	local usage_data = profile.joker_usage
 
-	if card_object.edition then
-		new_card_object:set_edition(card_object.edition)
+	-- Create sorted list of all jokers by usage count
+	local joker_counts = {}
+	for k, v in pairs(usage_data) do
+		local count = (type(v) == "table" and v.count) or 0
+		table.insert(joker_counts, { key = k, count = count })
 	end
-	if card_object.ability.eternal == true then
-		new_card_object.ability.eternal = true
-	elseif card_object.ability.perishable == true then
-		new_card_object.ability.perishable = true
-	elseif card_object.ability.rental == true then
-		new_card_object.ability.rental = true
+
+	-- Sort by count (highest first)
+	table.sort(joker_counts, function(a, b) return a.count > b.count end)
+
+	-- Get top 10
+	local top_10 = {}
+	for i = 1, math.min(10, #joker_counts) do
+		table.insert(top_10, joker_counts[i])
 	end
-	new_card_object:add_to_deck()
-	G.jokers:emplace(new_card_object)
-	return new_card_object
+	if printall then
+		print("=== TOP 10 JOKERS ===")
+		for i, joker_data in ipairs(top_10) do
+			print(i .. ". " .. joker_data.key .. " (" .. joker_data.count .. " uses)")
+		end
+		print("====================")
+	end
+
+	-- Check if j_splash is in top 10 AND find its overall position
+	local splash_in_top_10 = false
+	local splash_position = nil
+	local splash_overall_position = nil
+
+	-- Find j_splash's overall position in the full sorted list
+	for i, joker_data in ipairs(joker_counts) do
+		if joker_data.key == "j_splash" then
+			splash_overall_position = i
+			break
+		end
+	end
+
+	-- Check if it's in top 10
+	for i, joker_data in ipairs(top_10) do
+		if joker_data.key == "j_splash" then
+			splash_in_top_10 = true
+			splash_position = i
+			break
+		end
+	end
+	if printall then
+		print("=== J_SPLASH STATUS ===")
+		if splash_in_top_10 then
+			print("j_splash IS in top 10 at position: " .. splash_position)
+			print("Boolean splash_in_top_10 = TRUE")
+		else
+			if splash_overall_position then
+				print("j_splash is NOT in top 10")
+				print("j_splash overall position: " .. splash_overall_position .. " out of " .. #joker_counts)
+			else
+				print("j_splash was never used (not found in usage data)")
+			end
+			print("Boolean splash_in_top_10 = FALSE")
+		end
+		print("=======================")
+	end
+	return splash_in_top_10
+end
+
+---function for merging tables, mostly used for Gold Rise. MOVES VALUES FROM TABLE1 TO TABLE2!!!!	
+function tsun_table_merge(table1, table2)
+	for _, value in ipairs(table1) do
+		table.insert(table2, value)
+	end
+end
+
+function Tsunami.change_card(card_object, new_card_key, transfer_ability, extra)
+	local old_ability = 0
+	if transfer_ability then
+		if extra then
+			old_ability = card_object.ability.extra[transfer_ability]
+		else
+			old_ability = card_object.ability[transfer_ability]
+		end
+	end
+	card_object:set_ability(G.P_CENTERS[new_card_key])
+	if transfer_ability then
+		if extra then
+			card_object.ability.extra[transfer_ability] = old_ability
+		else
+			card_object.ability[transfer_ability] = old_ability
+		end
+	end
+	card_object:juice_up()
 end
 
 ---I can't use the CardSleeves method for this outside of a Sleeve. But I need to.
@@ -157,7 +231,8 @@ SMODS.Joker:take_ownership("splash", {
 			---That makes it not retrigger, but now Negative Splashes don't give joker slots???
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit + 1
+			SMODS.change_discard_limit(1)
+			SMODS.change_play_limit(1)
 		end
 	end,
 	remove_from_deck = function(self, card, from_debuff)
@@ -165,7 +240,8 @@ SMODS.Joker:take_ownership("splash", {
 			G.jokers.config.card_limit = G.jokers.config.card_limit - 1
 		end
 		if CardSleeves and (get_current_deck_fallback() == "b_sdm_deck_of_stuff" or get_current_deck_fallback() == "b_painted") and G.GAME.selected_sleeve == "sleeve_tsun_splash" then
-			G.hand.config.highlighted_limit = G.hand.config.highlighted_limit - 1
+			SMODS.change_discard_limit(-1)
+			SMODS.change_play_limit(-1)
 			G.hand:unhighlight_all()
 		end
 	end,
@@ -187,6 +263,9 @@ SMODS.Joker:take_ownership("splash", {
 ---Adds a dummy function that does nothing if Talisman isn't loaded, lets me avoid having Talisman be a dependency
 ---and avoid crashes if Talisman is loaded
 to_big = to_big or function(num)
+	return num
+end
+to_number = to_number or function(num)
 	return num
 end
 
@@ -227,6 +306,13 @@ Splashkeytable = {
 	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
+	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
+	"j_tsun_asset_liquidation",
+	"j_tsun_card_shark",
+	"j_tsun_lighthouse",
+	"j_tsun_king_neptune",
+
 
 	"j_tsun_tsunami_yu",
 	"j_tsun_tsunami_marie",
@@ -238,8 +324,13 @@ Splashkeytable = {
 	"j_tsun_gold_holy_water",
 	"j_tsun_gold_reflection",
 	"j_tsun_gold_cryomancer",
+	"j_tsun_gold_asset_liquidation",
+
 	"j_tsun_gold_tsunami_marie",
 	"j_tsun_gold_tsunami_yosuke",
+	"j_tsun_gold_tsunami_rise",
+	"j_tsun_gold_tsunami_chie",
+	"j_tsun_gold_tsunami_yu",
 }
 
 ---This table is used by the Water SUpply voucher to create a random Splash Fusion Joker
@@ -280,6 +371,12 @@ Splashvouchertable = {
 	"j_tsun_hygiene_card",
 	"j_tsun_ride_the_sub",
 	"j_tsun_wet_floor_sign",
+	"j_tsun_deepsea_diver",
+	"j_tsun_waterfront_scenery",
+	"j_tsun_asset_liquidation",
+	"j_tsun_card_shark",
+	"j_tsun_lighthouse",
+	"j_tsun_king_neptune",
 }
 
 --- This table is used by the Polymorph Spectral to choose a random non-Legendary Splash fusion compatible Joker
@@ -320,20 +417,35 @@ Splashkeytable2 = {
 	"j_drivers_license",
 	"j_ride_the_bus",
 	"j_todo_list",
+	"j_space",
+	"j_photograph",
+	"j_burglar",
+	"j_card_sharp",
+	"j_obelisk",
+	"j_baron",
 }
 
 ---List of fusion materials to be excluded from calculation for the Polymorph Spectral
 Exclusionlist = {
 	"j_splash",
+	"j_evo_ripple",
 	"j_yorick",
 	"j_chicot",
 	"j_perkeo",
 	"j_triboulet",
 	"j_caino",
+
 	"j_tsun_splish_splash",
+	"j_tsun_holy_water",
 	"j_tsun_reflection",
+	"j_tsun_cryomancer",
+	"j_tsun_asset_liquidation",
+
 	"j_tsun_tsunami_marie",
 	"j_tsun_tsunami_yosuke",
+	"j_tsun_tsunami_rise",
+	"j_tsun_tsunami_chie",
+	"j_tsun_tsunami_yu",
 }
 Fusionlist = {}
 
@@ -421,45 +533,26 @@ end
 TsunamiAutoRegister = {
 	"j_evo_ripple",
 }
+
 function auto_register(registry)
 	for index2, value2 in pairs(registry) do
-		local card1 = "j_splash"
-		local card2 = "j_splash"
-		local carry_1 = nil
-		local carry_2 = nil
-		local extra_1 = false
-		local extra_2 = false
-		local _flag = false
-		---placeholder values in case something goes wrong
-		local _result = "j_splash"
-		local _cost = 8
 		for index, value in ipairs(FusionJokers.fusions) do
-			if FusionJokers.fusions[index].jokers[1].name == "j_splash" then
-				card2 = FusionJokers.fusions[index].jokers[2].name
-				card1 = value2
-				_flag = true
-				carry_1 = FusionJokers.fusions[index].jokers[1].carry_stat
-				extra_1 = FusionJokers.fusions[index].jokers[1].extra_stat
-				_result = FusionJokers.fusions[index].result_joker
-				_cost = FusionJokers.fusions[index].cost + 3
-			elseif FusionJokers.fusions[index].jokers[2].name == "j_splash" then
-				card1 = FusionJokers.fusions[index].jokers[1].name
-				card2 = value2
-				_flag = true
-				carry_2 = FusionJokers.fusions[index].jokers[2].carry_stat
-				extra_2 = FusionJokers.fusions[index].jokers[2].extra_stat
-				_result = FusionJokers.fusions[index].result_joker
-				_cost = FusionJokers.fusions[index].cost + 3
-			else
-				_flag = false
+			local _flag = false
+			local recipe = copy_table(value)
+
+			for jokerindex, joker in ipairs(value.jokers) do
+				if joker.name == "j_splash" then
+					recipe.jokers[jokerindex].name = value2
+					_flag = true
+				end
 			end
+
 			if _flag then
-				FusionJokers.fusions:add_fusion(card1, carry_1, extra_1, card2, carry_2, extra_2, _result, _cost)
+				FusionJokers.fusions:register_fusion(recipe)
 			end
 		end
 	end
 end
-
 
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
 ---This method should now include modded suits
@@ -536,9 +629,19 @@ SMODS.Atlas {
 	px = 34,
 	py = 34,
 }
+
+SMODS.Atlas {
+	key = "tsun_achievements",
+	path = "Achievements.png",
+	px = 66,
+	py = 66,
+}
 ---A function for checking if cards were scored by Splash or not. Thanks Eremel
 function card_is_splashed(card)
 	local _, _, _, scoring_hand, _ = G.FUNCS.get_poker_hand_info(G.play.cards)
+	if card.debuff then
+		return false
+	end
 	for _, scored_card in ipairs(scoring_hand) do
 		if GMAllExtra == true then
 			return true
@@ -553,7 +656,7 @@ end
 local canplayref = G.FUNCS.can_play
 G.FUNCS.can_play = function(e)
 	canplayref(e) ---complete function hook
-	if #G.hand.highlighted <= G.hand.config.highlighted_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
+	if #G.hand.highlighted <= G.GAME.starting_params.play_limit or #SMODS.find_card("j_tsun_holy_water") > 0 or #SMODS.find_card("j_tsun_gold_holy_water") > 0 then
 		if #G.hand.highlighted > 5 then
 			e.config.colour = G.C.BLUE
 			e.config.button = 'play_cards_from_highlighted'
@@ -586,7 +689,32 @@ Gtsun_Cryptid_Stakelist = {
 	"horizon",
 	"blossom",
 	"azure",
-	"ascendant"
+	"ascendant",
+
+	---Sometimes they have the cry_ prefix so I'm adding both to cover all bases
+	"cry_pink",
+	"cry_brown",
+	"cry_yellow",
+	"cry_jade",
+	"cry_cyan",
+	"cry_gray",
+	"cry_crimson",
+	"cry_diamond",
+	"cry_amber",
+	"cry_bronze",
+	"cry_quartz",
+	"cry_ruby",
+	"cry_glass",
+	"cry_sapphire",
+	"cry_emerald",
+	"cry_platinum",
+	"cry_verdant",
+	"cry_ember",
+	"cry_dawn",
+	"cry_horizon",
+	"cry_blossom",
+	"cry_azure",
+	"cry_ascendant"
 }
 ---NOBODY EXPECTS THE STICKER INQUISITION
 ---Returns a sticker rank value which lets me check if the sticker for said center is above a certain stake rather than being equal to a certain stake
@@ -617,6 +745,7 @@ function sticker_inquisition(the_center)
 	end
 	return rank
 end
+
 ---The inverse of the above function, converts stake numbers to keys
 function sticker_reverse(_number)
 	local rank = "none"
@@ -640,20 +769,18 @@ function sticker_reverse(_number)
 	return rank
 end
 
-
 SMODS.load_file("items/Fusions.lua")()
 SMODS.load_file("items/Not_Jokers.lua")()
 
 if Tsunami_Config.LegendFusions then
 	SMODS.load_file("items/Legendary_Fusions.lua")()
+	SMODS.load_file("items/Achievements.lua")()
 end
 if Tsunami_Config.TsunamiXMod then
 	SMODS.load_file("items/Crossmod_Fusions.lua")()
 end
 
-if Tsunami_Config.TsunEnhancers then
-	SMODS.load_file("items/Enhancers.lua")()
-end
+SMODS.load_file("items/Enhancers.lua")()
 
 
 ---This is defined here because I do not want it to include the Gold Fusions in the materials
@@ -665,17 +792,11 @@ if Tsunami_Config.TsunamiLevel2 then
 end
 
 
-
----making a custom animated gold color because I wanted one
----holy fucking shit this is difficult and its pissing me off
----okay i gave up on making the color animated i'll just make 5 colors
 local tsunlc = loc_colour
 function loc_colour(_c, _default)
 	if not G.ARGS.LOC_COLOURS then
 		tsunlc()
 	end
-	---G.ARGS.LOC_COLOURS.tsun_gold = { HEX("FFD700"), HEX("d8b162")}
-	---G.ARGS.LOC_COLOURS.tsun_gold = { 1, 1, 1, 1 }
 	G.ARGS.LOC_COLOURS.tsun_gold1 = HEX("FFD700")
 	G.ARGS.LOC_COLOURS.tsun_gold2 = HEX("f6e3c3")
 	G.ARGS.LOC_COLOURS.tsun_gold3 = HEX("edd5a9")
@@ -686,12 +807,14 @@ function loc_colour(_c, _default)
 	return tsunlc(_c, _default)
 end
 
-Tsunami.C = {
-	GOLD = { HEX("d8b162"), HEX("FFD700") },
+SMODS.Gradient {
+	key = "tsun_gradient_gold",
+	colours = {
+		HEX("d8b162"),
+		HEX("edd5a9"),
+	},
+	cycle = 10
 }
-
-
-
 
 ---Config UI
 
@@ -701,27 +824,6 @@ Tsunami_Mod.config_tab = function()
 		config = { align = "m", r = 0.1, padding = 0.1, colour = G.C.BLACK, minw = 8, minh = 6 },
 		nodes = {
 			{ n = G.UIT.R, config = { align = "cl", padding = 0, minh = 0.1 }, nodes = {} },
-
-			{
-				n = G.UIT.R,
-				config = { align = "cl", padding = 0 },
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = { align = "cl", padding = 0.05 },
-						nodes = {
-							create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Tsunami_Config, ref_value = "TsunEnhancers" },
-						}
-					},
-					{
-						n = G.UIT.C,
-						config = { align = "c", padding = 0 },
-						nodes = {
-							{ n = G.UIT.T, config = { text = "Enhancements and Support", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
-						}
-					},
-				}
-			},
 
 			{
 				n = G.UIT.R,
@@ -822,7 +924,7 @@ Tsunami_Mod.config_tab = function()
 						n = G.UIT.C,
 						config = { align = "c", padding = 0 },
 						nodes = {
-							{ n = G.UIT.T, config = { text = "Round decimal +mult from Tsunami Jokers", scale = 0.3, colour = G.C.UI.TEXT_LIGHT } },
+							{ n = G.UIT.T, config = { text = "Round decimal values output from Tsunami Jokers", scale = 0.3, colour = G.C.UI.TEXT_LIGHT } },
 						}
 					},
 				}
@@ -832,6 +934,7 @@ Tsunami_Mod.config_tab = function()
 	}
 end
 
+---some code was being pedantic about being loaded last so it goes in there now
 SMODS.load_file("items/end_of_code.lua")()
 ----------------------------------------------
 ------------MOD CODE END----------------------

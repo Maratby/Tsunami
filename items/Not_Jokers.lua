@@ -131,7 +131,6 @@ SMODS.Consumable {
 	end,
 }
 
-
 SMODS.Back {
 	key = "splashdeck",
 	pos = { x = 0, y = 0 },
@@ -180,7 +179,7 @@ SMODS.Tag {
 	pos = { x = 0, y = 0 },
 	name = "Bubble Tag",
 	discovered = true,
-	min_ante = 1,
+	min_ante = 0,
 	config = {},
 	apply = function(self, tag, _context)
 		if _context.type == "immediate" then
