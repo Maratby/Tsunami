@@ -12,6 +12,7 @@ SMODS.Joker {
 	no_aeq = true,
 	config = { triggers = 1, count = 0, countmax = 4, extra = { caino_mult = 1 } },
 	atlas = "Tsunami",
+	attributes = {"passive","extra_scored_cards","face","retrigger","scaling","destroy_card"},
 	pos = { x = 3, y = 8 },
 	soul_pos = { x = 3, y = 9 },
 	loc_vars = function(self, info_queue, card)
@@ -77,6 +78,7 @@ SMODS.Joker {
 	no_aeq = true,
 	config = { extra = 2 },
 	atlas = "Tsunami",
+	attributes = {"passive","extra_scored_cards","xmult",},
 	pos = { x = 4, y = 8 },
 	soul_pos = { x = 4, y = 9 },
 	loc_vars = function(self, info_queue, card)
@@ -121,6 +123,7 @@ SMODS.Joker {
 	no_aeq = true,
 	config = { extra = { x_mult = 1, count = 0, countmax = 20, gain = 1 } },
 	atlas = "Tsunami",
+	attributes = {"passive","extra_scored_cards","xmult","discard","scaling"},
 	pos = { x = 5, y = 8 },
 	soul_pos = { x = 5, y = 9 },
 	loc_vars = function(self, info_queue, card)
@@ -203,6 +206,7 @@ SMODS.Joker {
 	} },
 
 	atlas = "Tsunami",
+	attributes = {"passive","boss_blind","scaling"},
 	pos = { x = 6, y = 8 },
 	soul_pos = { x = 6, y = 9 },
 	loc_vars = function(self, info_queue, card)
@@ -524,6 +528,7 @@ SMODS.Joker {
 	no_aeq = true,
 	config = { extra = { copies = 2, odds = 3 } },
 	atlas = "Tsunami",
+	attributes = {"passive","generation"},
 	pos = { x = 7, y = 8 },
 	soul_pos = { x = 7, y = 9 },
 	loc_vars = function(self, info_queue, card)
