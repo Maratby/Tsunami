@@ -79,6 +79,10 @@ CardSleeves.Sleeve {
         elseif self.get_current_deck_key() == "b_tsun_floatiedeck" then
             key = self.key .. "_alt_floatie"
 
+            ---FusionForce Minus Deck
+        elseif self.get_current_deck_key() == "b_fuseforce_minusdeck" then
+            key = self.key .. "_alt_minus"
+
             ---"SDM_0's Stuff" Decks
         elseif self.get_current_deck_key() == "b_sdm_0_s" then
             key = self.key .. "_alt_sdm_sdm0s"
@@ -109,6 +113,7 @@ CardSleeves.Sleeve {
     unlocked = false,
     unlock_condition = { deck = "b_tsun_splashdeck", stake = "stake_blue" },
     apply = function(self)
+        G.GAME.minus_splash_sleeve_active = false
         G.GAME.starting_params.dollars = G.GAME.starting_params.dollars + self.config.dollars
         G.E_MANAGER:add_event(Event({
             func = function()
@@ -165,6 +170,12 @@ CardSleeves.Sleeve {
                 if self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_sdm_xxl" then
                     G.GAME.modifiers.money_per_hand = 2
                 end
+                if self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_fuseforce_minusdeck" then
+                    G.GAME.minus_splash_sleeve_active = true
+                    SMODS.add_card({
+                        key = "c_tsun_poly"
+                    })
+                end
                 return true
             end
         }))
@@ -191,25 +202,25 @@ CardSleeves.Sleeve {
         end
         if
             (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_magic")
-            and (#G.jokers.cards <= (G.jokers.config.card_limit - 1))
             and context.using_consumeable
             and context.consumeable.ability.set == "Tarot"
+            and (#G.jokers.cards <= (G.jokers.config.card_limit - 1))
             and not context.consumeable.beginning_end then
             create_splash()
         end
         if
             (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_nebula")
-            and (#G.jokers.cards <= (G.jokers.config.card_limit - 1))
             and context.using_consumeable
             and context.consumeable.ability.set == "Planet"
+            and (#G.jokers.cards <= (G.jokers.config.card_limit - 1))
             and not context.consumeable.beginning_end then
             create_splash()
         end
-        if
+        if G.jokers and G.jokers.cards and
             (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_ghost")
-            and #G.jokers.cards <= (G.jokers.config.card_limit - 1)
             and context.using_consumeable
             and context.consumeable.ability.set == "Spectral"
+            and #G.jokers.cards <= (G.jokers.config.card_limit - 1)
             and not context.consumeable.beginning_end then
             local _edition = poll_edition("bubble", nil, true, true, { "e_foil", "e_holo", "e_polychrome" })
             create_splash(_edition)
@@ -280,42 +291,42 @@ CardSleeves.Sleeve {
         end
         if context.repetition and context.cardarea == G.play and (self.get_current_deck_key() == "b_sdm_deck_of_stuff" or self.get_current_deck_key() == "b_skh_tsaunami") then
             local fusion_retrig = 0
-			for index, value in ipairs(Splashkeytable) do
+            for index, value in ipairs(Splashkeytable) do
                 if next(SMODS.find_card(value)) then
                     fusion_retrig = fusion_retrig + 1
                 end
             end
-			return {
-				message = localize("k_again_ex"),
-				repetitions = fusion_retrig,
-			}
-		end
+            return {
+                message = localize("k_again_ex"),
+                repetitions = fusion_retrig,
+            }
+        end
     end
 }
 
 CardSleeves.Sleeve {
-	key = "floatiesleeve",
-	pos = { x = 1, y = 0 },
-	unlocked = true,
-	discovered = true,
-	config = { hands = 1, discards = 1, hand_size = 2, joker_slot = 2, extra = { win_ante = 8 } },
-	atlas = "TsunamiSleeves",
-	loc_vars = function(self)
-		return { vars = { self.config.hands, self.config.joker_slot, self.config.extra.win_ante } }
-	end,
-	apply = function(self)
-		G.E_MANAGER:add_event(Event({
-			func = function()
-				G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante
-				G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.config.joker_slot
+    key = "floatiesleeve",
+    pos = { x = 1, y = 0 },
+    unlocked = true,
+    discovered = true,
+    config = { hands = 1, discards = 1, hand_size = 2, joker_slot = 2, extra = { win_ante = 8 } },
+    atlas = "TsunamiSleeves",
+    loc_vars = function(self)
+        return { vars = { self.config.hands, self.config.joker_slot, self.config.extra.win_ante } }
+    end,
+    apply = function(self)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                G.GAME.win_ante = G.GAME.win_ante + self.config.extra.win_ante
+                G.consumeables.config.card_limit = G.consumeables.config.card_limit + self.config.joker_slot
                 G.jokers.config.card_limit = G.jokers.config.card_limit + self.config.joker_slot
                 G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.config.discards
                 ease_discard(self.config.discards)
                 G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.config.hands
                 ease_hands_played(self.config.hands)
                 G.hand:change_size(2)
-				return true
-			end
-		}))
-	end
+                return true
+            end
+        }))
+    end
 }

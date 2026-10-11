@@ -554,6 +554,50 @@ function auto_register(registry)
 	end
 end
 
+Tsunami.collect_materials = function(key, output)
+	---loop through every fusion
+	for index, value in ipairs(FusionJokers.fusions) do
+		---loop through every material in the fusion
+		for jokerindex, joker in ipairs(value.jokers) do
+			--- if fusion contains the card in "key"
+			if joker.name == key then
+				---record every material that is not key
+				for jokerindex, joker2 in ipairs(value.jokers) do
+					if joker2.name ~= key then
+						table.insert(output, G.P_CENTERS[joker2.name])
+					end
+				end
+			end
+		end
+	end
+end
+
+Tsunami.count_splash = function(table)
+	if table then
+		for index, value in pairs(table) do
+			if value.config.center.key ~= "j_splash" then
+				return false
+			end
+		end
+		for index, value in ipairs(table) do
+			if value.config.center.key ~= "j_splash" then
+				return false
+			end
+		end
+		return true
+	end
+	return false
+end
+
+Tsunami.count_highlight = function()
+	local tally = 0
+	for index, value in ipairs(G.jokers.highlighted) do
+		tally = tally + 1
+	end
+	return tally
+end
+
+
 --The function Fountain of Youth and other jokers call when they need a random suit (or two unique random suits if a == 2) selected
 ---This method should now include modded suits
 function tsun_randsuit(a)
@@ -807,6 +851,23 @@ function loc_colour(_c, _default)
 	return tsunlc(_c, _default)
 end
 
+Tsunami.Stickerclear = function(target)
+	local stickers = SMODS.stickers
+	target.ability.rental = false
+	target.ability.perishable = false
+	target.ability.eternal = false
+	target.pinned = false
+	if stickers ~= nil then
+		for k, v in pairs(SMODS.stickers) do
+			if target.ability[k] then
+				if v.removed then v:removed(target) end --Patch for Gemstones; I don't think this is universal
+				target:remove_sticker(k)
+			end
+		end
+	end
+end
+
+
 SMODS.Gradient {
 	key = "tsun_gradient_gold",
 	colours = {
@@ -862,27 +923,6 @@ Tsunami_Mod.config_tab = function()
 						config = { align = "c", padding = 0 },
 						nodes = {
 							{ n = G.UIT.T, config = { text = "Gold Fusions", scale = 0.45, colour = G.C.UI.TEXT_LIGHT } },
-						}
-					},
-				}
-			},
-
-			{
-				n = G.UIT.R,
-				config = { align = "cl", padding = 0 },
-				nodes = {
-					{
-						n = G.UIT.C,
-						config = { align = "cl", padding = 0.05 },
-						nodes = {
-							create_toggle { col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = Tsunami_Config, ref_value = "PolyHandScale" },
-						}
-					},
-					{
-						n = G.UIT.C,
-						config = { align = "c", padding = 0 },
-						nodes = {
-							{ n = G.UIT.T, config = { text = "Polymorph scales -Handsize like Ectoplasm", scale = 0.3, colour = G.C.UI.TEXT_LIGHT } },
 						}
 					},
 				}

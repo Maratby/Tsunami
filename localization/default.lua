@@ -39,14 +39,16 @@ return {
 		},
 		["achievement_names"] = {
 			ach_tsun_splash_fan = "Splash Fan",
+			ach_tsun_singularity = "Singularity",
 			ach_tsun_invest_team = "Investigation Team",
 			ach_tsun_true_ending = "True Ending",
 			ach_tsun_min_wage = "Minimum Wage",
 			ach_tsun_solo_performance = "Solo Performance",
-			ach_tsun_dragon_trial = "[NOT YET IMPLEMENTED]",
+			ach_tsun_dragon_trial = "[NOT  IMPLEMENTED]",
 		},
 		["achievement_descriptions"] = {
 			ach_tsun_splash_fan = "Have Splash in your Top 10 Most Used Jokers",
+			ach_tsun_singularity = "Use Polymorph on at least 20 copies of Splash",
 			ach_tsun_invest_team = "Have all 5 Vanilla Legendary Fusions at the same time",
 			ach_tsun_true_ending = "Win a run with Yu, Marie and no other Jokers above Common rarity",
 			ach_tsun_min_wage = "Leave a shop with Yosuke while below $100 in debt",
@@ -99,6 +101,7 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"Sell {C:blue}Splash{} during a {C:attention}Blind to gain {C:attention}1{} temporary {C:red}Discard",
+					"{E:1,C:inactive}\"Every Splash Sleeve is personalised...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_blue"] = {
@@ -106,6 +109,7 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"Sell {C:blue}Splash{} during a {C:attention}Blind to gain {C:attention}1{} temporary {C:blue}Hand",
+					"{E:1,C:inactive}\"Every Splash Sleeve is personalised...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_yellow"] = {
@@ -128,6 +132,7 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"{C:blue}Splash{} gives {C:dark_edition}+1 Joker Slot{}",
+					"{E:1,C:inactive}\"No one uses this... But it's so broken!\""
 				},
 			},
 			["sleeve_tsun_splash_alt_magic"] = {
@@ -168,6 +173,7 @@ return {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"Creates {C:blue}Splash{} when a {C:attention}Flush{} is played",
 					"{C:inactive}(must have room)",
+					"{E:1,C:inactive}\"The Flush Merchant's deck...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_zodiac"] = {
@@ -183,6 +189,7 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"{C:blue}Splash{} gives {C:dark_edition}+1 Card Selection Limit{}",
+					"{E:1,C:inactive}\"Report bugs... Please..?\""
 				},
 			},
 			["sleeve_tsun_splash_alt_anaglyph"] = {
@@ -198,6 +205,8 @@ return {
 				["text"] = {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"{C:dark_edition}Balances{} {C:attention}Ranks{} of {C:attention}Extra Scored Cards",
+					"{E:1,C:inactive}\"The deck is balanced, look, it tells us",
+					"{E:1,C:inactive}whenever we play a hand...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_erratic"] = {
@@ -213,6 +222,7 @@ return {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"{C:attention}+1{} Card Selection Limit",
 					"{C:money}+$1{} interest per {C:money}$5{} you have when round ends",
+					"{E:1,C:inactive}\"In it for the long run, huh...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_sdm_sdm0s"] = {
@@ -226,7 +236,8 @@ return {
 				["name"] = "Splash Sleeve | Bazaar Deck",
 				["text"] = {
 					"Start with 2 random {C:attention}Non-Joker{} {C:blue}Tsunami{} items",
-					"{C:inactive}(Voucher, Tag, Consumable, etc)"
+					"{C:inactive}(Voucher, Tag, Consumable, etc)",
+					"{E:1,C:inactive}\"Rarer run-start crash than Dream's speedrun...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_sdm_sandbox"] = {
@@ -234,6 +245,7 @@ return {
 				["text"] = {
 					"Start with {C:blue,T:v_tsun_water_supply}Water Supply{} voucher",
 					"and two {C:dark_edition}Negative{} {C:purple,T:c_tsun_aeon}Aeon",
+					"{E:1,C:inactive}\"Freedom...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_sdm_lucky7"] = {
@@ -241,6 +253,7 @@ return {
 				["text"] = {
 					"Start with {C:attention}Eternal{} {C:money,T:j_tsun_g_ship}Gambling Ship",
 					"Every starting {C:attention}Ace{} is a {C:attention,T:m_lucky}Lucky Card",
+					"{E:1,C:inactive}\"Let's go {E:1,C:dark_edition}Gambling{E:1,C:inactive}...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_sdm_hiero"] = {
@@ -277,7 +290,16 @@ return {
 				["name"] = "Splash Sleeve | Deck of Stuff",
 				["text"] = {
 					"{C:dark_edition}Combines{} every {C:blue}Splash Sleeve{} effect",
-					"{C:inactive}(This deck start is chaotic...)"
+					"{E:1,C:inactive,s:0.8}\"This deck start is chaotic...\""
+				},
+			},
+			["sleeve_tsun_splash_alt_minus"] = {
+				["name"] = "Splash Sleeve | Minus Deck",
+				["text"] = {
+					"Start with 2 {C:dark_edition}Negative{} {C:blue,T:j_splash}Splash{}, {C:money}$5{} and {C:spectral,t:c_tsun_poly}Polymorph",
+					"{C:spectral,t:c_tsun_poly}Polymorph{} creates a {C:dark_edition}Negative{} {C:blue,T:j_splash}Splash{} if no",
+					"{C:attention}Jokers{} are {C:attention}selected{}",
+					"{E:1,C:inactive,s:0.8}\"Following those who followed me...\""
 				},
 			},
 			["sleeve_tsun_splash_alt_skh_tsaunami"] = {
@@ -286,7 +308,7 @@ return {
 					"Start with 2 {C:dark_edition}Negative{} {C:attention}Eternal {C:blue,T:j_splash}Splash{} and {C:money}$5{}",
 					"Retrigger all played cards once",
 					"for each {C:blue}Splash{} {C:money}Fusion{} owned",
-					"{s:0.8,C:inactive}I feel... {s:0.8,C:legendary}Complete{s:0.8,C:inactive}!!!",
+					"{s:0.8,C:inactive}\"I feel... {s:0.8,C:legendary}Complete{s:0.8,C:inactive}!!!\"",
 				},
 			},
 			["sleeve_tsun_floatie"] = {
@@ -1250,10 +1272,10 @@ return {
 			["c_tsun_poly"] = {
 				["name"] = "Polymorph",
 				["text"] = {
-					"Creates {C:blue}Splash{} and one {C:attention}random non-legendary",
-					"joker that can {C:attention}fuse{} with {C:blue}Splash",
-					"{C:attention}-#1# Hand Size",
-					"{C:inactive}(Must have room)",
+					"Select any number of {C:blue}Splash{} to {C:red}remove{} and",
+					"create a random {C:attention}Joker{} that {C:attention}Fuses{} with {C:blue}Splash{}",
+					"Creates stronger {C:attention}Jokers{} when more {C:blue}Splash{} are selected",
+					"{C:inactive}(don't need room))",
 				},
 			},
 			["c_tsun_galactic_punt"] = {

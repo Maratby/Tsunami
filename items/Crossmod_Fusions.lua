@@ -36,17 +36,17 @@ if Tsun_has_Morefluff then
             end
         end
     }
-    FusionJokers.fusions:register_fusion{
-      jokers = {
-        { name = "j_mf_basepaul_card" },
-        { name = "j_splash" },
-      }, cost = 12, result_joker = "j_tsun_style_marieter" 
+    FusionJokers.fusions:register_fusion {
+        jokers = {
+            { name = "j_mf_basepaul_card" },
+            { name = "j_splash" },
+        }, cost = 12, result_joker = "j_tsun_style_marieter"
     }
 
     SMODS.Joker {
         name = "Waterfall Loop",
         key = "waterfall_loop",
-        config = { extra = 1 },
+        config = { extra = { slots = 1 } },
         rarity = "fusion",
         cost = 10,
         unlocked = true,
@@ -57,34 +57,34 @@ if Tsun_has_Morefluff then
         atlas = "Tsunami",
         pos = { x = 1, y = 16 },
         loc_vars = function(self, info_queue, card)
-            return { vars = { card.ability.extra } }
+            return { vars = { card.ability.extra.slots } }
         end,
         add_to_deck = function(self, card, from_debuff)
-            G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra
-            SMODS.change_discard_limit(card.ability.extra)
-            SMODS.change_play_limit(card.ability.extra)
+            G.jokers.config.card_limit = G.jokers.config.card_limit + card.ability.extra.slots
+            SMODS.change_discard_limit(card.ability.extra.slots)
+            SMODS.change_play_limit(card.ability.extra.slots)
         end,
         remove_from_deck = function(self, card, from_debuff)
-            G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra
-            SMODS.change_discard_limit(-card.ability.extra)
-            SMODS.change_play_limit(-card.ability.extra)
+            G.jokers.config.card_limit = G.jokers.config.card_limit - card.ability.extra.slots
+            SMODS.change_discard_limit(-card.ability.extra.slots)
+            SMODS.change_play_limit(-card.ability.extra.slots)
             G.hand:unhighlight_all()
         end
     }
-    FusionJokers.fusions:register_fusion{
-      jokers = {
-        { name = "j_mf_philosophical" },
-        { name = "j_splash" },
-      }, cost = 10, result_joker = "j_tsun_waterfall_loop" 
+    FusionJokers.fusions:register_fusion {
+        jokers = {
+            { name = "j_mf_philosophical" },
+            { name = "j_splash" },
+        }, cost = 10, result_joker = "j_tsun_waterfall_loop"
     }
 end
 
 ---insert picture of obama giving himself a medal
 if Jokebox then
-    FusionJokers.fusions:register_fusion{
-      jokers = {
-        { name = "j_jkbx_marie" },
-        { name = "j_splash" },
-      }, cost = 10, result_joker = "j_tsun_tsunami_marie" 
+    FusionJokers.fusions:register_fusion {
+        jokers = {
+            { name = "j_jkbx_marie" },
+            { name = "j_splash" },
+        }, cost = 10, result_joker = "j_tsun_tsunami_marie"
     }
 end

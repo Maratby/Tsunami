@@ -18,9 +18,27 @@ SMODS.Achievement {
 }
 
 SMODS.Achievement {
+	key = "singularity",
+	bypass_all_unlocked = true,
+	hidden_name = false,
+	hidden_text = true,
+	atlas = "tsun_achievements",
+	hidden_pos = { x = 6, y = 0 },
+	pos = { x = 6, y = 1 },
+	unlock_condition = function(self, args)
+		if args.type == "tsunami_polymorph" then
+			if Tsunami.poly_achievement_check then
+				if Tsunami.poly_achievement_check >= 20 then
+					return true
+				end
+			end
+		end
+	end
+}
+
+SMODS.Achievement {
 	key = "invest_team",
 	bypass_all_unlocked = true,
-	order = 2,
 	hidden_name = false,
 	hidden_text = true,
 	atlas = "tsun_achievements",
@@ -44,7 +62,6 @@ SMODS.Achievement {
 SMODS.Achievement {
 	key = "true_ending",
 	bypass_all_unlocked = true,
-	order = 3,
 	hidden_name = false,
 	hidden_text = true,
 	atlas = "tsun_achievements",
@@ -72,7 +89,6 @@ SMODS.Achievement {
 SMODS.Achievement {
 	key = "min_wage",
 	bypass_all_unlocked = true,
-	order = 4,
 	hidden_name = false,
 	hidden_text = true,
 	atlas = "tsun_achievements",
@@ -92,7 +108,6 @@ SMODS.Achievement {
 SMODS.Achievement {
 	key = "solo_performance",
 	bypass_all_unlocked = true,
-	order = 5,
 	hidden_name = false,
 	hidden_text = true,
 	atlas = "tsun_achievements",
@@ -109,13 +124,10 @@ SMODS.Achievement {
 	end
 }
 
-
-
 ---You looked, you motherfucker. Alright, go on, get outta here.
 SMODS.Achievement {
 	key = "dragon_trial",
 	bypass_all_unlocked = true,
-	order = 6,
 	hidden_name = false,
 	reset_on_startup = true, ---REMEMBER TO REMOVE THIS ON RELEASE!!!
 	hidden_text = true,

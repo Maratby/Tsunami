@@ -94,36 +94,122 @@ SMODS.Consumable {
 		return { vars = { G.GAME.poly_minus or 1 } }
 	end,
 	can_use = function(self, card)
-		return #G.jokers.cards < (G.jokers.config.card_limit - 1) or card.area == G.jokers
+		return (G.jokers.highlighted ~= nil and #G.jokers.highlighted > 0 and Tsunami.count_splash(G.jokers.highlighted)) or ((get_current_deck_fallback() == "b_fuseforce_minusdeck" or get_current_deck_fallback() == "b_sdm_deck_of_stuff") and #G.jokers.highlighted == 0)
 	end,
 	can_bulk_use = false,
 	use = function(self, card, area, copier)
 		local used_consumable = copier or card
+		local numhighlight = Tsunami.count_highlight()
+		local selected = "j_splash"
+		Tsunami.poly_achievement_check = numhighlight
+		for index, value in ipairs(G.jokers.highlighted) do
+			---remove stickers before destroying, i'm looking at you Cryptid Absolute
+			Tsunami.Stickerclear(value)
+			SMODS.destroy_cards(value)
+		end
 		G.E_MANAGER:add_event(Event({
 			trigger = "after",
 			delay = 0.4,
 			func = function()
-				if #G.jokers.cards < (G.jokers.config.card_limit - 1) or card.area == G.jokers then
-					play_sound("timpani")
-					create_splash()
-					local splashspectral2 = SMODS.create_card({
-						area = G.jokers,
-						key = pseudorandom_element(
-							Splashkeytable2, pseudoseed('splashjoker'))
+				if (get_current_deck_fallback() == "b_fuseforce_minusdeck" or get_current_deck_fallback() == "b_sdm_deck_of_stuff") and numhighlight == 0 and G.GAME.minus_splash_sleeve_active == true then
+					SMODS.add_card({
+						key = "j_splash",
+						edition = "e_negative",
 					})
-					splashspectral2:add_to_deck()
-					G.jokers:emplace(splashspectral2)
-					used_consumable:juice_up(0.3, 0.5)
-					if Tsunami_Config.PolyHandScale == true then
-						G.GAME.poly_minus = G.GAME.poly_minus or 1
-						G.hand:change_size(-G.GAME.poly_minus)
-						G.GAME.poly_minus = G.GAME.poly_minus + 1
-						self.config.extra.handsize = G.GAME.poly_minus
-					else
-						self.config.extra.handsize = 1
-						G.hand:change_size(-card.ability.extra.handsize)
+					return true
+				end
+				local abort_tally = 0
+				local finished_flag = false
+				local edition_flag = false
+				local negative_flag = false
+				if numhighlight >= 20 and Tsunami_Config.TsunamiLevel2 and Tsunami_Config.LegendFusions then
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "RE-TUNED")
+						if selected.rarity == "tsun_leg_fusion" then
+							finished_flag = true
+						end
+					end
+				elseif numhighlight >= 15 and Tsunami_Config.LegendFusions then
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "WAITING")
+						if selected.rarity == 4 then
+							finished_flag = true
+							if numhighlight >= 18 then
+								negative_flag = true
+							elseif numhighlight >= 16 then
+								edition_flag = true
+							end
+						end
+					end
+				elseif numhighlight >= 10 and Tsunami_Config.TsunamiLevel2 then
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "FAMILIAR")
+						if selected.rarity == "fusion" or selected.rarity == "fuse_fusion" then
+							finished_flag = true
+							if numhighlight >= 13 then
+								negative_flag = true
+							elseif numhighlight >= 11 then
+								edition_flag = true
+							end
+						end
+					end
+				elseif numhighlight >= 5 then
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "DIALTONE")
+						if selected.rarity == 3 then
+							finished_flag = true
+							if numhighlight >= 8 then
+								negative_flag = true
+							elseif numhighlight >= 6 then
+								edition_flag = true
+							end
+						end
+					end
+				elseif numhighlight >= 3 then
+					print("3 or more")
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "MEMORIZED")
+						if selected.rarity == 2 then
+							finished_flag = true
+							if numhighlight >= 4 then
+								edition_flag = true
+							end
+						end
+					end
+				else
+					print("less than 3")
+					while finished_flag == false do
+						selected = pseudorandom_element(Tsunami.splash_materials, "YEAH YEAH YEAH YEAH YEAH YEAH YEAH")
+						if selected.rarity == 1 then
+							finished_flag = true
+							if numhighlight >= 2 then
+								print("2")
+								edition_flag = true
+							end
+						end
 					end
 				end
+				if negative_flag == true then
+					local LONER = SMODS.add_card({
+						key_append = "tsun_polynorph",
+						key = selected.key,
+					})
+					LONER:set_edition("e_negative", true)
+				elseif edition_flag == true then
+					local SLEEPING_IN = SMODS.add_card({
+						key_append = "tsun_polynorph",
+						key = selected.key,
+					})
+					---tell me if you read this
+					SLEEPING_IN:set_edition(poll_edition("NO SIGNAL", nil, true, true,
+						{ "e_foil", "e_holo", "e_polychrome" }))
+				else
+					SMODS.add_card({
+						key_append = "tsun_polynorph",
+						key = selected.key,
+					})
+				end
+				check_for_unlock { type = "tsunami_polymorph" }
 				return true
 			end,
 		}))

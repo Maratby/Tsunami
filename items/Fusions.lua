@@ -10,7 +10,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","generation"},
+	attributes = { "passive", "generation" },
 	pos = { x = 1, y = 12 },
 	ability_name = "Splish Splash",
 	loc_vars = function(self, info_queue)
@@ -39,7 +39,7 @@ SMODS.Joker {
 	key = "soaked_joker",
 	name = "Soaked Joker",
 	atlas = "Tsunami",
-	attributes = {"passive","mult", "extra_scored_cards"},
+	attributes = { "passive", "mult", "extra_scored_cards" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -72,7 +72,7 @@ FusionJokers.fusions:register_fusion {
 SMODS.Joker {
 	key = 'holy_water',
 	atlas = "Tsunami",
-	attributes = {"passive","hand_type, mult"},
+	attributes = { "passive", "hand_type, mult" },
 	pos = { x = 2, y = 0 },
 	cost = 12,
 	rarity = "fusion",
@@ -126,7 +126,7 @@ SMODS.Joker {
 	key = "oil_spill",
 	name = "Oil Spill",
 	atlas = "Tsunami",
-	attributes = {"passive","mult"},
+	attributes = { "passive", "mult" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -167,7 +167,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	config = { extra = { xmult = 10, fails = 0, odds = 10 } },
 	atlas = "Tsunami",
-	attributes = {"passive","xmult","chance", "extra_scored_cards"},
+	attributes = { "passive", "xmult", "chance", "extra_scored_cards" },
 	pos = { x = 4, y = 2 },
 	loc_vars = function(self, info_queue, card)
 		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
@@ -201,7 +201,7 @@ SMODS.Joker {
 	key = "waterfront_scenery",
 	name = "Waterfront Scenery",
 	atlas = "Tsunami",
-	attributes = {"passive","xmult","face", "extra_scored_cards"},
+	attributes = { "passive", "xmult", "face", "extra_scored_cards" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -250,7 +250,7 @@ SMODS.Joker {
 	key = "magical_waterfall",
 	name = "Magical Waterfall",
 	atlas = "Tsunami",
-	attributes = {"passive","mult", "discard"},
+	attributes = { "passive", "mult", "discard" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -295,7 +295,7 @@ SMODS.Joker {
 	key = "smart_water",
 	name = "Smart Water",
 	atlas = "Tsunami",
-	attributes = {"passive","xmult", "mult", "ace"},
+	attributes = { "passive", "xmult", "mult", "ace" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -341,7 +341,7 @@ SMODS.Joker {
 	key = "ride_the_sub",
 	name = "Ride the Sub",
 	atlas = "Tsunami",
-	attributes = {"passive","reset","mult"},
+	attributes = { "passive", "reset", "mult" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -391,7 +391,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","modify_card","perma_bonus", "extra_scored_cards"},
+	attributes = { "passive", "modify_card", "perma_bonus", "extra_scored_cards" },
 	pos = { x = 0, y = 11 },
 	cost = 16,
 	config = { extra = 5 },
@@ -442,7 +442,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	key = "beach_ball",
 	atlas = "Tsunami",
-	attributes = {"passive","chance","generation"},
+	attributes = { "passive", "chance", "generation" },
 	pos = { x = 0, y = 5 },
 	ability_name = "Beach Ball",
 	calculate = function(self, card, context)
@@ -479,7 +479,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","ace","two","three","five","eight","mult","extra_scored_cards"},
+	attributes = { "passive", "ace", "two", "three", "five", "eight", "mult", "extra_scored_cards" },
 	pos = { x = 1, y = 5 },
 	ability_name = "Dihydrogen Monoxide",
 	calculate = function(self, card, context)
@@ -528,7 +528,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","queen","mult","xmult"},
+	attributes = { "passive", "queen", "mult", "xmult" },
 	pos = { x = 2, y = 6 },
 	ability_name = "Lunar Tides",
 	calculate = function(self, card, context)
@@ -580,7 +580,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","suit","xmult"},
+	attributes = { "passive", "suit", "xmult" },
 	pos = { x = 0, y = 6 },
 	ability_name = "Watering Can",
 	calculate = function(self, card, context)
@@ -645,7 +645,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","nine","full_deck","economy"},
+	attributes = { "passive", "nine", "full_deck", "economy" },
 	pos = { x = 7, y = 12 },
 	cost = 18,
 	config = { extra = { nines = 0, moneys = 2, odds = 8 } },
@@ -715,7 +715,7 @@ SMODS.Joker {
 	config = { extra = { mult = 20, tosplash = 6, splashed = 0 } },
 	rarity = "fusion",
 	atlas = 'Tsunami',
-	attributes = {"passive","extra_scored_cards","mult","food"},
+	attributes = { "passive", "extra_scored_cards", "mult", "food" },
 	pos = { x = 7, y = 6 },
 	cost = 18,
 	discovered = true,
@@ -759,10 +759,8 @@ SMODS.Joker {
 							delay = 0.3,
 							blockable = false,
 							func = function()
-								G.jokers:remove_card(card)
+								SMODS.destroy_cards(card)
 								-- Achievement Get: The Part Where The Card Is Destroyed
-								card:remove()
-								card = nil
 								return true;
 							end
 						}))
@@ -796,7 +794,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	config = { extra = { xmult = 3, increase = 0.1, odds = 88888 } },
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","xmult","food","scaling"},
+	attributes = { "passive", "extra_scored_cards", "xmult", "food", "scaling" },
 	pos = { x = 5, y = 11 },
 	loc_vars = function(self, info_queue, card)
 		local new_numerator, new_denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds,
@@ -872,7 +870,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	config = { extra = { xmult = 1 } },
 	atlas = "Tsunami",
-	attributes = {"passive","xmult"},
+	attributes = { "passive", "xmult" },
 	pos = { x = 2, y = 5 },
 	loc_vars = function(self, info_queue, card)
 		return { vars = { card.ability.extra.xmult } }
@@ -908,7 +906,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","suit","clubs","xmult"},
+	attributes = { "passive", "extra_scored_cards", "suit", "clubs", "xmult" },
 	pos = { x = 4, y = 4 },
 	ability_name = "Reflection",
 	---thanks again Eremel
@@ -963,7 +961,7 @@ SMODS.Joker {
 	cost = 15,
 	pos = { x = 3, y = 5 },
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","chance","hand_type"},
+	attributes = { "passive", "extra_scored_cards", "chance", "hand_type" },
 	config = { extra = { odds = 4, numerator_bonus = 0 } },
 	loc_vars = function(self, info_queue, card)
 		local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'vremade_space')
@@ -1008,7 +1006,7 @@ SMODS.Joker {
 	eternal_compat = true,
 	perishable_compat = false,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","xmult","scaling","skip"},
+	attributes = { "passive", "extra_scored_cards", "xmult", "scaling", "skip" },
 	pos = { x = 5, y = 7 },
 	calculate = function(self, card, context)
 		if context.joker_main then
@@ -1063,7 +1061,7 @@ SMODS.Joker {
 	unlocked = true,
 	discovered = true,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","face","retrigger"},
+	attributes = { "passive", "extra_scored_cards", "face", "retrigger" },
 	blueprint_compat = true,
 	pos = { x = 3, y = 1 },
 	cost = 17,
@@ -1112,7 +1110,7 @@ SMODS.Joker {
 	blueprint_compat = true,
 	---this is commented because i lost the original sprite for credit card and am too lazy to regain it
 	---atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","economy"},
+	attributes = { "passive", "extra_scored_cards", "economy" },
 	pos = { x = 5, y = 1 },
 	cost = 1,
 	config = { extra = 30, dollars = 1 },
@@ -1153,7 +1151,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","hands","economy","discards"},
+	attributes = { "passive", "hands", "economy", "discards" },
 	pos = { x = 1, y = 10 },
 	cost = -10,
 	config = { triggers = 5, triggersmax = 5, storage = 0 },
@@ -1200,7 +1198,7 @@ SMODS.Joker {
 	key = "scuba",
 	name = "SCUBA Mask",
 	atlas = "Tsunami",
-	attributes = {"passive","face","modify_card"},
+	attributes = { "passive", "face", "modify_card" },
 	rarity = "fusion",
 	unlocked = true,
 	discovered = true,
@@ -1240,7 +1238,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","chips","hand_size"},
+	attributes = { "passive", "chips", "hand_size" },
 	pos = { x = 8, y = 6 },
 	cost = 14,
 	config = { chips = 75, handsize = 1 },
@@ -1281,7 +1279,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","xmult","food"},
+	attributes = { "passive", "extra_scored_cards", "xmult", "food" },
 	pos = { x = 2, y = 15 },
 	cost = 12,
 	config = { extra = { x_mult = 2, reduction = 0.06 } },
@@ -1327,7 +1325,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","retrigger"},
+	attributes = { "passive", "extra_scored_cards", "retrigger" },
 	pos = { x = 9, y = 6 },
 	cost = 14,
 	config = { extra = 2 },
@@ -1386,7 +1384,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","suit","xmult"},
+	attributes = { "passive", "suit", "xmult" },
 	pos = { x = 7, y = 15 },
 	cost = 19,
 	config = { extra = { xmult = 1.5, triggers = 1, plussuit = "Hearts", minussuit = "Spades" } },
@@ -1433,7 +1431,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	key = "cryomancer",
 	atlas = "Tsunami",
-	attributes = {"passive","tarot","generation"},
+	attributes = { "passive", "tarot", "generation" },
 	pos = { x = 7, y = 3 },
 	ability_name = "Cryomancer",
 	loc_vars = function(self, info_queue)
@@ -1499,7 +1497,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	key = "toaster",
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","retrigger","two","three","four","five"},
+	attributes = { "passive", "extra_scored_cards", "retrigger", "two", "three", "four", "five" },
 	pos = { x = 5, y = 2 },
 	ability_name = "Toaster",
 	calculate = function(self, card, context)
@@ -1591,7 +1589,7 @@ SMODS.Joker {
 	perishable_compat = true,
 	key = "surfboard",
 	atlas = "Tsunami",
-	attributes = {"passive","suit","xmult","spades","clubs"},
+	attributes = { "passive", "suit", "xmult", "spades", "clubs" },
 	pos = { x = 2, y = 10 },
 	config = { extra = { Xmult = 1.3 } },
 	loc_vars = function(self, info_queue, card)
@@ -1634,7 +1632,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","full_deck","xmult","enhancements"},
+	attributes = { "passive", "full_deck", "xmult", "enhancements" },
 	pos = { x = 7, y = 2 },
 	cost = 20,
 	config = { extra = { steel_tally = 0, xmult = 1, increase = 0.25, steelmult = 0.2 } },
@@ -1702,14 +1700,14 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","extra_scored_cards","xmult","king","enhancements"},
+	attributes = { "passive", "extra_scored_cards", "xmult", "king", "enhancements" },
 	pos = { x = 6, y = 12 },
 	cost = 20,
 	config = { extra = { xmult = 2, handsize = 0 } },
 	ability_name = "King Neptune",
 	loc_vars = function(self, info_queue, card)
 		info_queue[#info_queue + 1] = G.P_CENTERS.m_gold
-		return { vars = { card.ability.extra.xmult} }
+		return { vars = { card.ability.extra.xmult } }
 	end,
 	add_to_deck = function(self, card, from_debuff)
 		G.hand:change_size(card.ability.extra.handsize)
@@ -1769,7 +1767,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","extra_scored_cards","mult","scaling","hand_type"},
+	attributes = { "passive", "extra_scored_cards", "mult", "scaling", "hand_type" },
 	cost = 20,
 	blueprint_compat = true,
 	perishable_compat = false,
@@ -1829,12 +1827,38 @@ FusionJokers.fusions:register_fusion {
 }
 
 SMODS.Joker {
+	key = "snowman",
+	unlocked = false,
+	blueprint_compat = false,
+	atlas = 'Tsunami',
+	attributes = { "passive" },
+	rarity = 2,
+	cost = 5,
+	pos = { x = 6, y = 5 },
+
+}
+FusionJokers.fusions:register_fusion {
+	jokers = {
+		{ name = "j_splash" },
+		{ name = "j_ring_master" },
+	}, cost = 12, result_joker = "j_tsun_snowman"
+}
+
+local smods_showman_ref = SMODS.showman
+function SMODS.showman(card_key, ...)
+	if next(SMODS.find_card('j_tsun_snowman')) then
+		return true
+	end
+	return smods_showman_ref(card_key, ...)
+end
+
+SMODS.Joker {
 	name = "Abrasion",
 	key = 'abrasion',
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","extra_scored_cards","enhancements","scaling","chips","mult"},
+	attributes = { "passive", "extra_scored_cards", "enhancements", "scaling", "chips", "mult" },
 	cost = 20,
 	blueprint_compat = true,
 	perishable_compat = false,
@@ -1885,7 +1909,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","extra_scored_cards","modify_card","enhancements"},
+	attributes = { "passive", "extra_scored_cards", "modify_card", "enhancements" },
 	cost = 20,
 	blueprint_compat = true,
 	perishable_compat = false,
@@ -1937,7 +1961,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","mod_chance","scaling",},
+	attributes = { "passive", "mod_chance", "scaling", },
 	cost = 20,
 	blueprint_compat = true,
 	perishable_compat = false,
@@ -1991,7 +2015,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","suit","economy"},
+	attributes = { "passive", "suit", "economy" },
 	cost = 20,
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -2033,7 +2057,7 @@ SMODS.Joker {
 	discovered = true,
 	blueprint_compat = true,
 	atlas = "Tsunami",
-	attributes = {"passive","xmult","xchips","scaling","enhancements"},
+	attributes = { "passive", "xmult", "xchips", "scaling", "enhancements" },
 	pos = { x = 0, y = 7 },
 	cost = 18,
 	config = { extra = { enhance_tally = 0, xmult = 1, increase = 0.2, xchips = 1.1 } },
@@ -2090,7 +2114,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	discovered = true,
 	atlas = 'Tsunami',
-	attributes = {"passive","economy","xmult","hand_type"},
+	attributes = { "passive", "economy", "xmult", "hand_type" },
 	cost = 20,
 	blueprint_compat = true,
 	pos = { x = 6, y = 11 },
@@ -2141,7 +2165,7 @@ SMODS.Joker {
 	rarity = "fusion",
 	cost = 8,
 	atlas = 'Tsunami',
-	attributes = {"passive","xmult","hand_type","reset","scaling"},
+	attributes = { "passive", "xmult", "hand_type", "reset", "scaling" },
 	pos = { x = 9, y = 12 },
 	config = { extra = { Xmult_gain = 0.25, x_mult = 1 } },
 	loc_vars = function(self, info_queue, card)
